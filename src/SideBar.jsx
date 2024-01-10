@@ -3,14 +3,16 @@ import { BsCart3 ,BsGrid1X2Fill,BsFillArchiveFill,
 BsFillGrid3X2GapFill,BsPeopleFill,BsListCheck,BsMenuButtonWideFill,BsFillGearFill
 } from 'react-icons/bs'
 
-function SideBar() {
+function SideBar({setSideBarOpen,sideBarOpen}) {
+    
+  
   return (
-    <aside id='sidebar'>
+    <aside id='sidebar' className={sideBarOpen?"sidebar reveal":"sidebar"}>
         <div className="sidebar-title">
             <div className="sidebar-brand">
                 <BsCart3 className='icon_header'/> SHOP
             </div>
-            <span className='icon clode_icon'>X</span>
+            <span onClick={()=>{setSideBarOpen(false)}} className='icon clode_icon'>X</span>
         </div>
 
         <ul className='sidebar-list'>
