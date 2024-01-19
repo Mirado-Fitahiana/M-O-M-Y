@@ -79,7 +79,7 @@ function Detail_Client() {
                     <div className="user">
                         <div className="image_user">
                             <div className="image">
-                                <Image src={images[0]} indicatorIcon={icon} alt="Image" preview width="250"></Image>
+                                <Image className='sary' src={images[0]} indicatorIcon={icon} alt="Image" preview width="250"></Image>
                             </div>
                         </div>
                         <div className="detail_user">

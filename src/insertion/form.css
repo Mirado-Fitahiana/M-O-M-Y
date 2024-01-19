@@ -1,5 +1,8 @@
 
 /* .client */
+.sary{
+
+}
 .user{
   display: flex;
   justify-content: center;
@@ -269,6 +272,29 @@
     height: 155px;
     background-repeat: no-repeat;
   }
+
+  .user {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: 85%;
+    background-color: #d4ded9;
+    height: auto;
+}
+.sary{
+  margin-top: 20px;
+}
+.detail_user{
+  width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.text{
+  display: flex;
+    flex-direction: column;
+    margin: 25px;
+}
 }
 
 /* select */
