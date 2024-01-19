@@ -1,15 +1,16 @@
 :root {
   --background-color: rgb(252, 247, 247);
-  --text-color: #000000;
+  --text-color: #ffffff;;
   --header-box-shadow: 0 6px 7px -3px rgba(0, 0, 0, 0.35);
-  --sidebar-bg-color: #263043;
-  --sidebar-hover-color: rgba(255, 255, 255, 0.2);
+  /* --sidebar-bg-color: #ebadb678 ; */
+  --sidebar-bg-color: #0e3a65 ;
+  --sidebar-hover-color: rgba(213, 204, 27, 0.2);
   --card1-color: #2962ff;
   --card2-color: #ff6d00;
   --card3-color: #2e7d32;
   --card4-color: #d50000;
-  --card-text-color: rgba(255, 255, 255, 0.95);
-  --icon-color: #9e9ea4;
+  --font-color: rgba(9, 9, 9, 0.95);
+  --icon-color: #000077;
   --icon-size: 26px;
 }
 
@@ -30,7 +31,7 @@ body{
     'sidebar header header header'
     'sidebar main main main';
     height: 100vh ;
-
+  background-color: #D4DED9;
 }
 
 
@@ -38,6 +39,7 @@ body{
   vertical-align: middle;
   line-height: 1px;
   font-size: 18px;
+  /* background-color: antiquewhite; */
 }
 
 
@@ -71,6 +73,7 @@ body{
 /* sideBar */
 
 #sidebar{
+  width: 245px;
   grid-area: sidebar;
   height: 100%;
   background-color: var(--sidebar-bg-color);
@@ -118,7 +121,8 @@ body{
 
 .sidebar-list-item > a{
   text-decoration: none;
-  color: #9e9ea4;
+  color: rgb(218, 213, 213);
+  font-weight: 800;
 }
 
 .sidebar-responsice{
@@ -134,7 +138,8 @@ body{
   grid-area: main;
   overflow-y: auto;
   padding: 20px 20px;
-  color: var(--card-text-color);
+  color: var(--font-color);
+  
 }
 
 .main-title {
@@ -155,6 +160,7 @@ body{
   justify-content: space-around;
   padding: 8px 15px;
   border-radius: 5px;
+  height: 140px;
 }
 
 .card:first-child {
@@ -191,6 +197,47 @@ body{
   height: 300px;
 }
 
+/* menu deroulante */
+
+.sidebar-list ul{
+  margin:0;
+	padding: 0;
+	list-style: none;
+}
+#menu > li{
+	line-height: 40px;
+  cursor:pointer;
+  transition: 0.5s;
+}
+#menu > li{
+	line-height: 40px;
+  cursor:pointer;
+  transition: 0.5s;
+}
+
+#menu li ul a{
+	display: block;
+	text-decoration: none;
+	color:rgb(231, 223, 223);
+}
+
+#menu li ul{
+	height: 0;
+	overflow: hidden;
+	transition:2s;
+}
+
+
+#menu li:hover ul{
+	height: auto;
+  transition: 3s;
+}
+
+#menu li:focus ul{
+	height: auto;
+  transition: 3s;
+}
+
 /* End Main  */
 
 
@@ -214,6 +261,7 @@ body{
 
   #sidebar.reveal{
     transform: translateX(0);
+    width: 100%;
   }
   .menu-icon {
     display: inline;
@@ -222,6 +270,14 @@ body{
   .sidebar-title > span {
     display: inline;
   }
+
+  .sidebar-list {
+    padding: 0;
+    list-style-type: none;
+    display: flex;
+    flex-direction: column;
+  }
+  
 }
 /* Small <= 768px */
   
