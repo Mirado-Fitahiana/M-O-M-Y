@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Link } from 'react-router-dom'; 
 // import Play from '../container/Play';
+// import { Link } from 'react-router-dom';
 import './login.css'
 
 function Login() {
@@ -61,7 +62,8 @@ function Login() {
                 </div>
 
 
-                <button className="submit button" type='submit'>Login</button>
+                <button className="submit button" type='button'><Link to='/Acceuil'>Login</Link></button>
+
             </form>
         </div>
     </section>
