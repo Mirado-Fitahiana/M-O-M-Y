@@ -1,7 +1,12 @@
 // import React from 'react'
+
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import 'primeflex/primeflex.css';
+import "primereact/resources/themes/lara-light-indigo/theme.css";
+import { Link } from 'react-router-dom';
+import "primereact/resources/primereact.min.css";
 // import './insertion/form.css'
 function Liste_client() {
   const [customers, setCustomers] = useState([]);
@@ -42,27 +47,46 @@ function Liste_client() {
     return rowData.utilisateur;
   }
   const annonce = (rowData) => {
-    return rowData.annonce;
+    return rowData.anonnce;
   }
   const reussi = (rowData) => {
     return rowData.reussi;
   }
 
+  const header = (
+    <div className="table-header">
+        Liste des users
+    </div>
+  );
+  const detail = (rowData) => {
+    return (
+        // <Link to={`/details/${rowData.id}`}>
+        <Link to={'/Detail_annonce'}>
+          {rowData.verified ='Voir detail' }
+        </Link>
+      );
+}; 
   return (
     <main className='main-container'>
             <div className="second-container">
                 <h4>Liste Client</h4>
-                <div className="input-card">
-                    <div className="form__group field">
-                        <input type="input" className="form__field" placeholder="Name" required="" />
-                        <label htmlFor="name" className="form__label">Nom Categorie</label>
-                    </div>
+                  <div className="input-card">
+                    <h4 className="annonce-title" style={{}}>Liste des users</h4>
+                    <DataTable className="custom-datatable" value={customers}
+                        stripedRows
+                        size="small"
+                        paginator rows={10}
+                        dataKey="id"
+                        loading={loading}
+                        tableStyle={{ minWidth: '60rem', width: '400px', alignItems: 'center', marginLeft: 'auto', marginRight: 'auto' }}
+                        globalFilterFields={['Utilisateur','anonnce', 'reussi']} header={header}
+                        emptyMessage="Tsy misy">
+                        <Column field="utilisateur" header="Nom"  body={nom} style={{ minWidth: '12rem' }} filter filterPlaceholder='recherche par nom' />
+                        <Column field="anonnce" header="Nombre Annonce" body={annonce} style={{ minWidth: '12rem' }} sortable />
+                        <Column field="reussi" header="Vente Reussi" style={{ minWidth: '14rem' }} body={reussi} sortable />
+                        <Column field="" header="" style={{ minWidth: '12rem' }} body={detail}/>
 
-                    <button className="button">
-                        <span className="box">
-                            Enregistrer
-                        </span>
-                    </button>
+                    </DataTable>
                 </div>
             </div>
         </main>

@@ -19,19 +19,22 @@ const Annonce = () => {
         { id: 6, date: '02-10-2023', utilisateur: 'Tiana', marque: 'mercedes', etat: 'Valider' },
         { id: 7, date: '02-11-2023', utilisateur: 'Rija', marque: 'audi', etat: 'En attente' },
         { id: 8, date: '02-12-2023', utilisateur: 'Lanto', marque: 'bmw', etat: 'Valider' },
-        { id: 9, date: '02-13-2023', utilisateur: 'Tina', marque: 'toyota', etat: 'En attente' },
-        { id: 10, date: '02-14-2023', utilisateur: 'Rakoto', marque: 'volkswagen', etat: 'Valider' },
-        { id: 11, date: '02-15-2023', utilisateur: 'Lova', marque: 'mercedes', etat: 'En attente' },
-        { id: 12, date: '02-16-2023', utilisateur: 'Mamisoa', marque: 'audi', etat: 'Valider' },
-        { id: 13, date: '02-17-2023', utilisateur: 'Haja', marque: 'bmw', etat: 'En attente' },
-        { id: 14, date: '02-18-2023', utilisateur: 'Nirina', marque: 'toyota', etat: 'Valider' },
-        { id: 15, date: '02-19-2023', utilisateur: 'Mialy', marque: 'volkswagen', etat: 'En attente' },
-        { id: 16, date: '02-20-2023', utilisateur: 'Tahina', marque: 'mercedes', etat: 'Valider' },
-        { id: 17, date: '02-21-2023', utilisateur: 'Rasoa', marque: 'audi', etat: 'En attente' },
-        { id: 18, date: '02-22-2023', utilisateur: 'Fidisoa', marque: 'bmw', etat: 'Valider' },
-        { id: 19, date: '02-23-2023', utilisateur: 'Mandresy', marque: 'toyota', etat: 'En attente' },
-        { id: 20, date: '02-24-2023', utilisateur: 'Mamy', marque: 'volkswagen', etat: 'Valider' },
+        { id: 9, date: '02-01-2023', utilisateur: 'Tina', marque: 'toyota', etat: 'En attente' },
+        { id: 10, date: '02-01-2023', utilisateur: 'Rakoto', marque: 'volkswagen', etat: 'Valider' },
+        { id: 11, date: '02-01-2023', utilisateur: 'Lova', marque: 'mercedes', etat: 'En attente' },
+        { id: 12, date: '02-01-2023', utilisateur: 'Mamisoa', marque: 'audi', etat: 'Valider' },
+        { id: 13, date: '02-01-2023', utilisateur: 'Haja', marque: 'bmw', etat: 'En attente' },
+        { id: 14, date: '02-01-2023', utilisateur: 'Nirina', marque: 'toyota', etat: 'Valider' },
+        { id: 15, date: '02-01-2023', utilisateur: 'Mialy', marque: 'volkswagen', etat: 'En attente' },
+        { id: 16, date: '02-01-2023', utilisateur: 'Tahina', marque: 'mercedes', etat: 'Valider' },
+        { id: 17, date: '02-01-2023', utilisateur: 'Rasoa', marque: 'audi', etat: 'En attente' },
+        { id: 18, date: '02-01-2023', utilisateur: 'Fidisoa', marque: 'bmw', etat: 'Valider' },
+        { id: 19, date: '02-01-2022', utilisateur: 'Mandresy', marque: 'toyota', etat: 'En attente' },
+        { id: 20, date: '02-01-2025', utilisateur: 'Mamy', marque: 'volkswagen', etat: 'Valider' },
     ];
+
+    
+
 
     useEffect(() => {
         // Simulating an asynchronous data fetch
@@ -48,6 +51,24 @@ const Annonce = () => {
         </div>
     );
 
+    const formatDate = (value) => {
+        // Convertir le format '02-05-2023' en '2023-02-05'
+        const formattedDate = value.split('-').reverse().join('-');
+        
+        // Créer un objet Date avec le nouveau format
+        const dateObject = new Date(formattedDate);
+    
+        // Formater la date selon le format souhaité
+        return dateObject.toLocaleDateString('en-US', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric'
+        });
+    };
+
+    const dateBodyTemplate = (rowData) => {
+        return formatDate(rowData.date);
+    };
     const countryBodyTemplate = (rowData) => {
         return rowData.utilisateur;
     };
@@ -83,7 +104,7 @@ const Annonce = () => {
                         tableStyle={{ minWidth: '60rem', width: '400px', alignItems: 'center', marginLeft: 'auto', marginRight: 'auto' }}
                         globalFilterFields={['date', 'utilisateur', 'marque', 'etat']} header={header}
                         emptyMessage="No customers found.">
-                        <Column field="date" header="Date" dataType="date" style={{ minWidth: '12rem' }} sortable />
+                        <Column field="date" header="Date" dataType="date" body={dateBodyTemplate} style={{ minWidth: '12rem' }} sortable/>
                         <Column field="utilisateur" header="Utilisateur" body={countryBodyTemplate} style={{ minWidth: '12rem' }} filter filterPlaceholder="recherche par utilisateur" />
                         <Column field="marque" header="Marque" style={{ minWidth: '14rem' }} body={representativeBodyTemplate} filter filterPlaceholder="recherche par style marque" />
                         <Column field="etat" header="Etat" style={{ minWidth: '12rem' }} body={statusBodyTemplate} sortable/>
