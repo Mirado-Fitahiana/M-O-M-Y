@@ -1,6 +1,37 @@
 
-/* Liste_clirnt */
+/* .client */
+.user{
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  width: 90%;
+  background-color: #d4ded9;
+  height: 245px;
+}
+.image_user {
+  width: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
+
+.detail_user{
+  width: 30%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  align-content: stretch;
+}
 
 
 /* slider*/

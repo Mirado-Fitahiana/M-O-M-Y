@@ -15,7 +15,8 @@ import Energie from './insertion/Energie';
 import Etat_vehicule from './insertion/Etat_vehicule';
 import Annonce from './annonce/Annonce';
 import Detail_annonce from './annonce/Detail_annonce';
-import Liste_client from './client/Liste_client'
+import Liste_client from './client/Liste_client';
+import Detail_Client from './client/Detail_Client';
 function App() {
 
   return (
@@ -35,6 +36,7 @@ function App() {
       <Route path='/Annonce' element={<><Play Component={<Annonce/>}/></>}/>
       <Route path='/Detail_annonce' element={<><Play Component={<Detail_annonce/>}/></>}/>
       <Route path='/Client' element={<><Play Component={<Liste_client/>}/></>}/>
+      <Route path='/Detail_client' element={<><Play Component={<Detail_Client/>}/></>}/>
     </Routes>
     </>
   )
