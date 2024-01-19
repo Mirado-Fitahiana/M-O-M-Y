@@ -61,7 +61,7 @@ function Liste_client() {
   const detail = (rowData) => {
     return (
         // <Link to={`/details/${rowData.id}`}>
-        <Link to={'/Detail_annonce'}>
+        <Link to={'/Detail_Client'}>
           {rowData.verified ='Voir detail' }
         </Link>
       );

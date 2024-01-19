@@ -71,9 +71,6 @@ function Detail_Client() {
         "fiara.jpg",
     ];
     const icon = (<i className="pi pi-search"></i>)
-    const dataTableStyle = {
-        backgroundColor: '#f0f0f0', // Set your desired background color here
-      };
     return (
         <main className='main-container'>
             <div className="second-container">
