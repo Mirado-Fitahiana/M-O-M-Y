@@ -1,7 +1,7 @@
 
 .p-datatable .p-datatable-header {
-  min-width: 60rem;
-  width: 400px;
+  /* min-width: 60rem; */
+  width: 75%;
   margin: 0 auto;
 }
 .p-datatable {
@@ -63,8 +63,13 @@
     .custom-datatable .p-datatable table {
       width: 100% !important;
       min-width: 100% !important;
-    }
     
+    }
+    .p-datatable .p-datatable-header {
+      /* min-width: 60rem; */
+      width: 100%;
+      margin: 0 auto;
+    }    
   }
 /* Réinitialisation des styles */
 .custom-datatable * {
