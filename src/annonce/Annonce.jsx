@@ -62,7 +62,8 @@ const Annonce = () => {
 
     const detailTemplate = (rowData) => {
         return (
-            <Link to={`/details/${rowData.id}`}>
+            // <Link to={`/details/${rowData.id}`}>
+            <Link to={'/Detail_annonce'}>
               {rowData.verified ='Voir detail' }
             </Link>
           );
