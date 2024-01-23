@@ -1,7 +1,7 @@
 import React from 'react'
 import { Slide } from 'react-slideshow-image'
 import 'react-slideshow-image/dist/styles.css'
-
+import { Image } from 'primereact/image';
 
 function Detail_annonce() {
     const images = [
@@ -19,10 +19,12 @@ function Detail_annonce() {
                             <div className="each-slide-effect">
                                 <div style={{ 'backgroundImage': `url(${images[0]})` }}>
                                 </div>
+                                {/* <Image  src={images[0]} indicatorIcon={icon} alt="Image" preview width="250"></Image> */}
+                                  
                             </div>
                             <div className="each-slide-effect">
-                                <div style={{ 'backgroundImage': `url(${images[0]})` }}>
-                                </div>
+                                <div style={{ 'backgroundImage': `url(${images[0]})` }}> 
+                                 </div>
                             </div>
                             <div className="each-slide-effect">
                                 <div style={{ 'backgroundImage': `url(${images[0]})` }}>
