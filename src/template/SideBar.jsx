@@ -1,6 +1,5 @@
     import React from 'react'
-import { BsCart3 ,BsGrid1X2Fill,BsFillArchiveFill,
-BsFillGrid3X2GapFill,BsPeopleFill,BsListCheck,BsMenuButtonWideFill,BsFillGearFill,BsXCircleFill
+import { BsCart3 ,BsGrid1X2Fill,BsFillArchiveFill,BsPeopleFill,BsListCheck,BsFillGearFill,BsXCircleFill
 } from 'react-icons/bs'
 import {Link} from 'react-router-dom'
 
