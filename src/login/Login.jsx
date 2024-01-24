@@ -19,12 +19,23 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     const apiUrl = 'https://repr-izy-production.up.railway.app/api/v1/auth/login';
     
     try {
-      const response = await axios.post(apiUrl, formData);
-      console.log('Login successful:', response.data);
-
+      const data = axios.toFormData(formData);
+      let config={
+        method:'post',
+        maxBodyLength: Infinity,
+        url: apiUrl,
+        headers:{
+          ...data.getHeaders()
+        },
+        data:data
+      };
+      axios.request(config).then((response)=>{
+        console.log(response.data);
+      })
       // Réinitialiser le formulaire après l'envoi des données
       setFormData({
         username: '',
@@ -34,6 +45,10 @@ function Login() {
       console.error('Erreur lors de l\'envoi des données à railway:', error);
     }
   };
+  
+  
+
+
 
   return (
     <div className="container">
