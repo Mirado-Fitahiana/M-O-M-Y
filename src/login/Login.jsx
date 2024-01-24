@@ -1,9 +1,12 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import {  useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './login.css';
+import Loader from '../loader/Loader';
 
 function Login() {
+  const [error,setError] = useState(null);
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     username: '',
     mdp: '',
@@ -19,38 +22,47 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setLoading(true);
+    setError(false);
     const apiUrl = 'https://repr-izy-production.up.railway.app/api/v1/auth/login';
-    
+
     try {
       // const data = axios.toFormData(formData);
       const data = new FormData();
-        formData.append('mail', formData.username); // Assuming username is the email
-        formData.append('pass', formData.mdp);
-      let config={
-        method:'post',
+      data.append('username', formData.username); // Assuming username is the email
+      data.append('mdp', formData.mdp);
+      let config = {
+        method: 'post',
         maxBodyLength: Infinity,
         url: apiUrl,
-        headers:{
+        headers: {
           'Content-Type': 'multipart/form-data',
         },
-        data:data
+        data: data
       };
-      axios.request(config).then((response)=>{
-        console.log(response.data);
-      })
-      // Réinitialiser le formulaire après l'envoi des données
-      setFormData({
-        username: '',
-        mdp: '',
-      });
+      const response = await axios.request(config);
+
+      if (response.data.error) {
+        // Check if there's an error in the response
+        console.error('Erreur lors de la requête:', response.data.error);
+        setError(response.data.error);
+        setLoading(false);
+      } else {
+        // If no error, log the data
+        console.log('Login successful:', response.data);
+        window.location.href="/Acceuil";
+        // navigate
+        // Réinitialiser le formulaire après l'envoi des données
+        setFormData({
+          username: '',
+          mdp: '',
+        });
+
+      }
     } catch (error) {
       console.error('Erreur lors de l\'envoi des données à railway:', error);
     }
-  };
-  
-  
-
+  }
 
 
   return (
@@ -58,6 +70,7 @@ function Login() {
       <section className="side">
         <img src='./test.png' alt="" />
       </section>
+      
 
       <section className="main">
         <div className="login-container">
@@ -88,7 +101,9 @@ function Login() {
                 required
               />
             </div>
+            {loading && <Loader />}
 
+            {error && <p style={{ color: 'red' }}>{error}</p>}
             <button className="submit button" type='submit'>Se connecter</button>
           </form>
         </div>

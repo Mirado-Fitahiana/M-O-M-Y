@@ -67,8 +67,6 @@ function Detail_Client() {
     );
     const images = [
         "fiara.jpg",
-        "fiara.jpg",
-        "fiara.jpg",
     ];
     const icon = (<i className="pi pi-search"></i>)
     return (

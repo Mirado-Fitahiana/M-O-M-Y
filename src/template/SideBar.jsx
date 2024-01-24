@@ -47,9 +47,9 @@ function SideBar({setSideBarOpen,sideBarOpen}) {
                 </Link>
             </li>
             <li className='sidebar-list-item'>
-                <a href="">
-                    <BsFillGearFill className='icon' onClick={()=>{setSideBarOpen(false)}}/> Parametre
-                </a>
+                <Link to="/Parametre" onClick={()=>{setSideBarOpen(false)}}>
+                    <BsFillGearFill className='icon'/> Parametre
+                </Link>
             </li>
         </ul>
     </aside>
