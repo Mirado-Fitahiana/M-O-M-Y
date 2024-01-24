@@ -5,7 +5,8 @@ import 'primeflex/primeflex.css';
 import "primereact/resources/themes/lara-light-indigo/theme.css";
 import { Link } from 'react-router-dom';
 import "primereact/resources/primereact.min.css";
-import './annonce.css'
+import './annonce.css';
+import { Button } from 'primereact/button';
 const Annonce = () => {
     const [customers, setCustomers] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -84,7 +85,7 @@ const Annonce = () => {
     const detailTemplate = (rowData) => {
         return (
             // <Link to={`/details/${rowData.id}`}>
-            <Link to={'/Detail_annonce'}>
+            <Link to={'/Detail_annonce'} style={{textDecoration:'none',color:'black',border:'2px solid',borderRadius:'25px'}}>
               {rowData.verified ='Voir detail' }
             </Link>
           );

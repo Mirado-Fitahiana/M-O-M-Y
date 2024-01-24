@@ -1,74 +1,82 @@
-import { useState } from 'react'
-import { Link } from 'react-router-dom'; 
-// import Play from '../container/Play';
-// import { Link } from 'react-router-dom';
-import './login.css'
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import axios from 'axios';
+import './login.css';
 
 function Login() {
-    const[mail,setMail] = useState('');
-    const[pass,setPass] = useState('');
-    const[redirection,setRedirection] = useState(false);
+  const [formData, setFormData] = useState({
+    username: '',
+    mdp: '',
+  });
 
-    const handleSubmit = async(e) => {
-        e.preventDefault();
-        const data = {mail,pass};
-        try {
-            const response = await fetch('http://localhost:8000/blog',{
-                method:'POST',
-                headers:{"Content-Type":"application/json"},
-                body: JSON.stringify(data)
-            });
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
 
-            if (!response.ok) {
-                throw new Error('Erreur lors de la requête');
-            }
-            const responseData = await response.json();
-            if (responseData.status === "ok") {
-                setRedirection(true);
-                console.log(responseData.status);
-                // return <Redirect to='../container/Play' />;
-            }
-            console.log(responseData);
-        } catch (error) {
-            console.error('Erreur:', error);
-        }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const apiUrl = 'https://repr-izy-production.up.railway.app/api/v1/auth/login';
+    
+    try {
+      const response = await axios.post(apiUrl, formData);
+      console.log('Login successful:', response.data);
 
-        
-        // console.log(data);
+      // Réinitialiser le formulaire après l'envoi des données
+      setFormData({
+        username: '',
+        mdp: '',
+      });
+    } catch (error) {
+      console.error('Erreur lors de l\'envoi des données à railway:', error);
     }
-    if (redirection === true) {
-       window.location = "/Acceuil";       
-    }
+  };
+
   return (
     <div className="container">
-    <section className="side">
-        <img src='./test.png' alt=""/>
-    </section>
+      <section className="side">
+        <img src='./test.png' alt="" />
+      </section>
 
-    <section className="main">
+      <section className="main">
         <div className="login-container">
-            <p className="title">Tongasoa</p>
-            <div className="separator"></div>
-            <p className="welcome-message">Please, provide login credential to proceed and have access to all our services</p>
+          <p className="title">Bienvenue</p>
+          <div className="separator"></div>
+          <p className="welcome-message">Back-office Repr'Izy</p>
 
-            <form className="login-form" onSubmit={handleSubmit}>
-                <div className="form-control">
-                    <input type="email" value={mail} className='input' placeholder="Username" onChange={(e) => setMail(e.target.value)} required/>
+          <form className="login-form" onSubmit={handleSubmit}>
+            <div className="form-control">
+              <input
+                type="text"
+                name="username"
+                value={formData.username}
+                className='input'
+                placeholder="admin"
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div className="form-control">
+              <input
+                type="password"
+                name="mdp"
+                value={formData.mdp}
+                className='input'
+                placeholder="admin"
+                onChange={handleChange}
+                required
+              />
+            </div>
 
-                </div>
-                <div className="form-control">
-                    <input type="password" value={pass}  className='input' placeholder="Password" onChange={(e)=>setPass(e.target.value)} required/>
-                   
-                </div>
-
-
-                <button className="submit button" type='button'><Link to='/Acceuil'>Login</Link></button>
-
-            </form>
+            <button className="submit button" type='submit'>Se connecter</button>
+          </form>
         </div>
-    </section>
+      </section>
     </div>
-  )
+  );
 }
 
-export default Login
+export default Login;

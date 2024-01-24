@@ -1,0 +1,323 @@
+{
+	"info": {
+		"_postman_id": "df3e20bd-3629-4f7e-8578-fad7cb97cb9e",
+		"name": "Final_project",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "31297062"
+	},
+	"item": [
+		{
+			"name": "Categorie",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "categorie",
+							"value": "Moto",
+							"type": "text"
+						}
+					]
+				},
+				"url": "http://localhost:8071/api/v1/Categories"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8071/api/v1/Categories",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "authorization",
+						"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVVElMSVNBVEVVUjAwMDMiLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE3MDUyMjA1NDQsImV4cCI6MTcwNTMwNjk0NH0.LQg4GP9RBniEz5SCBQumsX8WXXzoFkb5ExS7gZtWLhc",
+						"type": "text"
+					}
+				],
+				"url": "http://localhost:8071/api/v1/Categories"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8071/api/v1/Categories/CATEGORIE0006",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8071/api/v1/Categories/CATEGORIE0006"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8071/api/v1/Pays",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "pays",
+							"value": "Allemagne",
+							"type": "text"
+						},
+						{
+							"key": "drapeau",
+							"type": "file",
+							"src": "/D:/fond ecran/$€=0 (93).jpg"
+						}
+					]
+				},
+				"url": "http://localhost:8071/api/v1/Pays"
+			},
+			"response": []
+		},
+		{
+			"name": "Marques",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "marque",
+							"value": "Mercedes",
+							"type": "text"
+						},
+						{
+							"key": "idpays",
+							"value": "PAYS0003",
+							"type": "text"
+						},
+						{
+							"key": "image",
+							"type": "file",
+							"src": "/D:/fond ecran/$€=0 (93).jpg"
+						}
+					]
+				},
+				"url": "http://localhost:8071/api/v1/Marques"
+			},
+			"response": []
+		},
+		{
+			"name": "Categorie_Marque",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "marque",
+							"value": "MARQUE0003",
+							"type": "text"
+						},
+						{
+							"key": "categorie",
+							"value": "CATEGORIE0003",
+							"type": "text"
+						},
+						{
+							"key": "categorie",
+							"value": "CATEGORIE0004",
+							"type": "text"
+						}
+					]
+				},
+				"url": "http://localhost:8071/api/v1/Marques/addCategorie"
+			},
+			"response": []
+		},
+		{
+			"name": "Annonces",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "authorization",
+						"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVVElMSVNBVEVVUjAwMDEiLCJyb2xlIjoiVVNFUiIsImlhdCI6MTcwNTI2MjE1MywiZXhwIjoxNzA1MzQ4NTUzfQ.MIBajY_VLp2ceOM4enWvqfYfqqP7T7eEgl4tNTTEshM",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "idcategorie",
+							"value": "CATEGORIE0003",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "idmarque",
+							"value": "MARQUE0003",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "place",
+							"value": "5",
+							"type": "text"
+						},
+						{
+							"key": "prix",
+							"value": "20000000",
+							"type": "text"
+						},
+						{
+							"key": "images",
+							"type": "file",
+							"src": "/D:/fond ecran/2Sym8fR.jpg"
+						}
+					]
+				},
+				"url": "http://localhost:8071/api/v1/Annonces"
+			},
+			"response": []
+		},
+		{
+			"name": "Annonces",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8071/api/v1/Annonces"
+			},
+			"response": []
+		},
+		{
+			"name": "AnnoncesId",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "authorization",
+						"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVVElMSVNBVEVVUjAwMDEiLCJyb2xlIjoiVVNFUiIsImlhdCI6MTcwNTI2MjE1MywiZXhwIjoxNzA1MzQ4NTUzfQ.MIBajY_VLp2ceOM4enWvqfYfqqP7T7eEgl4tNTTEshM",
+						"type": "text"
+					}
+				],
+				"url": "http://localhost:8071/api/v1/Annonces/65a4431f753815766ba740e1"
+			},
+			"response": []
+		},
+		{
+			"name": "ValidateAnnonce",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": "http://localhost:8071/api/v1/Annonces/validate/659f9d078a34514788dab14a"
+			},
+			"response": []
+		},
+		{
+			"name": "newAnnonce",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8071/api/v1/Annonces/newAnnonce"
+			},
+			"response": []
+		},
+		{
+			"name": "Register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "username",
+							"value": "yohan",
+							"type": "text"
+						},
+						{
+							"key": "mdp",
+							"value": "yohan",
+							"type": "text"
+						},
+						{
+							"key": "nom",
+							"value": "Rabe",
+							"type": "text"
+						},
+						{
+							"key": "prenom",
+							"value": "Yohan",
+							"type": "text"
+						},
+						{
+							"key": "cin",
+							"value": "123456789",
+							"type": "text"
+						}
+					]
+				},
+				"url": "http://localhost:8071/api/v1/auth/register"
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "text"
+						},
+						{
+							"key": "mdp",
+							"value": "admin",
+							"type": "text"
+						}
+					]
+				},
+				"url": "http://localhost:8071/api/v1/auth/login"
+			},
+			"response": []
+		},
+		{
+			"name": "UserStat",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8071/api/v1/stats/user?year=2024",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8071",
+					"path": [
+						"api",
+						"v1",
+						"stats",
+						"user"
+					],
+					"query": [
+						{
+							"key": "year",
+							"value": "2024"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeployedCategory",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	]
+}
