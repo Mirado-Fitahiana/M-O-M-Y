@@ -32,7 +32,7 @@ function Login() {
         maxBodyLength: Infinity,
         url: apiUrl,
         headers:{
-          ...data.getHeaders()
+          'Content-Type': 'multipart/form-data',
         },
         data:data
       };
