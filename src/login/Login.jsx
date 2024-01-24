@@ -23,7 +23,10 @@ function Login() {
     const apiUrl = 'https://repr-izy-production.up.railway.app/api/v1/auth/login';
     
     try {
-      const data = axios.toFormData(formData);
+      // const data = axios.toFormData(formData);
+      const data = new FormData();
+        formData.append('mail', formData.username); // Assuming username is the email
+        formData.append('pass', formData.mdp);
       let config={
         method:'post',
         maxBodyLength: Infinity,
