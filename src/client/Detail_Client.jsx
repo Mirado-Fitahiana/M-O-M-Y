@@ -67,6 +67,8 @@ function Detail_Client() {
     );
     const images = [
         "fiara.jpg",
+        "fiara.jpg",
+        "fiara.jpg",
     ];
     const icon = (<i className="pi pi-search"></i>)
     return (
@@ -83,11 +85,11 @@ function Detail_Client() {
                         <div className="detail_user">
                             <div className="text">
                                 <span>Nom:test </span>
-                                <span>Prenom:test</span>
+                                <span>Date de naissance:test </span>
                                 <span>Num Cin: 65474734734</span>
                             </div>
                             <div className="text">
-                                <span>Date de naissance:test </span>
+                                <span>Prenom:test</span>
                                 <span>Adresse:tett</span>
                                 <span style={{ display: 'hidden', visibility: 'hidden' }}>blabla</span>
                             </div>

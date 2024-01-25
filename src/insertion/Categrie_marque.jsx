@@ -4,8 +4,8 @@ function Categrie_marque() {
     return (
         <main className='main-container'>
             <div className="second-container">
-                <h4>Categorie de la marque</h4>
                 <div className="input-card">
+                <h1>Categorie de la marque</h1>
 
                     <div className="form__group field">
                         <label htmlFor="name" className="form__label">Marque</label>

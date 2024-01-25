@@ -4,8 +4,8 @@ function Etat_vehicule() {
   return (
     <main className='main-container'>
             <div className="second-container">
-            <h4>Insertion Etat Vehicule</h4>
             <div className="input-card">
+            <h1>Insertion Etat Vehicule</h1>
                 <div className="form__group field">
                     <input type="input" className="form__field" placeholder="Name" required="" />
                     <label htmlFor="name" className="form__label">Nom Etat</label>

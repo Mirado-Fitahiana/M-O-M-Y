@@ -7,16 +7,15 @@ function Nouveau_type() {
     return (
         <main className='main-container'>
             <div className="second-container">
-                <h4>Insertion Nouveau type</h4>
                 <div className="input-card">
+                    <h1>Insertion Nouveau type</h1>
                     <div className="form__group field">
                         <input type="input" className="form__field" placeholder="Name" required="" />
                         <label htmlFor="name" className="form__label">Nom Type</label>
                     </div>
                     <div className="form__group field">
-
                         <label htmlFor="name" className="form__label">Nom Type</label>
-                        <select name="" id="">
+                        <select className="select" name="" id="">
                             <option value="">1</option>
                             <option value="">2</option>
                         </select>

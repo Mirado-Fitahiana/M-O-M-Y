@@ -1,8 +1,14 @@
-
+.input-card{
+  background-color: white;
+}
 .p-datatable .p-datatable-header {
   /* min-width: 60rem; */
   width: 75%;
   margin: 0 auto;
+}
+
+.p-datatable-thead{
+  border-color: rgb(71, 71, 71);
 }
 .p-datatable {
   position: relative;
@@ -39,6 +45,40 @@
   width: 45%;
   height: 32px;
 }
+
+.column{
+  border-color: grey;
+}
+
+.custom-datatable *{
+  background: transparent !important;
+}
+.detail {
+  text-decoration: none;
+  color: black;
+  padding: 10px !important;
+  border-radius: 10px;
+  font-size: small;
+  font-weight: bold;
+  border: 2px solid;
+  background-color: #fbfbfb !important;
+  transition: 0.2s;
+}
+.detail:hover {
+  text-decoration: none;
+  color: #fff4f4;
+  padding: 10px !important;
+  border-radius: 10px;
+  font-size: small;
+  font-weight: bold;
+  border: 2px solid;
+  background-color: #000000 !important;
+  transition: 0.5s;
+}
+.p-paginator-bottom{
+  border: none;
+}
+
 @layer primereact {
   .p-dropdown-items {
     margin: 0;
