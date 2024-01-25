@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import {  useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './login.css';
 import Loader from '../loader/Loader';
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
+  const navigate = useNavigate();
   const [error,setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
@@ -48,11 +49,10 @@ function Login() {
         setError(response.data.error);
         setLoading(false);
       } else {
-        // If no error, log the data
         console.log('Login successful:', response.data);
-        window.location.href="/Acceuil";
-        // navigate
-        // Réinitialiser le formulaire après l'envoi des données
+        // navigate("/Acceuil");
+        // window.location.href="/Acceuil";
+        navigate("/Acceuil")
         setFormData({
           username: '',
           mdp: '',
