@@ -44,7 +44,18 @@ function Detail_annonce() {
                                 </div>
                             </Fade>
                             <div className="infouser">
-                                <h2>Eto Mirado ehh</h2>
+                                <p className='dateenvoi'><strong><i>22/10/2023</i></strong></p>
+                                <p className='descri'>Lorem ipsum, dolor sit amet consectetur adipisicing elit. 
+                                    Ipsa culpa corporis ex repudiandae soluta aperiam architecto! 
+                                    Soluta quas officiis ipsa labore ex consectetur? Quas eveniet, ipsa,
+                                    velit laborum repellat ex accusamus non alias accusantium soluta, 
+                                    doloremque animi maxime. Culpa dignissimos iusto, libero, dolores exercitationem totam quo, 
+                                    maxime quidem quasi iure quas porro accusantium quaerat ipsa. Architecto repellendus,
+                                    rerum velit blanditiis aperiam cumque perspiciatis quis repellat voluptate culpa beatae quam doloremque.
+                                </p>
+                                <p className="author">
+                                    <strong>Yohan Rabe</strong>
+                                </p>
                             </div>
                         </div>
                         <div className="third-container">
@@ -64,7 +75,7 @@ function Detail_annonce() {
                                 <span className="titre"><p className='key'>Nbr Cylindre</p><p className='value'>12</p></span>
                                 <span className="titre"><p className='key'>Motricite</p><p className='value'>4 roues</p></span>
                             </div>
-                            <div className="carte button">
+                            <div className="carte action">
                                 <button className='suppr' type='button'>X</button>
                                 <button className='valider' type='button'>Valider</button>
                             </div>

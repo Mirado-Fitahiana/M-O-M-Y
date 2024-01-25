@@ -62,12 +62,10 @@ function Detail_Client() {
 
     const header = (
         <div className="table-header">
-            Liste des users
+            Liste des utilisateurs
         </div>
     );
     const images = [
-        "fiara.jpg",
-        "fiara.jpg",
         "fiara.jpg",
     ];
     const icon = (<i className="pi pi-search"></i>)

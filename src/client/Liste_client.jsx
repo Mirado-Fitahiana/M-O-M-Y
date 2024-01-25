@@ -7,7 +7,7 @@ import 'primeflex/primeflex.css';
 import "primereact/resources/themes/lara-light-indigo/theme.css";
 import { Link } from 'react-router-dom';
 import "primereact/resources/primereact.min.css";
-// import './insertion/form.css'
+import './annonce.css'
 function Liste_client() {
   const [customers, setCustomers] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -35,12 +35,11 @@ function Liste_client() {
   ];
 
   useEffect(() => {
-      // Simulating an asynchronous data fetch
       setLoading(true);
       setTimeout(() => {
           setCustomers(dummyData);
           setLoading(false);
-      }, 1000); // Simulating a 1-second delay
+      }, 1000); 
   }, []);
 
   const nom = (rowData) =>{
@@ -52,16 +51,9 @@ function Liste_client() {
   const reussi = (rowData) => {
     return rowData.reussi;
   }
-
-  const header = (
-    <div className="table-header">
-        Liste des users
-    </div>
-  );
   const detail = (rowData) => {
     return (
-        // <Link to={`/details/${rowData.id}`}>
-        <Link to={'/Detail_Client'}>
+        <Link className='detail' to={'/Detail_Client'}>
           {rowData.verified ='Voir detail' }
         </Link>
       );
@@ -69,9 +61,8 @@ function Liste_client() {
   return (
     <main className='main-container'>
             <div className="second-container">
-                <h4>Liste Client</h4>
                   <div className="input-card">
-                    <h4 className="annonce-title" style={{}}>Liste des users</h4>
+                    <h4 className="annonce-title" style={{}}>Liste des utilisateurs</h4>
                     <DataTable className="custom-datatable" value={customers}
                         stripedRows
                         size="small"
@@ -79,13 +70,12 @@ function Liste_client() {
                         dataKey="id"
                         loading={loading}
                         tableStyle={{ minWidth: '60rem', width: '400px', alignItems: 'center', marginLeft: 'auto', marginRight: 'auto' }}
-                        globalFilterFields={['Utilisateur','anonnce', 'reussi']} header={header}
+                        globalFilterFields={['Utilisateur','anonnce', 'reussi']}
                         emptyMessage="Tsy misy">
-                        <Column field="utilisateur" header="Nom"  body={nom} style={{ minWidth: '12rem' }} filter filterPlaceholder='recherche par nom' />
-                        <Column field="anonnce" header="Nombre Annonce" body={annonce} style={{ minWidth: '12rem' }} sortable />
-                        <Column field="reussi" header="Vente Reussi" style={{ minWidth: '14rem' }} body={reussi} sortable />
-                        <Column field="" header="" style={{ minWidth: '12rem' }} body={detail}/>
-
+                        <Column className='column' field="utilisateur" header="Nom"  body={nom} style={{ minWidth: '12rem' }} filter filterPlaceholder='recherche par nom' />
+                        <Column className='column' field="anonnce" header="Nombre Annonce" body={annonce} style={{ minWidth: '12rem' }} sortable />
+                        <Column className='column' field="reussi" header="Vente Reussi" style={{ minWidth: '14rem' }} body={reussi} sortable />
+                        <Column className='column detail-button' field="" header="" style={{ minWidth: '12rem' }} body={detail}/>
                     </DataTable>
                 </div>
             </div>
