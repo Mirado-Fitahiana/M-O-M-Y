@@ -1,66 +1,75 @@
 import React from 'react'
 import { Slide } from 'react-slideshow-image'
+import { Fade } from 'react-slideshow-image'
 import 'react-slideshow-image/dist/styles.css'
+import './details.css'
 import { Image } from 'primereact/image';
 
 function Detail_annonce() {
     const images = [
         "fiara.jpg",
-        "fiara.jpg",
+        "fiara2.jpg",
         "fiara.jpg",
     ];
     return (
         <main className='main-container'>
             <div className="second-container">
-                <div className="input-card">
-                    <h4>Detail Annonce</h4>
-                    <div className="slider">
-                        <Slide>
-                            <div className="each-slide-effect">
-                                <div style={{ 'backgroundImage': `url(${images[0]})` }}>
-                                </div>
-                                {/* <Image  src={images[0]} indicatorIcon={icon} alt="Image" preview width="250"></Image> */}
-                                  
+                <div className="input-card car_card">
+                    <div className="prop">
+                        <div className="name">
+                            <h2>Porsche Cayenne</h2>
+                            <div className="caract">
+                                <span className='desc'>SUV de luxe</span>
                             </div>
-                            <div className="each-slide-effect">
-                                <div style={{ 'backgroundImage': `url(${images[0]})` }}> 
-                                 </div>
-                            </div>
-                            <div className="each-slide-effect">
-                                <div style={{ 'backgroundImage': `url(${images[0]})` }}>
-                                </div>
-                            </div>
-                        </Slide>
                         </div>
-                    <div className="third-container">
-                       
-
-                        <div className="left">
-                            <p className='titre-descri'>Marque: <span className='text-descri'>Mercedes</span> </p>
-                            <p className='titre-descri'>Gamme: <span className='text-descri'>Mercedes</span></p>
-                            <p className='titre-descri'>Type: <span className='text-descri'>Mercedes</span></p>
-                            <p className='titre-descri'>Place: <span className='text-descri'>Mercedes</span></p>
-                            <p className='titre-descri'>Annee: <span className='text-descri'>Mercedes</span></p>
-                            <p className='titre-descri'>Kilometrique: <span className='text-descri'>Mercedes</span></p>
-                            <p className='titre-descri'>Description: <span className='text-descri'>Mercedes</span></p>
-                            <p className='titre-descri'>Prix: <span className='text-descri'>Mercedes</span></p>
+                        <div className="price"><h2>90000000Ar</h2></div>
+                    </div>
+                    <div className="bottom">
+                        <div className="slider">
+                            <Fade>
+                                <div className="each-slide">
+                                    <div>
+                                        <Image className='sary' src={images[0]} alt="Image" preview height='100%' width="100%"></Image>
+                                    </div>
+                                </div>
+                                <div className="each-slide">
+                                    <div>
+                                        <Image className='sary' src={images[1]} alt="Image" preview height='100%' width="100%"></Image>
+                                    </div>
+                                </div>
+                                <div className="each-slide">
+                                    <div>
+                                        <Image className='sary' src={images[0]} alt="Image" preview height='100%' width="100%"></Image>
+                                    </div>
+                                </div>
+                            </Fade>
+                            <div className="infouser">
+                                <h2>Eto Mirado ehh</h2>
+                            </div>
                         </div>
-                        <div className="right">
-                            <p className='titre-descri'>Transmission: <span className='text-descri'></span>  </p>
-                            <p className='titre-descri'>Energie: <span className='text-descri'></span>  </p>
-                            <p className='titre-descri'>Cylindree: <span className='text-descri'></span>  </p>
-                            <p className='titre-descri'>Puissance: <span className='text-descri'></span>  </p>
-                            <p className='titre-descri'>Nombre Cylindre: <span className='text-descri'></span>  </p>
-                            <p className='titre-descri'>Motricite: <span className='text-descri'></span>  </p>
+                        <div className="third-container">
+                            <div className="carte ambony">
+                                <span className="titre"><p className='key'>Marque</p><p className='value'>Porsche</p></span>
+                                <span className="titre"><p className='key'>Gamme</p><p className='value'>Cayenne</p></span>
+                                <span className="titre"><p className='key'>Type</p><p className='value'>SUV de luxe</p></span>
+                            </div>
+                            <div className="carte ambany">
+                                <span className="titre"><p className='key'>Place</p><p className='value'>5</p></span>
+                                <span className="titre"><p className='key'>Annee</p><p className='value'>2018</p></span>
+                                <span className="titre"><p className='key'>Kilometrique</p><p className='value'>360km</p></span>
+                                <span className="titre"><p className='key'>Transmission</p><p className='value'>Manuelle</p></span>
+                                <span className="titre"><p className='key'>Energie</p><p className='value'>Essence</p></span>
+                                <span className="titre"><p className='key'>Cylindree</p><p className='value'>2000</p></span>
+                                <span className="titre"><p className='key'>Puissance</p><p className='value'>220ch</p></span>
+                                <span className="titre"><p className='key'>Nbr Cylindre</p><p className='value'>12</p></span>
+                                <span className="titre"><p className='key'>Motricite</p><p className='value'>4 roues</p></span>
+                            </div>
+                            <div className="carte button">
+                                <button className='suppr' type='button'>X</button>
+                                <button className='valider' type='button'>Valider</button>
+                            </div>
                         </div>
                     </div>
-                    <button className="button">
-                        <span className="box">
-                            Enregistrer
-                        </span>
-                    </button>
-                    <br />
-                    <br />
                 </div>
             </div>
         </main>

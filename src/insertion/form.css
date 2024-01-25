@@ -1,4 +1,5 @@
 
+
 /* .client */
 .sary{
 
@@ -11,13 +12,13 @@
   background-color: #d4ded9;
   height: 245px;
 }
+
 .image_user {
   width: auto;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-
 
 .detail_user{
   width: 30%;
@@ -35,7 +36,6 @@
   justify-content: space-between;
   align-content: stretch;
 }
-
 
 /* slider*/
 .slider{
@@ -92,8 +92,6 @@
 .input-card {
   width: 80%;
   min-height: 35vh;
-  /* max-height: 101vh; */
-  /* background: linear-gradient(135deg, #ebadb6 0%, #aceae1 100%); */
   background-color: #B9C4C4;
   border-radius: 7px;
   box-shadow: 20px 20px 60px #bebebe, -20px -20px 60px #ffffff;
@@ -111,7 +109,7 @@
   position: relative;
   padding: 20px 0 0;
   width: 100%;
-  max-width: 180px;
+  max-width: 325px;
 }
 
 .second-container .form__field {
@@ -120,8 +118,8 @@
   border: none;
   border-bottom: 2px solid #9b9b9b;
   outline: 0;
-  font-size: 17px;
-  color: #fff;
+  font-size: 14px;
+  color: black;
   padding: 7px 0;
   background: transparent;
   transition: border-color 0.2s;
@@ -132,7 +130,7 @@
 }
 
 .second-container .form__field:placeholder-shown~.form__label {
-  font-size: 17px;
+  font-size: 13px;
   cursor: text;
   top: 20px;
 }
@@ -300,9 +298,6 @@
 /* select */
 
 .second-container .form__group select {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
   font-family: inherit;
   width: 100%;
   border: none;

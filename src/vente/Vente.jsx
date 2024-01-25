@@ -5,8 +5,8 @@ import 'primeflex/primeflex.css';
 import "primereact/resources/themes/lara-light-indigo/theme.css";
 import { Link } from 'react-router-dom';
 import "primereact/resources/primereact.min.css";
-import './annonce.css'
-const Annonce = () => {
+import '../annonce/annonce.css';
+function Vente() {
     const [customers, setCustomers] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -32,6 +32,9 @@ const Annonce = () => {
         { id: 19, date: '02-01-2022', utilisateur: 'Mandresy', marque: 'toyota', etat: 'En attente' },
         { id: 20, date: '02-01-2025', utilisateur: 'Mamy', marque: 'volkswagen', etat: 'Valider' },
     ];
+
+    
+
 
     useEffect(() => {
         // Simulating an asynchronous data fetch
@@ -79,7 +82,7 @@ const Annonce = () => {
         <main className='main-container'>
             <div className="second-container">
                 <div className="input-card">
-                    <h4 className="annonce-title" style={{}}>Liste des annonces</h4>
+                    <h4 className="annonce-title" style={{}}>Liste des ventes</h4>
                     <DataTable className="custom-datatable" value={customers}
                         size="small"
                         paginator rows={10}
@@ -98,7 +101,6 @@ const Annonce = () => {
             </div>
         </main>
     );
-};
+}
 
-
-export default Annonce;
+export default Vente

@@ -11,8 +11,8 @@ function Marque() {
     return (
         <main className='main-container'>
             <div className="second-container">
-                <h4>Insertion Marque</h4>
                 <div className="input-card">
+                <h1>Insertion Marque</h1>
                     <div className="form__group field">
                         <input type="input" className="form__field" placeholder="Name" required="" />
                         <label htmlFor="name" className="form__label">Nom Marque</label>
