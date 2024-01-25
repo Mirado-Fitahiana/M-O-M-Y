@@ -1,115 +1,74 @@
-import { useState } from 'react';
-import axios from 'axios';
-import './login.css';
-import Loader from '../loader/Loader';
-import { useNavigate } from 'react-router-dom';
+import { useState } from 'react'
+import { Link } from 'react-router-dom'; 
+// import Play from '../container/Play';
+// import { Link } from 'react-router-dom';
+import './login.css'
 
 function Login() {
-  const navigate = useNavigate();
-  const [error,setError] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [formData, setFormData] = useState({
-    username: '',
-    mdp: '',
-  });
+    const[mail,setMail] = useState('');
+    const[pass,setPass] = useState('');
+    const[redirection,setRedirection] = useState(false);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
+    const handleSubmit = async(e) => {
+        e.preventDefault();
+        const data = {mail,pass};
+        try {
+            const response = await fetch('http://localhost:8000/blog',{
+                method:'POST',
+                headers:{"Content-Type":"application/json"},
+                body: JSON.stringify(data)
+            });
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setError(false);
-    const apiUrl = 'https://repr-izy-production.up.railway.app/api/v1/auth/login';
+            if (!response.ok) {
+                throw new Error('Erreur lors de la requête');
+            }
+            const responseData = await response.json();
+            if (responseData.status === "ok") {
+                setRedirection(true);
+                console.log(responseData.status);
+                // return <Redirect to='../container/Play' />;
+            }
+            console.log(responseData);
+        } catch (error) {
+            console.error('Erreur:', error);
+        }
 
-    try {
-      // const data = axios.toFormData(formData);
-      const data = new FormData();
-      data.append('username', formData.username); // Assuming username is the email
-      data.append('mdp', formData.mdp);
-      let config = {
-        method: 'post',
-        maxBodyLength: Infinity,
-        url: apiUrl,
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-        data: data
-      };
-      const response = await axios.request(config);
-
-      if (response.data.error) {
-        // Check if there's an error in the response
-        console.error('Erreur lors de la requête:', response.data.error);
-        setError(response.data.error);
-        setLoading(false);
-      } else {
-        console.log('Login successful:', response.data);
-        // navigate("/Acceuil");
-        // window.location.href="/Acceuil";
-        navigate("/Acceuil")
-        setFormData({
-          username: '',
-          mdp: '',
-        });
-
-      }
-    } catch (error) {
-      console.error('Erreur lors de l\'envoi des données à railway:', error);
+        
+        // console.log(data);
     }
-  }
-
-
+    if (redirection === true) {
+       window.location = "/Acceuil";       
+    }
   return (
     <div className="container">
-      <section className="side">
-        <img src='./test.png' alt="" />
-      </section>
-      
+    <section className="side">
+        <img src='./test.png' alt=""/>
+    </section>
 
-      <section className="main">
+    <section className="main">
         <div className="login-container">
-          <p className="title">Bienvenue</p>
-          <div className="separator"></div>
-          <p className="welcome-message">Back-office Repr'Izy</p>
+            <p className="title">Tongasoa</p>
+            <div className="separator"></div>
+            <p className="welcome-message">Please, provide login credential to proceed and have access to all our services</p>
 
-          <form className="login-form" onSubmit={handleSubmit}>
-            <div className="form-control">
-              <input
-                type="text"
-                name="username"
-                value={formData.username}
-                className='input'
-                placeholder="admin"
-                onChange={handleChange}
-                required
-              />
-            </div>
-            <div className="form-control">
-              <input
-                type="password"
-                name="mdp"
-                value={formData.mdp}
-                className='input'
-                placeholder="admin"
-                onChange={handleChange}
-                required
-              />
-            </div>
-            {loading && <Loader />}
+            <form className="login-form" onSubmit={handleSubmit}>
+                <div className="form-control">
+                    <input type="email" value={mail} className='input' placeholder="Username" onChange={(e) => setMail(e.target.value)} required/>
 
-            {error && <p style={{ color: 'red' }}>{error}</p>}
-            <button className="submit button" type='submit'>Se connecter</button>
-          </form>
+                </div>
+                <div className="form-control">
+                    <input type="password" value={pass}  className='input' placeholder="Password" onChange={(e)=>setPass(e.target.value)} required/>
+                   
+                </div>
+
+
+                <button className="submit button" type='button'><Link to='/Acceuil'>Login</Link></button>
+
+            </form>
         </div>
-      </section>
+    </section>
     </div>
-  );
+  )
 }
 
-export default Login;
+export default Login

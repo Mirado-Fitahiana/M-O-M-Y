@@ -10,9 +10,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
+
     "axios": "^1.6.5",
     "dependencies": "^0.0.1",
     "history": "^5.3.0",
+
     "primeflex": "^3.3.1",
     "primereact": "^10.3.1",
     "react": "^18.2.0",
@@ -20,9 +22,7 @@
     "react-icons": "^4.12.0",
     "react-router-dom": "^6.21.1",
     "react-slideshow-image": "^4.3.0",
-    "react-spring-lightbox": "^1.8.0",
-    "recharts": "^2.10.3",
-    "styled-components": "^6.1.8"
+    "recharts": "^2.10.3"
   },
   "devDependencies": {
     "@types/react": "^18.2.43",

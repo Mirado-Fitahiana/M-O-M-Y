@@ -1,0 +1,51 @@
+.user-profil{
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    margin-top: 20px;
+    background-color: var(--dark-color); 
+    padding: 20px;
+    border-radius: 10px;
+    color: white;
+}
+
+.user-profil h4{
+    color: white;
+}
+
+
+.image-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.circular-image img {
+    border-radius: 50%;
+    width: 200px; 
+    height: 200px;
+    object-fit: cover;
+}
+
+.detail_user{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.text{
+    width: 90%;
+}
+
+.stat{
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    width: 40%;
+    justify-content: space-between;
+}
+
+.custom-datatable{
+    margin-top: 30px;
+}
