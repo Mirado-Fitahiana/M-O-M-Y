@@ -37,24 +37,24 @@ function SideBar({setSideBarOpen,sideBarOpen}) {
                 </ul>
             </li>
             <li className='sidebar-list-item'>
-                <Link to="/Client" >
-                    <BsPeopleFill className='icon' onClick={()=>{setSideBarOpen(false)}} /> Client
+                <Link to="/Client" onClick={()=>{setSideBarOpen(false)}}>
+                    <BsPeopleFill className='icon' /> Client
                 </Link>
             </li>
             <li className='sidebar-list-item'  >
-                <Link to="/Annonce">
-                    <BsListCheck className='icon' onClick={()=>{setSideBarOpen(false)}}/> Annonce
+                <Link to="/Annonce" onClick={()=>{setSideBarOpen(false)}}>
+                    <BsListCheck className='icon' /> Annonce
                 </Link>
             </li>
             <li className='sidebar-list-item'  >
-                <Link to="/Vente">
-                    <BsFillCartFill className='icon' onClick={()=>{setSideBarOpen(false)}}/> Vente
+                <Link to="/Vente" onClick={()=>{setSideBarOpen(false)}}>
+                    <BsFillCartFill className='icon' /> Vente
                 </Link>
             </li>
             <li className='sidebar-list-item' >
-                <a href="">
-                    <BsFillGearFill className='icon' onClick={()=>{setSideBarOpen(false)}} /> Parametres
-                </a>
+                <Link to="/Parametre" onClick={()=>{setSideBarOpen(false)}} >
+                    <BsFillGearFill className='icon' /> Parametres
+                </Link>
             </li>
         </ul>
     </aside>
