@@ -7,6 +7,7 @@ import 'primeflex/primeflex.css';
 import "primereact/resources/themes/lara-light-indigo/theme.css";
 import { Link } from 'react-router-dom';
 import "primereact/resources/primereact.min.css";
+import './annonce.css';
 
 function Detail_Client() {
     const [customers, setCustomers] = useState([]);
@@ -35,17 +36,16 @@ function Detail_Client() {
     ];
 
     useEffect(() => {
-        // Simulating an asynchronous data fetch
         setLoading(true);
         setTimeout(() => {
             setCustomers(dummyData);
             setLoading(false);
-        }, 1000); // Simulating a 1-second delay
+        }, 1000);
     }, []);
     const detail = (rowData) => {
         return (
             // <Link to={`/details/${rowData.id}`}>
-            <Link to={'/Detail_annonce'}>
+            <Link className='detail' to={'/Detail_annonce'}>
                 {rowData.verified = 'Voir detail'}
             </Link>
         );
@@ -104,10 +104,10 @@ function Detail_Client() {
                         tableStyle={{ minWidth: '60rem', width: '400px', alignItems: 'center', marginLeft: 'auto', marginRight: 'auto' }}
                         globalFilterFields={['Utilisateur','anonnce', 'reussi']} header={header}
                         emptyMessage="Tsy misy">
-                        <Column field="utilisateur" header="Nom"  body={nom} style={{ minWidth: '12rem' }} filter filterPlaceholder='recherche par nom' />
-                        <Column field="anonnce" header="Nombre Annonce" body={annonce} style={{ minWidth: '12rem' }} sortable />
-                        <Column field="reussi" header="Vente Reussi" style={{ minWidth: '14rem' }} body={reussi} sortable />
-                        <Column field="" header="" style={{ minWidth: '12rem' }} body={detail}/>
+                        <Column className='column' field="utilisateur" header="Nom"  body={nom} style={{ minWidth: '12rem' }} filter filterPlaceholder='recherche par nom' />
+                        <Column className='column' field="anonnce" header="Nombre Annonce" body={annonce} style={{ minWidth: '12rem' }} sortable />
+                        <Column className='column' field="reussi" header="Vente Reussi" style={{ minWidth: '14rem' }} body={reussi} sortable />
+                        <Column className='column detail-button' field="" header="" style={{ minWidth: '12rem' }} body={detail}/>
 
                     </DataTable>
                 </div>
