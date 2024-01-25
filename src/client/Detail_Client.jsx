@@ -8,6 +8,7 @@ import "primereact/resources/themes/lara-light-indigo/theme.css";
 import { Link } from 'react-router-dom';
 import "primereact/resources/primereact.min.css";
 import './annonce.css';
+import './user.css';
 
 function Detail_Client() {
     const [customers, setCustomers] = useState([]);
@@ -44,7 +45,6 @@ function Detail_Client() {
     }, []);
     const detail = (rowData) => {
         return (
-            // <Link to={`/details/${rowData.id}`}>
             <Link className='detail' to={'/Detail_annonce'}>
                 {rowData.verified = 'Voir detail'}
             </Link>
@@ -62,7 +62,7 @@ function Detail_Client() {
 
     const header = (
         <div className="table-header">
-            Liste des utilisateurs
+            Annonces de l'utilisateur
         </div>
     );
     const images = [
@@ -73,28 +73,23 @@ function Detail_Client() {
         <main className='main-container'>
             <div className="second-container">
                 <div className="input-card">
-                    <h4>Detail utilisateur</h4>
-                    <div className="user">
-                        <div className="image_user">
-                            <div className="image">
-                                <Image className='sary' src={images[0]} indicatorIcon={icon} alt="Image" preview width="250"></Image>
+                    <div className="user-profil">
+                        <div className="image-container">
+                            <Image className='sary circular-image' src={images[0]}  indicatorIcon={icon} alt="Image" preview></Image>
+                            <h4>Yohan Rabe</h4>
+                            <div className="stat">
+                                <p><strong>80</strong> Anonnces</p>
+                                <p><strong>80</strong> Voitures vendues</p>
                             </div>
                         </div>
-                        <div className="detail_user">
+                        {/* <div className="detail_user">
                             <div className="text">
-                                <span>Nom:test </span>
-                                <span>Date de naissance:test </span>
+                                <span>Date de naissance:test</span>
                                 <span>Num Cin: 65474734734</span>
-                            </div>
-                            <div className="text">
-                                <span>Prenom:test</span>
                                 <span>Adresse:tett</span>
-                                <span style={{ display: 'hidden', visibility: 'hidden' }}>blabla</span>
                             </div>
-                        </div>
+                        </div> */}
                     </div>
-                    <br />
-
                     <DataTable className="custom-datatable" value={customers}
                         stripedRows
                         size="small"
