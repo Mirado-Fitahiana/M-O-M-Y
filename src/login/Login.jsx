@@ -50,8 +50,7 @@ function Login() {
         setLoading(false);
       } else {
         console.log('Login successful:', response.data);
-        // navigate("/Acceuil");
-        // window.location.href="/Acceuil";
+        localStorage.setItem('token',response.data.data[1].token);
         navigate("/Acceuil")
         setFormData({
           username: '',

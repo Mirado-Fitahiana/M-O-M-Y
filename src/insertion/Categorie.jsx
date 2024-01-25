@@ -1,15 +1,16 @@
 // import './form.css';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect,useRef } from 'react';
 import { InputText } from 'primereact/inputtext';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
+import axios from 'axios';
+import { Toast } from 'primereact/toast';
 import 'primeflex/primeflex.css';
 import "primereact/resources/themes/lara-light-indigo/theme.css";
 import "primereact/resources/primereact.min.css";
 function Categorie() {
-    // const [sideBarOpen,setSideBarOpen] = useState(false);
-    const [customers, setCustomers] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [message,setMessage] = useState("");
+    const toast = useRef(null);
 
     const dummyData = [
         { id: 1, date: '02-05-2023', utilisateur: 'Jean', marque: 'mercedes', etat: 'En attente' },
@@ -37,57 +38,128 @@ function Categorie() {
     
 
 
-    useEffect(() => {
-        // Simulating an asynchronous data fetch
-        setLoading(true);
-        setTimeout(() => {
-            setCustomers(dummyData);
-            setLoading(false);
-        }, 1000); // Simulating a 1-second delay
-    }, []); // Empty dependency array to run the effect only once on component mount
+    // useEffect(() => {
+    //     // Simulating an asynchronous data fetch
+    //     setLoading(true);
+    //     setTimeout(() => {
+    //         setCustomers(dummyData);
+    //         setLoading(false);
+    //     }, 1000); // Simulating a 1-second delay
+    // }, []); // Empty dependency array to run the effect only once on component mount
 
-    const formatDate = (value) => {
-        const formattedDate = value.split('-').reverse().join('-');
-        const dateObject = new Date(formattedDate);
-        return dateObject.toLocaleDateString('en-US', {
-            day: '2-digit',
-            month: '2-digit',
-            year: 'numeric'
-        });
-    };
+    // const formatDate = (value) => {
+    //     const formattedDate = value.split('-').reverse().join('-');
+    //     const dateObject = new Date(formattedDate);
+    //     return dateObject.toLocaleDateString('en-US', {
+    //         day: '2-digit',
+    //         month: '2-digit',
+    //         year: 'numeric'
+    //     });
+    // };
 
-    const dateBodyTemplate = (rowData) => {
-        return formatDate(rowData.date);
-    };
-    const countryBodyTemplate = (rowData) => {
-        return rowData.utilisateur;
-    };
+    // const dateBodyTemplate = (rowData) => {
+    //     return formatDate(rowData.date);
+    // };
+    // const countryBodyTemplate = (rowData) => {
+    //     return rowData.utilisateur;
+    // };
 
-    const representativeBodyTemplate = (rowData) => {
-        return rowData.marque;
-    };
+    // const representativeBodyTemplate = (rowData) => {
+    //     return rowData.marque;
+    // };
 
-    const statusBodyTemplate = (rowData) => {
-        return rowData.etat;
-    };
+    // const statusBodyTemplate = (rowData) => {
+    //     return rowData.etat;
+    // };
    
+    // set insert 
+
+    const [formData, setFormData] = useState({
+        categorie: '',
+    });
+
+    const showSuccess = () => {
+        toast.current.show({ severity: 'success', summary: 'Insertion réussie', detail: message, life: 3000 });
+    };
+
+    const showError = () => {
+        toast.current.show({ severity: 'error', summary: 'Insertion échouée', detail: message, life: 3000 });
+    };
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({
+            ...formData,
+            [name]: value,
+        });
+        console.log(formData.categorie);
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        const apiUrl = 'https://repr-izy-production.up.railway.app/api/v1/Categories';
+        const token =localStorage.getItem('token');
+        try {
+            const data = new FormData();
+            data.append('categorie', formData.categorie);
+            data.append('authorization',token);
+            let config = {
+                method: 'post',
+                maxBodyLength: Infinity,
+                url: apiUrl,
+                headers: {
+            
+                },
+                data: data
+            };
+
+            const response = await axios.request(config);
+
+            if (response.data.error) {
+                console.error('Erreur lors de la requête:', response.data);
+                setMessage(response.data.error);
+                showError();
+            } else {
+                console.log('Insertion réussie:', response.data);
+                showSuccess();
+
+                setFormData({
+                    categorie: '',
+                });
+            }
+        } catch (error) {
+            console.error('Erreur lors de l\'envoi des données à railway:', error);
+        }
+    };
+
+    
     return (
         <main className='main-container'>
             <div className="second-container">
                 <div className="input-card">
                     <h1>Insertion Categorie</h1>
+                    <form onSubmit={handleSubmit}>
                     <div className="form__group field">
-                        <input type="input" className="form__field" placeholder="Name" required="" />
+                        <input type="text"
+                        name='categorie' 
+                        value={formData.categorie}
+                        className="form__field"
+                        placeholder="categories"
+                        onChange={handleChange}
+                        required />
                         <label htmlFor="name" className="form__label">Nom Categorie</label>
                     </div>
 
-                    <button className="button">
+                    <button className="button" type='submit'>
                         <span className="box">
                             Enregistrer
                         </span>
                     </button>
+                    </form>
+                    <Toast ref={toast} />
                 </div>
-                <div className="input-card">
+                {/* <div className="input-card">
                     <h4 className="annonce-title" style={{}}>Liste des annonces</h4>
                     <DataTable className="custom-datatable" value={customers}
                         size="small"
@@ -102,7 +174,7 @@ function Categorie() {
                         <Column className='column' field="marque" header="Marque" style={{ minWidth: '14rem' }} body={representativeBodyTemplate} filter filterPlaceholder="recherche par style marque" />
                         <Column className='column' field="etat" header="Etat" style={{ minWidth: '12rem' }} body={statusBodyTemplate} sortable/>
                     </DataTable>
-                </div>
+                </div> */}
             </div>
         </main>
     )
