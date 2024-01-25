@@ -44,6 +44,7 @@ function Detail_annonce() {
                                 </div>
                             </Fade>
                             <div className="infouser">
+
                                 <p className='dateenvoi'><strong><i>22/10/2023</i></strong></p>
                                 <p className='descri'>Lorem ipsum, dolor sit amet consectetur adipisicing elit. 
                                     Ipsa culpa corporis ex repudiandae soluta aperiam architecto! 
@@ -56,6 +57,7 @@ function Detail_annonce() {
                                 <p className="author">
                                     <strong>Yohan Rabe</strong>
                                 </p>
+
                             </div>
                         </div>
                         <div className="third-container">
@@ -75,7 +77,8 @@ function Detail_annonce() {
                                 <span className="titre"><p className='key'>Nbr Cylindre</p><p className='value'>12</p></span>
                                 <span className="titre"><p className='key'>Motricite</p><p className='value'>4 roues</p></span>
                             </div>
-                            <div className="carte action">
+                           <div className="carte action">
+
                                 <button className='suppr' type='button'>X</button>
                                 <button className='valider' type='button'>Valider</button>
                             </div>

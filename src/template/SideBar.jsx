@@ -1,5 +1,9 @@
 import React from 'react'
-import { BsCart3 ,BsGrid1X2Fill,BsFillArchiveFill,BsFillCartFill,BsPeopleFill,BsListCheck,BsMenuButtonWideFill,BsFillGearFill
+
+import {BsGrid1X2Fill,BsFillArchiveFill,
+    BsPeopleFill,BsListCheck,BsFillGearFill,BsXCircleFill,BsCarFront,
+    BsFillCartFill
+
 } from 'react-icons/bs'
 import {Link} from 'react-router-dom'
 
@@ -8,14 +12,18 @@ function SideBar({setSideBarOpen,sideBarOpen}) {
     <aside id='sidebar' className={sideBarOpen?"sidebar reveal":"sidebar"}>
         <div className="sidebar-title">
             <div className="sidebar-brand">
-                <BsCart3 className='icon_header'/> Repr'Izy
+
+                <BsCarFront className='icon_header'/> Repr'Izy
+
             </div>
             <span onClick={()=>{setSideBarOpen(false)}} className='icon clode_icon'>X</span>
         </div>
         <ul id='menu' className='sidebar-list'>
             <li className='sidebar-list-item'>
-                <Link to="/Acceuil">
-                    <BsGrid1X2Fill className='icon'/> Dashboard
+
+                <Link to="/Acceuil" onClick={()=>{setSideBarOpen(false)}}>
+                    <BsGrid1X2Fill className='icon'  /> Dashboard
+
                 </Link>
             </li>
             <li className='sidebar-list-item '>
@@ -23,15 +31,17 @@ function SideBar({setSideBarOpen,sideBarOpen}) {
                     <BsFillArchiveFill className='icon'/> Insertions
                 </Link>
                 <ul>
-                    <li><Link className='insertion' to="/Categorie"> Categorie </Link></li>
-                    <li><Link className='insertion' to="/Transmission"> Transmission </Link></li>
-                    <li><Link className='insertion' to="/Marque"> Marque </Link></li>
-                    <li><Link className='insertion' to="/Model"> Modele </Link></li>
-                    <li><Link className='insertion' to="/Categorie_marque"> Categorie Marque </Link></li>
-                    <li><Link className='insertion' to="/Type">Type</Link></li>
-                    <li><Link className='insertion' to="/Pays"> Pays </Link></li>
-                    <li><Link className='insertion' to="/Energie"> Energie </Link></li>
-                    <li><Link className='insertion' to="/Etat_vehicule"> Etat </Link></li>
+
+                    <li><Link className='insertion' to="/Categorie" onClick={()=>{setSideBarOpen(false)}} > Categorie </Link></li>
+                    <li><Link className='insertion' to="/Transmission" onClick={()=>{setSideBarOpen(false)}} > Transmission </Link></li>
+                    <li><Link className='insertion' to="/Marque" onClick={()=>{setSideBarOpen(false)}} > Marque </Link></li>
+                    <li><Link className='insertion' to="/Model" onClick={()=>{setSideBarOpen(false)}} > Modele </Link></li>
+                    <li><Link className='insertion' to="/Categorie_marque" onClick={()=>{setSideBarOpen(false)}} > Categorie Marque </Link></li>
+                    <li><Link className='insertion' to="/Type" onClick={()=>{setSideBarOpen(false)}} >Type</Link></li>
+                    <li><Link className='insertion' to="/Pays" onClick={()=>{setSideBarOpen(false)}} > Pays </Link></li>
+                    <li><Link className='insertion' to="/Energie" onClick={()=>{setSideBarOpen(false)}} > Energie </Link></li>
+                    <li><Link className='insertion' to="/Etat_vehicule" onClick={()=>{setSideBarOpen(false)}} > Etat </Link></li>
+
                 </ul>
             </li>
             <li className='sidebar-list-item'>
@@ -39,14 +49,21 @@ function SideBar({setSideBarOpen,sideBarOpen}) {
                     <BsPeopleFill className='icon'/> Client
                 </Link>
             </li>
-            <li className='sidebar-list-item'>
-                <Link to="/Annonce">
-                    <BsListCheck className='icon'/> Annonce
+
+            <li className='sidebar-list-item'  >
+                <Link to="/Annonce" onClick={()=>{setSideBarOpen(false)}}>
+                    <BsListCheck className='icon' /> Annonce
                 </Link>
             </li>
-            <li className='sidebar-list-item'>
-                <Link to="/Vente">
-                    <BsFillCartFill className='icon'/> Vente
+            <li className='sidebar-list-item'  >
+                <Link to="/Vente" onClick={()=>{setSideBarOpen(false)}}>
+                    <BsFillCartFill className='icon' /> Vente
+                </Link>
+            </li>
+            <li className='sidebar-list-item' >
+                <Link to="/Parametre" onClick={()=>{setSideBarOpen(false)}} >
+                    <BsFillGearFill className='icon' /> Parametres
+
                 </Link>
             </li>
             <li className='sidebar-list-item'>

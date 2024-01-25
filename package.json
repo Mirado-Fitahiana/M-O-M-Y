@@ -10,6 +10,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
+
+    "axios": "^1.6.5",
+    "dependencies": "^0.0.1",
+    "history": "^5.3.0",
+
     "primeflex": "^3.3.1",
     "primereact": "^10.3.1",
     "react": "^18.2.0",

@@ -18,6 +18,9 @@ import Detail_annonce from './annonce/Detail_annonce';
 import Liste_client from './client/Liste_client';
 import Detail_Client from './client/Detail_Client';
 import Vente from './vente/Vente';
+
+import Parametre from './parametre/Parametre';
+
 function App() {
 
   return (
@@ -39,6 +42,8 @@ function App() {
       <Route path='/Client' element={<><Play Component={<Liste_client/>}/></>}/>
       <Route path='/Detail_client' element={<><Play Component={<Detail_Client/>}/></>}/>
       <Route path='/Vente' element={<><Play Component={<Vente/>}/></>}/>
+
+      <Route path='/Parametre' element={<><Play Component={<Parametre/>}/></>}/>
     
     </Routes>
     </>

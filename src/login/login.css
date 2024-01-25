@@ -87,11 +87,12 @@ section.side {
 }
 .input {
     width: 100%;
-    background: #e6e6e6;
-    color: #333;
-    letter-spacing: 0.5px;
+    background: #bcbcbc;
+    color: #fff;
+    letter-spacing: 2.5px;
     padding: 14px 64px;
 }
+
 .input ~ i {
     position: absolute;
     left: 32px;
