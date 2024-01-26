@@ -1,16 +1,28 @@
 // import './form.css';
-import React, { useState, useEffect,useRef } from 'react';
-import { InputText } from 'primereact/inputtext';
+import React, { useState, useEffect ,useRef } from 'react';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-import axios from 'axios';
-import { Toast } from 'primereact/toast';
 import 'primeflex/primeflex.css';
 import "primereact/resources/themes/lara-light-indigo/theme.css";
 import "primereact/resources/primereact.min.css";
+import  '../axios_utils';
+import { Toast } from 'primereact/toast';
+import { get, handleChange, post } from '../axios_utils';
 function Categorie() {
+    // const [sideBarOpen,setSideBarOpen] = useState(false);
+    const [customers, setCustomers] = useState([]);
+    const [data,setData]=useState([]);
+    const [loading, setLoading] = useState(true);
+    const [formData,setFormData]=useState(new FormData());
     const [message,setMessage] = useState("");
     const toast = useRef(null);
+    const showSuccess = () => {
+        toast.current.show({ severity: 'success', summary: 'Insertion réussie', detail: message, life: 3000 });
+    };
+
+    const showError = () => {
+        toast.current.show({ severity: 'error', summary: 'Insertion échouée', detail: message, life: 3000 });
+    };
 
     const dummyData = [
         { id: 1, date: '02-05-2023', utilisateur: 'Jean', marque: 'mercedes', etat: 'En attente' },
@@ -35,129 +47,79 @@ function Categorie() {
         { id: 20, date: '02-01-2025', utilisateur: 'Mamy', marque: 'volkswagen', etat: 'Valider' },
     ];
 
+
+    useEffect(() => {
+        setLoading(true);
+        setTimeout(() => {
+            setCustomers(dummyData);
+            setData(get('http://repr-izy-production.up.railway.app/api/v1/Categories'));
+            setLoading(false);
+        }, 1000); 
+    }, []);
+
+    const formatDate = (value) => {
+        const formattedDate = value.split('-').reverse().join('-');
+        const dateObject = new Date(formattedDate);
+        return dateObject.toLocaleDateString('en-US', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric'
+        });
+    };
+
+    const dateBodyTemplate = (rowData) => {
+        return formatDate(rowData.date);
+    };
+    const countryBodyTemplate = (rowData) => {
+        return rowData.utilisateur;
+    };
+
+    const representativeBodyTemplate = (rowData) => {
+        return rowData.marque;
+    };
+
+    const statusBodyTemplate = (rowData) => {
+        return rowData.etat;
+    };
+
+    // localStorage.setItem('token','eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVVElMSVNBVEVVUjAwMDUiLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE3MDYyNTQ0NDYsImV4cCI6MTcwNjM0MDg0Nn0.sXjb3-erDqg7W98MfRiM8XHR19SEtvc2prTbWGQ4daM');
+
+    const handleInput=(e)=>{
+        handleChange(e,formData,setFormData);
+    }
     
 
-
-    // useEffect(() => {
-    //     // Simulating an asynchronous data fetch
-    //     setLoading(true);
-    //     setTimeout(() => {
-    //         setCustomers(dummyData);
-    //         setLoading(false);
-    //     }, 1000); // Simulating a 1-second delay
-    // }, []); // Empty dependency array to run the effect only once on component mount
-
-    // const formatDate = (value) => {
-    //     const formattedDate = value.split('-').reverse().join('-');
-    //     const dateObject = new Date(formattedDate);
-    //     return dateObject.toLocaleDateString('en-US', {
-    //         day: '2-digit',
-    //         month: '2-digit',
-    //         year: 'numeric'
-    //     });
-    // };
-
-    // const dateBodyTemplate = (rowData) => {
-    //     return formatDate(rowData.date);
-    // };
-    // const countryBodyTemplate = (rowData) => {
-    //     return rowData.utilisateur;
-    // };
-
-    // const representativeBodyTemplate = (rowData) => {
-    //     return rowData.marque;
-    // };
-
-    // const statusBodyTemplate = (rowData) => {
-    //     return rowData.etat;
-    // };
-   
-    // set insert 
-
-    const [formData, setFormData] = useState({
-        categorie: '',
-    });
-
-    const showSuccess = () => {
-        toast.current.show({ severity: 'success', summary: 'Insertion réussie', detail: message, life: 3000 });
-    };
-
-    const showError = () => {
-        toast.current.show({ severity: 'error', summary: 'Insertion échouée', detail: message, life: 3000 });
-    };
-
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({
-            ...formData,
-            [name]: value,
-        });
-        console.log(formData.categorie);
-    };
-
-    const handleSubmit = async (e) => {
+    const handleSubmit=(e) =>{
         e.preventDefault();
-
-        const apiUrl = 'https://repr-izy-production.up.railway.app/api/v1/Categories';
-        const token =localStorage.getItem('token');
-        try {
-            const data = new FormData();
-            data.append('categorie', formData.categorie);
-            data.append('authorization',token);
-            let config = {
-                method: 'post',
-                maxBodyLength: Infinity,
-                url: apiUrl,
-                headers: {
-            
-                },
-                data: data
-            };
-
-            const response = await axios.request(config);
-
-            if (response.data.error) {
-                console.error('Erreur lors de la requête:', response.data);
-                setMessage(response.data.error);
-                showError();
-            } else {
-                console.log('Insertion réussie:', response.data);
-                showSuccess();
-
-                setFormData({
-                    categorie: '',
-                });
-            }
-        } catch (error) {
-            console.error('Erreur lors de l\'envoi des données à railway:', error);
+        const response = post(formData,setFormData,'https://repr-izy-production.up.railway.app/api/v1/Categories');
+        if (response.data.error) {
+            setMessage(response.data.error);
+            showError();
+        }else{
+            showSuccess();
         }
-    };
+    }
+   
     return (
         <main className='main-container'>
             <div className="second-container">
                 <div className="input-card">
                     <h1>Insertion Categorie</h1>
-                    <form onSubmit={handleSubmit}>
-                    <div className="form__group field">
-                        <input type="text"
-                        name='categorie' 
-                        value={formData.categorie}
-                        className="form__field"
-                        placeholder="categories"
-                        onChange={handleChange}
-                        required />
-                        <label htmlFor="name" className="form__label">Nom Categorie</label>
-                    </div>
+                    <form onSubmit={handleSubmit} action="">
+                        <div className="form__group field">
+                            <input onChange={handleInput} name='categorie' type="input" className="form__field" placeholder="Name" required="" />
+                            <label htmlFor="name" className="form__label">Nom Categorie</label>
+                        </div>
 
-                    <button className="button" type='submit'>
-                        <span className="box">
-                            Enregistrer
-                        </span>
-                    </button>
+                        <button type='submit' className="button">
+                            <span className="box">
+                                Enregistrer
+                            </span>
+                        </button>
                     </form>
                     <Toast ref={toast} />
                 </div>
-                {/* <div className="input-card">
+                <div className="input-card">
                     <h4 className="annonce-title" style={{}}>Liste des annonces</h4>
                     <DataTable className="custom-datatable" value={customers}
                         size="small"
@@ -172,7 +134,7 @@ function Categorie() {
                         <Column className='column' field="marque" header="Marque" style={{ minWidth: '14rem' }} body={representativeBodyTemplate} filter filterPlaceholder="recherche par style marque" />
                         <Column className='column' field="etat" header="Etat" style={{ minWidth: '12rem' }} body={statusBodyTemplate} sortable/>
                     </DataTable>
-                </div> */}
+                </div>
             </div>
         </main>
     )
