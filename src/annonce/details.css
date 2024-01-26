@@ -125,6 +125,7 @@
  }
 
  @media screen and (max-width: 768px) {
+    
     .slider {
         padding: 5px;
         height: 500px;
