@@ -132,8 +132,6 @@ function Categorie() {
             console.error('Erreur lors de l\'envoi des données à railway:', error);
         }
     };
-
-    
     return (
         <main className='main-container'>
             <div className="second-container">

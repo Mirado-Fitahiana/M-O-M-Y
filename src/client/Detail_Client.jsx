@@ -7,6 +7,8 @@ import 'primeflex/primeflex.css';
 import "primereact/resources/themes/lara-light-indigo/theme.css";
 import { Link } from 'react-router-dom';
 import "primereact/resources/primereact.min.css";
+import './annonce.css';
+import './user.css';
 
 function Detail_Client() {
     const [customers, setCustomers] = useState([]);
@@ -35,17 +37,15 @@ function Detail_Client() {
     ];
 
     useEffect(() => {
-        // Simulating an asynchronous data fetch
         setLoading(true);
         setTimeout(() => {
             setCustomers(dummyData);
             setLoading(false);
-        }, 1000); // Simulating a 1-second delay
+        }, 1000);
     }, []);
     const detail = (rowData) => {
         return (
-            // <Link to={`/details/${rowData.id}`}>
-            <Link to={'/Detail_annonce'}>
+            <Link className='detail' to={'/Detail_annonce'}>
                 {rowData.verified = 'Voir detail'}
             </Link>
         );
@@ -62,12 +62,10 @@ function Detail_Client() {
 
     const header = (
         <div className="table-header">
-            Liste des users
+            Annonces de l'utilisateur
         </div>
     );
     const images = [
-        "fiara.jpg",
-        "fiara.jpg",
         "fiara.jpg",
     ];
     const icon = (<i className="pi pi-search"></i>)
@@ -75,28 +73,23 @@ function Detail_Client() {
         <main className='main-container'>
             <div className="second-container">
                 <div className="input-card">
-                    <h4>Detail utilisateur</h4>
-                    <div className="user">
-                        <div className="image_user">
-                            <div className="image">
-                                <Image className='sary' src={images[0]} indicatorIcon={icon} alt="Image" preview width="250"></Image>
+                    <div className="user-profil">
+                        <div className="image-container">
+                            <Image className='sary circular-image' src={images[0]}  indicatorIcon={icon} alt="Image" preview></Image>
+                            <h4>Yohan Rabe</h4>
+                            <div className="stat">
+                                <p><strong>80</strong> Anonnces</p>
+                                <p><strong>80</strong> Voitures vendues</p>
                             </div>
                         </div>
-                        <div className="detail_user">
+                        {/* <div className="detail_user">
                             <div className="text">
-                                <span>Nom:test </span>
-                                <span>Date de naissance:test </span>
+                                <span>Date de naissance:test</span>
                                 <span>Num Cin: 65474734734</span>
-                            </div>
-                            <div className="text">
-                                <span>Prenom:test</span>
                                 <span>Adresse:tett</span>
-                                <span style={{ display: 'hidden', visibility: 'hidden' }}>blabla</span>
                             </div>
-                        </div>
+                        </div> */}
                     </div>
-                    <br />
-
                     <DataTable className="custom-datatable" value={customers}
                         stripedRows
                         size="small"
@@ -106,10 +99,10 @@ function Detail_Client() {
                         tableStyle={{ minWidth: '60rem', width: '400px', alignItems: 'center', marginLeft: 'auto', marginRight: 'auto' }}
                         globalFilterFields={['Utilisateur','anonnce', 'reussi']} header={header}
                         emptyMessage="Tsy misy">
-                        <Column field="utilisateur" header="Nom"  body={nom} style={{ minWidth: '12rem' }} filter filterPlaceholder='recherche par nom' />
-                        <Column field="anonnce" header="Nombre Annonce" body={annonce} style={{ minWidth: '12rem' }} sortable />
-                        <Column field="reussi" header="Vente Reussi" style={{ minWidth: '14rem' }} body={reussi} sortable />
-                        <Column field="" header="" style={{ minWidth: '12rem' }} body={detail}/>
+                        <Column className='column' field="utilisateur" header="Nom"  body={nom} style={{ minWidth: '12rem' }} filter filterPlaceholder='recherche par nom' />
+                        <Column className='column' field="anonnce" header="Nombre Annonce" body={annonce} style={{ minWidth: '12rem' }} sortable />
+                        <Column className='column' field="reussi" header="Vente Reussi" style={{ minWidth: '14rem' }} body={reussi} sortable />
+                        <Column className='column detail-button' field="" header="" style={{ minWidth: '12rem' }} body={detail}/>
 
                     </DataTable>
                 </div>
