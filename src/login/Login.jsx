@@ -49,7 +49,7 @@ function Login() {
         <div className="login-container">
             <p className="title">Tongasoa</p>
             <div className="separator"></div>
-            <p className="welcome-message">Please, provide login credential to proceed and have access to all our services</p>
+            <p className="welcome-message">Veuillez vous connecter pour continuer vers le BackOffice.</p>
 
             <form className="login-form" onSubmit={handleSubmit}>
                 <div className="form-control">
@@ -60,8 +60,6 @@ function Login() {
                     <input type="password" value={pass}  className='input' placeholder="Password" onChange={(e)=>setPass(e.target.value)} required/>
                    
                 </div>
-
-
                 <button className="submit button" type='button'><Link to='/Acceuil'>Login</Link></button>
 
             </form>

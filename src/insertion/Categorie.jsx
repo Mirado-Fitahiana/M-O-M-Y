@@ -6,10 +6,13 @@ import { Column } from 'primereact/column';
 import 'primeflex/primeflex.css';
 import "primereact/resources/themes/lara-light-indigo/theme.css";
 import "primereact/resources/primereact.min.css";
+import { get, handleChange, post } from '../axios_utils';
 function Categorie() {
     // const [sideBarOpen,setSideBarOpen] = useState(false);
     const [customers, setCustomers] = useState([]);
+    const [data,setData]=useState([]);
     const [loading, setLoading] = useState(true);
+    const [formData,setFormData]=useState(new FormData());
 
     const dummyData = [
         { id: 1, date: '02-05-2023', utilisateur: 'Jean', marque: 'mercedes', etat: 'En attente' },
@@ -34,17 +37,15 @@ function Categorie() {
         { id: 20, date: '02-01-2025', utilisateur: 'Mamy', marque: 'volkswagen', etat: 'Valider' },
     ];
 
-    
-
 
     useEffect(() => {
-        // Simulating an asynchronous data fetch
         setLoading(true);
         setTimeout(() => {
             setCustomers(dummyData);
+            setData(get('https://repr-izy-production.up.railway.app/api/v1/Categories'));
             setLoading(false);
-        }, 1000); // Simulating a 1-second delay
-    }, []); // Empty dependency array to run the effect only once on component mount
+        }, 1000); 
+    }, []);
 
     const formatDate = (value) => {
         const formattedDate = value.split('-').reverse().join('-');
@@ -70,22 +71,35 @@ function Categorie() {
     const statusBodyTemplate = (rowData) => {
         return rowData.etat;
     };
+
+    localStorage.setItem('token','eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVVElMSVNBVEVVUjAwMDUiLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE3MDYyNTQ0NDYsImV4cCI6MTcwNjM0MDg0Nn0.sXjb3-erDqg7W98MfRiM8XHR19SEtvc2prTbWGQ4daM');
+
+    const handleInput=(e)=>{
+        handleChange(e,formData,setFormData);
+    }
+
+    const handleSubmit=(e) =>{
+        e.preventDefault();
+        post(formData,setFormData,'https://repr-izy-production.up.railway.app/api/v1/Categories');
+    }
    
     return (
         <main className='main-container'>
             <div className="second-container">
                 <div className="input-card">
                     <h1>Insertion Categorie</h1>
-                    <div className="form__group field">
-                        <input type="input" className="form__field" placeholder="Name" required="" />
-                        <label htmlFor="name" className="form__label">Nom Categorie</label>
-                    </div>
+                    <form onSubmit={handleSubmit} action="">
+                        <div className="form__group field">
+                            <input onChange={handleInput} name='categorie' type="input" className="form__field" placeholder="Name" required="" />
+                            <label htmlFor="name" className="form__label">Nom Categorie</label>
+                        </div>
 
-                    <button className="button">
-                        <span className="box">
-                            Enregistrer
-                        </span>
-                    </button>
+                        <button type='submit' className="button">
+                            <span className="box">
+                                Enregistrer
+                            </span>
+                        </button>
+                    </form>
                 </div>
                 <div className="input-card">
                     <h4 className="annonce-title" style={{}}>Liste des annonces</h4>
@@ -95,7 +109,7 @@ function Categorie() {
                         dataKey="id"
                         loading={loading}
                         tableStyle={{ minWidth: '60rem', width: '400px', alignItems: 'center', marginLeft: 'auto', marginRight: 'auto' }}
-                        globalFilterFields={['date', 'utilisateur', 'marque', 'etat']}
+                        globalFilterFields={['date', 'utilsateur', 'marque', 'etat']}
                         emptyMessage="No customers found.">
                         <Column className='column' field="date" header="Date" dataType="date" body={dateBodyTemplate} style={{ minWidth: '12rem' }} sortable/>
                         <Column className='column' field="utilisateur" header="Utilisateur" body={countryBodyTemplate} style={{ minWidth: '12rem' }} filter filterPlaceholder="recherche par utilisateur" />

@@ -2,77 +2,47 @@ import './form.css';
 import { useState,useRef } from 'react';
 import { Toast } from 'primereact/toast';
 import axios from 'axios';
+import { post,handleChange,get } from '../axios_utils';
 function Pays() {
     const [message,setMessage] = useState("");
     const toast = useRef(null);
-    const [selectedFile, setSelectedFile] = useState(null);
-    const handleFileChange = (event) => {
-        const file = event.target.files[0];
-        const reader=new FileReader();
-        reader.onloadend =() => {
-            setSelectedFile(reader.result.toString());
-            console.log(selectedFile);
-        }
-        reader.readAsDataURL(file);
-    };
-
-    const [formData, setFormData] = useState({
-        categorie: '',
-    });
-
-    const showSuccess = () => {
-        toast.current.show({ severity: 'success', summary: 'Insertion réussie', detail: message, life: 3000 });
-    };
-
-    const showError = () => {
-        toast.current.show({ severity: 'error', summary: 'Insertion échouée', detail: message, life: 3000 });
-    };
-
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({
-            ...formData,
-            [name]: value,
+    const [file, setFile] = useState(null);
+    const [base64URL, setBase64URL] = useState("");
+    const [formData,setFormData]=useState(new FormData());
+    const getBase64 = (file) => {
+        return new Promise((resolve) => {
+          let baseURL = "";
+          let reader = new FileReader();
+    
+          reader.readAsDataURL(file);
+    
+          reader.onload = () => {
+            baseURL = reader.result;
+            resolve(baseURL);
+          };
         });
-    };
+      };
+      const handleFileInputChange = (e) => {
+        const selectedFile = e.target.files[0];
+        getBase64(selectedFile)
+          .then((result) => {
+            selectedFile["base64"] = result;
+            setFile(selectedFile);
+            setBase64URL(result);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      };
+    const handleInput=(e)=>{
+        handleChange(e,formData,setFormData);
+    }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        const apiUrl = 'https://repr-izy-production.up.railway.app/api/v1/Pays';
-        const token ="eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVVElMSVNBVEVVUjAwMDUiLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE3MDYyMjA5MjgsImV4cCI6MTcwNjMwNzMyOH0.HYrURUHxyd1_uh9qY0hKrE53h6IUJHsEn9APCo7FI_w";
-        try {
-            const data = new FormData();
-            data.append('pays', formData.pays);
-            data.append('drapeau',selectedFile);
-            data.append('authorization',token);
-            let config = {
-                method: 'post',
-                maxBodyLength: Infinity,
-                url: apiUrl,
-                headers: {
-            
-                },
-                data: data
-            };
-
-            const response = await axios.request(config);
-
-            if (response.data.error) {
-                console.error('Erreur lors de la requête:', response.data);
-                setMessage(response.data.error);
-                showError();
-            } else {
-                console.log('Insertion réussie:', response.data);
-                showSuccess();
-
-                setFormData({
-                    pays: '',
-                });
-            }
-        } catch (error) {
-            console.error('Erreur lors de l\'envoi des données à railway:', error);
-        }
+        console.log(base64URL);
+        formData.append("drapeau",base64URL);
+        post(formData,setFormData,'http://localhost:8071/api/v1/Pays');
     };
     
     
@@ -83,20 +53,20 @@ function Pays() {
                     <h1>Insertion Nouveau Pays</h1>
                     <form action="" onSubmit={handleSubmit}>
                     <div className="form__group field">
-                        <input name='pays' type="text" className="form__field" onChange={handleChange} placeholder="Name" required="" />
+                        <input name='pays' type="text" className="form__field" onChange={handleInput} placeholder="Name" required="" />
                         <label htmlFor="name" className="form__label">Nom Pays</label>
                     </div>
                     <br />
                     <div className="input-file">
                         <label className="custum-file-upload" htmlFor="file">
-                            {selectedFile ? (
+                            {file ? (
                                 <>
                                     <img
-                                        src={selectedFile}
+                                        src={file}
                                         alt="Selected File"
                                         style={{ maxWidth: '100%', maxHeight: '100%', marginTop: '49px' }}
                                     />
-                                    <input type="file" id="file" onChange={handleFileChange} />
+                                    <input type="file" id="file" onChange={handleFileInputChange} />
                                 </>
                             ) : (
                                 <>
@@ -108,9 +78,9 @@ function Pays() {
                                         </g>
                                     </svg>
                                     <div className="text">
-                                        <span>{selectedFile ? 'Change image' : 'Ajouter image drapeau'}</span>
+                                        <span>{file ? 'Change image' : 'Ajouter image drapeau'}</span>
                                     </div>
-                                    <input name='pays' type="file" id="file" onChange={handleFileChange} />
+                                    <input name='pays' type="file" id="file" onChange={handleFileInputChange} />
                                 </>
                             )}
                         </label>
