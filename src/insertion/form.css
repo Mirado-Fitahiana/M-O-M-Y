@@ -244,6 +244,7 @@
 
 @media only screen and (max-width: 600px) {
   .input-card {
+    height: auto;
     width: 90%;
     /* Réduire la largeur pour les écrans plus petits */
     max-width: none;
