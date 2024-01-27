@@ -62,7 +62,7 @@ function Pays() {
                             {file ? (
                                 <>
                                     <img
-                                        src={file}
+                                        src={URL.createObjectURL(file)}
                                         alt="Selected File"
                                         style={{ maxWidth: '100%', maxHeight: '100%', marginTop: '49px' }}
                                     />
@@ -84,7 +84,6 @@ function Pays() {
                                 </>
                             )}
                         </label>
-
                     </div>
                     <button className="button" type='submit'>
                         <span className="box">
