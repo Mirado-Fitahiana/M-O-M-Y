@@ -4,14 +4,18 @@ import { Toast } from 'primereact/toast';
 import 'primeflex/primeflex.css';
 import "primereact/resources/themes/lara-light-indigo/theme.css";
 import "primereact/resources/primereact.min.css";
-import { useState, useRef } from 'react';
+import { useState, useRef ,useEffect} from 'react';
+import { get, handleChange, post } from '../axios_utils';
 function Energie() {
     const [message, setMessage] = useState("");
     const toast = useRef(null);
-
-    const [formData, setFormData] = useState({
-        energie: '',
-    });
+    const [formData,setFormData]=useState(new FormData());
+    const [data,setData]=useState([]);
+    useEffect(() => {
+        setTimeout(() => {
+            setData(get('https://repr-izy-production.up.railway.app/api/v1/Energies'));
+        }, 1000); 
+    }, []);
 
     const showSuccess = () => {
         toast.current.show({ severity: 'success', summary: 'Insertion réussie', detail: message, life: 3000 });
@@ -21,75 +25,40 @@ function Energie() {
         toast.current.show({ severity: 'error', summary: 'Insertion échouée', detail: message, life: 3000 });
     };
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({
-            ...formData,
-            [name]: value,
-        });
-        console.log(formData.energie);
-    };
+    const handleInput=(e)=>{
+        handleChange(e,formData,setFormData);
+    }
 
-    const handleSubmit = async (e) => {
+    const handleSubmit=(e) =>{
         e.preventDefault();
-
-        const apiUrl = 'https://repr-izy-production.up.railway.app/api/v1/Energies';
-        const token = localStorage.getItem('token');
-        try {
-            const data = new FormData();
-            data.append('energie', formData.energie);
-            data.append('authorization', token);
-            let config = {
-                method: 'post',
-                maxBodyLength: Infinity,
-                url: apiUrl,
-                headers: {
-
-                },
-                data: data
-            };
-
-            const response = await axios.request(config);
-
-            if (response.data.error) {
-                console.error('Erreur lors de la requête:', response.data);
-                setMessage(response.data.error);
-                showError();
-            } else {
-                console.log('Insertion réussie:', response.data);
-                showSuccess();
-
-                setFormData({
-                    energie: '',
-                });
-            }
-        } catch (error) {
-            console.error('Erreur lors de l\'envoi des données à railway:', error);
+        const response= post(formData,setFormData,'https://repr-izy-production.up.railway.app/api/v1/Energies');
+        if (response.error) {
+            setMessage(response.error);
+            showError();
+          
+        }else{
+            
+            showSuccess();
+           
         }
     };
     return (
-    <main className='main-container'>
+        <main className='main-container'>
         <div className="second-container">
             <div className="input-card">
-                    <form onSubmit={handleSubmit}>
-                        <h1>Insertion Energie</h1> 
-                        <div className="form__group field">
-                            <input type="text"
-                                name='energie'
-                                value={formData.energie}
-                                className="form__field"
-                                placeholder="energies"
-                                onChange={handleChange}
-                                required />
-                    <label htmlFor="name" className="form__label">Nom </label>
-                </div>
-                <button className="button">
-                    <span className="box">
-                        Enregistrer
-                    </span>
-                </button>
+            <h1>Insertion Energie</h1>
+                <form onSubmit={handleSubmit} action="">
+                    <div className="form__group field">
+                        <input onChange={handleInput} name='energie' type="input" className="form__field" placeholder="Name" required="" />
+                        <label htmlFor="name" className="form__label">Energie</label>
+                    </div>
+                    <button type='submit' className="button">
+                        <span className="box">
+                            Enregistrer
+                        </span>
+                    </button>
                 </form>
-                    <Toast ref={toast} />
+                <Toast ref={toast} />
             </div>
         </div>
     </main>

@@ -6,8 +6,8 @@ import 'primeflex/primeflex.css';
 import "primereact/resources/themes/lara-light-indigo/theme.css";
 import "primereact/resources/primereact.min.css";
 import  '../axios_utils';
-import { Toast } from 'primereact/toast';
 import { get, handleChange, post } from '../axios_utils';
+import { Toast } from 'primereact/toast';
 function Categorie() {
     // const [sideBarOpen,setSideBarOpen] = useState(false);
     const [customers, setCustomers] = useState([]);
@@ -19,84 +19,62 @@ function Categorie() {
     const showSuccess = () => {
         toast.current.show({ severity: 'success', summary: 'Insertion réussie', detail: message, life: 3000 });
     };
-
+    
     const showError = () => {
         toast.current.show({ severity: 'error', summary: 'Insertion échouée', detail: message, life: 3000 });
     };
 
-    const dummyData = [
-        { id: 1, date: '02-05-2023', utilisateur: 'Jean', marque: 'mercedes', etat: 'En attente' },
-        { id: 2, date: '02-06-2023', utilisateur: 'Mirado', marque: 'audi', etat: 'Valider' },
-        { id: 3, date: '02-07-2023', utilisateur: 'Feno', marque: 'toyota', etat: 'En attente' },
-        { id: 4, date: '02-08-2023', utilisateur: 'Rado', marque: 'bmw', etat: 'Valider' },
-        { id: 5, date: '02-09-2023', utilisateur: 'Sandra', marque: 'volkswagen', etat: 'En attente' },
-        { id: 6, date: '02-10-2023', utilisateur: 'Tiana', marque: 'mercedes', etat: 'Valider' },
-        { id: 7, date: '02-11-2023', utilisateur: 'Rija', marque: 'audi', etat: 'En attente' },
-        { id: 8, date: '02-12-2023', utilisateur: 'Lanto', marque: 'bmw', etat: 'Valider' },
-        { id: 9, date: '02-01-2023', utilisateur: 'Tina', marque: 'toyota', etat: 'En attente' },
-        { id: 10, date: '02-01-2023', utilisateur: 'Rakoto', marque: 'volkswagen', etat: 'Valider' },
-        { id: 11, date: '02-01-2023', utilisateur: 'Lova', marque: 'mercedes', etat: 'En attente' },
-        { id: 12, date: '02-01-2023', utilisateur: 'Mamisoa', marque: 'audi', etat: 'Valider' },
-        { id: 13, date: '02-01-2023', utilisateur: 'Haja', marque: 'bmw', etat: 'En attente' },
-        { id: 14, date: '02-01-2023', utilisateur: 'Nirina', marque: 'toyota', etat: 'Valider' },
-        { id: 15, date: '02-01-2023', utilisateur: 'Mialy', marque: 'volkswagen', etat: 'En attente' },
-        { id: 16, date: '02-01-2023', utilisateur: 'Tahina', marque: 'mercedes', etat: 'Valider' },
-        { id: 17, date: '02-01-2023', utilisateur: 'Rasoa', marque: 'audi', etat: 'En attente' },
-        { id: 18, date: '02-01-2023', utilisateur: 'Fidisoa', marque: 'bmw', etat: 'Valider' },
-        { id: 19, date: '02-01-2022', utilisateur: 'Mandresy', marque: 'toyota', etat: 'En attente' },
-        { id: 20, date: '02-01-2025', utilisateur: 'Mamy', marque: 'volkswagen', etat: 'Valider' },
-    ];
-
+    
 
     useEffect(() => {
         setLoading(true);
         setTimeout(() => {
-            setCustomers(dummyData);
-            setData(get('http://repr-izy-production.up.railway.app/api/v1/Categories'));
+            setData(get('https://repr-izy-production.up.railway.app/api/v1/Categories')
+            .then(response => {
+                // Assuming the data is in response.data.data
+                setData(response.data.data);
+                console.log(response.data.data); // Access the data here
+                setLoading(false);
+              })
+              .catch(error => {
+                console.error('Error fetching data:', error);
+                setLoading(false);
+              })
+            );
+            // setCustomers(data);
             setLoading(false);
+            
         }, 1000); 
+        // console.log(data);
     }, []);
-
-    const formatDate = (value) => {
-        const formattedDate = value.split('-').reverse().join('-');
-        const dateObject = new Date(formattedDate);
-        return dateObject.toLocaleDateString('en-US', {
-            day: '2-digit',
-            month: '2-digit',
-            year: 'numeric'
-        });
-    };
-
-    const dateBodyTemplate = (rowData) => {
-        return formatDate(rowData.date);
-    };
-    const countryBodyTemplate = (rowData) => {
-        return rowData.utilisateur;
-    };
-
+    
+    
+    
     const representativeBodyTemplate = (rowData) => {
-        return rowData.marque;
+        return rowData.nom;
     };
 
-    const statusBodyTemplate = (rowData) => {
-        return rowData.etat;
-    };
+    
 
-    // localStorage.setItem('token','eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVVElMSVNBVEVVUjAwMDUiLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE3MDYyNTQ0NDYsImV4cCI6MTcwNjM0MDg0Nn0.sXjb3-erDqg7W98MfRiM8XHR19SEtvc2prTbWGQ4daM');
+    localStorage.setItem('token','eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVVElMSVNBVEVVUjAwMDUiLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE3MDYyNTQ0NDYsImV4cCI6MTcwNjM0MDg0Nn0.sXjb3-erDqg7W98MfRiM8XHR19SEtvc2prTbWGQ4daM');
 
     const handleInput=(e)=>{
         handleChange(e,formData,setFormData);
+        console.log(formData.values);
     }
     
 
     const handleSubmit=(e) =>{
         e.preventDefault();
         const response = post(formData,setFormData,'https://repr-izy-production.up.railway.app/api/v1/Categories');
-        if (response.data.error) {
-            setMessage(response.data.error);
+        if (response.error) {
+            setMessage(response.error);
             showError();
+          
         }else{
+            
             showSuccess();
+           
         }
     }
    
@@ -121,18 +99,15 @@ function Categorie() {
                 </div>
                 <div className="input-card">
                     <h4 className="annonce-title" style={{}}>Liste des annonces</h4>
-                    <DataTable className="custom-datatable" value={customers}
+                    <DataTable className="custom-datatable" value={data[0]}
                         size="small"
                         paginator rows={10}
                         dataKey="id"
                         loading={loading}
-                        tableStyle={{ minWidth: '60rem', width: '400px', alignItems: 'center', marginLeft: 'auto', marginRight: 'auto' }}
-                        globalFilterFields={['date', 'utilisateur', 'marque', 'etat']}
-                        emptyMessage="No customers found.">
-                        <Column className='column' field="date" header="Date" dataType="date" body={dateBodyTemplate} style={{ minWidth: '12rem' }} sortable/>
-                        <Column className='column' field="utilisateur" header="Utilisateur" body={countryBodyTemplate} style={{ minWidth: '12rem' }} filter filterPlaceholder="recherche par utilisateur" />
-                        <Column className='column' field="marque" header="Marque" style={{ minWidth: '14rem' }} body={representativeBodyTemplate} filter filterPlaceholder="recherche par style marque" />
-                        <Column className='column' field="etat" header="Etat" style={{ minWidth: '12rem' }} body={statusBodyTemplate} sortable/>
+                        tableStyle={{ minWidth: '60rem', width: '200px', alignItems: 'center', marginLeft: 'auto', marginRight: 'auto' }}
+                        globalFilterFields={['nom']}
+                        emptyMessage="Tsisy lty a tsisy.">
+                        <Column className='column' field="nom" header="Nom" style={{ minWidth: '14rem' }} body={representativeBodyTemplate} filter filterPlaceholder="recherche par style nom" />
                     </DataTable>
                 </div>
             </div>
