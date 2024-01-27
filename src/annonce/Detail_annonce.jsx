@@ -1,11 +1,30 @@
-import React from 'react'
+import { useState, useEffect } from 'react';
 import { Slide } from 'react-slideshow-image'
 import { Fade } from 'react-slideshow-image'
 import 'react-slideshow-image/dist/styles.css'
 import './details.css'
 import { Image } from 'primereact/image';
-
+import { get} from '../axios_utils';
+import { useParams } from 'react-router-dom';
 function Detail_annonce() {
+    const [donnee,setData]=useState([]);
+    const [temp,setTemp]=useState([]);
+    const {id_annonce} = useParams();
+    useEffect(() => {
+        setTimeout(() => {
+            setTemp(get('https://repr-izy-production.up.railway.app/api/v1/Annonces/'+id_annonce)
+                .then(response => {
+                    setData(response.data.data);
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                }));
+                
+        }, 1000);
+        console.log("DONNE"+donnee[0].prix);
+    }, []);
+
+
     const images = [
         "fiara.jpg",
         "fiara2.jpg",
@@ -22,7 +41,7 @@ function Detail_annonce() {
                                 <span className='desc'>SUV de luxe</span>
                             </div>
                         </div>
-                        <div className="price"><h2>90000000Ar</h2></div>
+                        <div className="price"><h2>{}</h2></div>
                     </div>
                     <div className="bottom">
                         <div className="slider">
