@@ -18,7 +18,7 @@ function Nouveau_type() {
     const [tableLoading, setTableLoading] = useState(true);
     const [loader, setLoader] = useState(false);
     const toast = useRef(null);
-    localStorage.setItem('token', 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVVElMSVNBVEVVUjAwMDUiLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE3MDYzNDczNjEsImV4cCI6MTcwNjQzMzc2MX0.8p8JZEFQFgPAs244qmBeV0Ro-rFyzuoc8amFMT2ChCk');
+    // localStorage.setItem('token', 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVVElMSVNBVEVVUjAwMDUiLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE3MDYzNDczNjEsImV4cCI6MTcwNjQzMzc2MX0.8p8JZEFQFgPAs244qmBeV0Ro-rFyzuoc8amFMT2ChCk');
 
     useEffect(() => {
         const fetchData = async () => {

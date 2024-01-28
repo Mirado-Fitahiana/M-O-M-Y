@@ -288,6 +288,25 @@ body{
   border-radius: 51px;
 }
 
+.deconnexion{
+  transition: 0.2s;
+  border-radius: 13px;
+    width: 140px;
+    height: 34px;
+    background-color: #d4ded9;
+    cursor: pointer;
+}
+.deconnexion:hover{
+  transition: 0.2s;
+  border-color: white;
+  border: 3px solid;
+  border-radius: 13px;
+  width: 140px;
+  height: 34px;
+  color: #c4c5ba;
+  background-color: #131312;
+}
+
 
 /* Medium <= 992px */
   

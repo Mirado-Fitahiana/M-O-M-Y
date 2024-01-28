@@ -1,7 +1,7 @@
-import { useState } from 'react'
+import { useEffect } from 'react'
 
 import Play from './container/Play';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import Categories from './insertion/Categorie';
 import Login from './login/Login';
 import Home from './container/Home';
@@ -20,7 +20,15 @@ import Detail_Client from './client/Detail_Client';
 import Vente from './vente/Vente';
 import Parametre from './parametre/Parametre';
 function App() {
-
+  const navigate = useNavigate();
+  useEffect(() =>{
+    const token = localStorage.getItem('token');
+    if (!token) {
+      navigate("/");
+    }else{
+      navigate("/Acceuil")
+    }
+  },[]);
   return (
     <>
     <Routes>
