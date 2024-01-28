@@ -18,7 +18,6 @@ function Parametre() {
                         <input type="input" className="form__field" placeholder="% de la commision" required="" />
                         <label htmlFor="name" className="form__label">% de la commision</label>
                     </div>
-
                     <button className="button">
                         <span className="box">
                             Enregistrer
