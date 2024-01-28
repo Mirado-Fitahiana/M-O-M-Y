@@ -14,7 +14,7 @@ function Energie() {
     const [loading, setLoading] = useState(true);
     useEffect(() => {
         setTimeout(() => {
-            loading(true);
+            loading(false);
             setData(get('https://repr-izy-production.up.railway.app/api/v1/Energies')
                 .then(response => {
                     setData(response.data.data);

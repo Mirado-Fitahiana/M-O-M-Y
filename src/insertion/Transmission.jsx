@@ -2,6 +2,7 @@ import './form.css';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { Toast } from 'primereact/toast';
+import Loader from '../loader/Loader';
 import 'primeflex/primeflex.css';
 import "primereact/resources/themes/lara-light-indigo/theme.css";
 import "primereact/resources/primereact.min.css";
@@ -13,6 +14,7 @@ function Transmission() {
     const [formData,setFormData]=useState(new FormData());
     const [data,setData]=useState([]);
     const [loading, setLoading] = useState(true);
+    const [loader,setLoader] = useState(false);
 
     useEffect(() => {
         setTimeout(() => {
@@ -47,16 +49,19 @@ function Transmission() {
     }
     const handleSubmit=(e) =>{
         e.preventDefault();
-        const response= post(formData,setFormData,'https://repr-izy-production.up.railway.app/api/v1/Transmissions');
+        setLoader(true)
+        const response =  post(formData,setFormData,'https://repr-izy-production.up.railway.app/api/v1/Transmissions');
         if (response.error) {
+            setLoader(false)
             setMessage(response.data.error);
             showError();
-          
         }else{
-            
+            setLoader(false)
             showSuccess();
-           
         }
+        setFormData('');
+        const maj = get('https://repr-izy-production.up.railway.app/api/v1/Transmissions');
+        setData(maj.data.data);
     };
    
     return (
@@ -70,6 +75,7 @@ function Transmission() {
                     <input onChange={handleInput} name='transmission' type="input" className="form__field" placeholder="Name" required="" />
                     <label htmlFor="name" className="form__label">N. Transmission</label>
                 </div>
+                {loader && <Loader/>}
                 <button type='submit' className="button">
                     <span className="box">
                         Enregistrer
@@ -85,7 +91,7 @@ function Transmission() {
                         paginator rows={10}
                         dataKey="id"
                         loading={loading}
-                        tableStyle={{ minWidth: '60rem', width: '200px', alignItems: 'center', marginLeft: 'auto', marginRight: 'auto' }}
+                        tableStyle={{ minWidth: '30rem', width: '200px', alignItems: 'center', marginLeft: 'auto', marginRight: 'auto' }}
                         globalFilterFields={['nom']}
                         emptyMessage="Pas de donnees">
                         <Column className='column' field="nom" header="Nom" style={{ minWidth: '14rem' }} body={representativeBodyTemplate} filter filterPlaceholder="recherche par style nom" />

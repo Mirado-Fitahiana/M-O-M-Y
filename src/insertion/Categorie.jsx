@@ -2,6 +2,7 @@
 import React, { useState, useEffect ,useRef } from 'react';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
+import Loader from '../loader/Loader';
 import 'primeflex/primeflex.css';
 import "primereact/resources/themes/lara-light-indigo/theme.css";
 import "primereact/resources/primereact.min.css";
@@ -14,6 +15,7 @@ function Categorie() {
     const [loading, setLoading] = useState(true);
     const [formData,setFormData]=useState(new FormData());
     const [message,setMessage] = useState("");
+    const [loader,setLoader] = useState(false);
     const toast = useRef(null);
     const showSuccess = () => {
         toast.current.show({ severity: 'success', summary: 'Insertion réussie', detail: message, life: 3000 });
@@ -66,16 +68,19 @@ function Categorie() {
 
     const handleSubmit=(e) =>{
         e.preventDefault();
-        const response = post(formData,setFormData,'https://repr-izy-production.up.railway.app/api/v1/Categories');
+        setLoader(true);
+        const response =  post(formData,setFormData,'https://repr-izy-production.up.railway.app/api/v1/Categories');
         if (response.error) {
+            setLoader(false)
             setMessage(response.data.error);
             showError();
           
         }else{
-            
+            setLoader(false)
             showSuccess();
-           
         }
+        const typeResponse = get('https://repr-izy-production.up.railway.app/api/v1/Categories');
+        setData(typeResponse.data.data);
     }
    
     return (
@@ -88,7 +93,7 @@ function Categorie() {
                             <input onChange={handleInput} name='categorie' type="input" className="form__field" placeholder="Name" required="" />
                             <label htmlFor="name" className="form__label">Nom Categorie</label>
                         </div>
-
+                        {loader && <Loader/>}
                         <button type='submit' className="button">
                             <span className="box">
                                 Enregistrer

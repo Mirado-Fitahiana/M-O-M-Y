@@ -10,6 +10,7 @@ export function handleChange(e,formData,setFormData) {
 }
 
 export async function  post(formData,setFormData,url) {
+    console.log("Posting....");
     const token ='Bearer '+localStorage.getItem('token');
         try {
             let config = {
@@ -17,6 +18,7 @@ export async function  post(formData,setFormData,url) {
                 maxBodyLength: Infinity,
                 url: url,
                 headers: {
+                    'content-type':'multipart/form-data',
                     'authorization':token
                 },
                 data: formData
@@ -37,6 +39,7 @@ export async function get(url) {
                 maxBodyLength: Infinity,
                 url: url,
                 headers: {
+                    'content-type':'multipart/form-data',
                     'Authorization':token
                 },
             };
