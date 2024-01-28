@@ -17,7 +17,7 @@ function Marque() {
     const [isLoading, setIsLoading] = useState(true);
     const [tableLoading, setTableLoading] = useState(true);
     const toast = useRef(null);
-    const [message, setMessage] = useState("");
+    const [message, seMessage] = useState("");
     const [loader,setLoader] = useState(false);
 
     // localStorage.setItem('token', 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVVElMSVNBVEVVUjAwMDUiLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE3MDYzNDczNjEsImV4cCI6MTcwNjQzMzc2MX0.8p8JZEFQFgPAs244qmBeV0Ro-rFyzuoc8amFMT2ChCk');
