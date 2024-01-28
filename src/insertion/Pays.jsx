@@ -42,7 +42,20 @@ function Pays() {
         e.preventDefault();
         console.log(base64URL);
         formData.append("drapeau",base64URL);
+<<<<<<< Updated upstream
         post(formData,setFormData,'http://localhost:8071/api/v1/Pays');
+=======
+        const response = post(formData,setFormData,'http://localhost:8071/api/v1/Pays');
+        if (response.error) {
+            setLoader(false)
+            setMessage(response.error)
+            showError()
+        }else{
+            setLoader(false)
+            setMessage(response.data.data[0].nom)
+            showSuccess()
+        }
+>>>>>>> Stashed changes
     };
     
     

@@ -4,8 +4,35 @@ import { Fade } from 'react-slideshow-image'
 import 'react-slideshow-image/dist/styles.css'
 import './details.css'
 import { Image } from 'primereact/image';
+<<<<<<< Updated upstream
 
 function Detail_annonce() {
+=======
+import { get } from '../axios_utils';
+import { useParams } from 'react-router-dom';
+import { DotLoader } from 'react-spinners';
+function Detail_annonce() {
+    const [donnee, setData] = useState([]);
+    const [temp, setTemp] = useState([]);
+    const { id_annonce } = useParams();
+    const [isLoading, setIsLoading] = useState(true);
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const [detail] = await Promise.all([
+                    get('https://repr-izy-production.up.railway.app/api/v1/Annonces/' + id_annonce),
+                ]);
+                setData(detail.data.data[0]);
+                setIsLoading(false);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                setIsLoading(false);
+            }
+        };
+
+        fetchData();
+    }, []);
+>>>>>>> Stashed changes
     const images = [
         "fiara.jpg",
         "fiara2.jpg",
@@ -14,14 +41,18 @@ function Detail_annonce() {
     return (
         <main className='main-container'>
             <div className="second-container">
-                <div className="input-card car_card">
-                    <div className="prop">
-                        <div className="name">
-                            <h2>Porsche Cayenne</h2>
-                            <div className="caract">
-                                <span className='desc'>SUV de luxe</span>
+                {isLoading ? <DotLoader color="#36d7b7" /> :
+                    <div className="input-card car_card">
+                        <div className="prop">
+                            <div className="name">
+                                <h2>{donnee.libelle}</h2>
+                                <div className="caract">
+                                    <span className='desc'>{donnee.type && donnee.cat ? donnee.type.nom+" "+donnee.cat.nom : "Inconnu"}</span>
+                                </div>
                             </div>
+                            <div className="price"><h2>{donnee.prix}Ar</h2></div>
                         </div>
+<<<<<<< Updated upstream
                         <div className="price"><h2>90000000Ar</h2></div>
                     </div>
                     <div className="bottom">
@@ -31,57 +62,52 @@ function Detail_annonce() {
                                     <div>
                                         <Image className='sary' src={images[0]} alt="Image" preview height='100%' width="100%"></Image>
                                     </div>
+=======
+                        <div className="bottom">
+                            <div className="slider">
+                                <Fade>
+                                    {donnee.images.map((image, index) => (
+                                        <div className="each-slide" key={index}>
+                                            <div>
+                                                <Image className='sary' src={image} alt={`Image ${index + 1}`} preview height='200px' width="200px" />
+                                            </div>
+                                        </div>
+                                    ))}
+                                </Fade>
+                                <div className="infouser">
+                                    <p className='dateenvoi'><strong><i>{donnee.date?donnee.date:"Inconnu"}</i></strong></p>
+                                    <p className='descri'>{donnee.description}</p>
+                                    <p className="author">
+                                        <strong>{donnee.user.prenom+" "+donnee.user.nom}</strong>
+                                    </p>
+>>>>>>> Stashed changes
                                 </div>
-                                <div className="each-slide">
-                                    <div>
-                                        <Image className='sary' src={images[1]} alt="Image" preview height='100%' width="100%"></Image>
-                                    </div>
+                            </div>
+                            <div className="third-container">
+                                <div className="carte ambony">
+                                    <span className="titre"><p className='key'>Marque</p><p className='value'>{donnee.marque?donnee.marque.nom:"Inconnu"}</p></span>
+                                    <span className="titre"><p className='key'>Gamme</p><p className='value'>{donnee.modele?donnee.modele.nom:"Inconnu"}</p></span>
+                                    <span className="titre"><p className='key'>Type</p><p className='value'>{donnee.type?donnee.type.nom:"Inconnu"}</p></span>
                                 </div>
-                                <div className="each-slide">
-                                    <div>
-                                        <Image className='sary' src={images[0]} alt="Image" preview height='100%' width="100%"></Image>
-                                    </div>
+                                <div className="carte ambany">
+                                    <span className="titre"><p className='key'>Place</p><p className='value'>{donnee.place>0?donnee.place:"Inconnu"}</p></span>
+                                    <span className="titre"><p className='key'>Annee</p><p className='value'>{donnee.annee>1900?donnee.annee:"Inconnu"}</p></span>
+                                    <span className="titre"><p className='key'>Kilometrique</p><p className='value'>{donnee.kilometrique}km</p></span>
+                                    <span className="titre"><p className='key'>Transmission</p><p className='value'>{donnee.transmission?donnee.transmission.nom:"Inconnu"}</p></span>
+                                    <span className="titre"><p className='key'>Energie</p><p className='value'>{donnee.energie?donnee.energie.nom:"Inconnu"}</p></span>
+                                    <span className="titre"><p className='key'>Cylindree</p><p className='value'>{donnee.cylindre>0?donnee.cylindre:"Inconnu"}</p></span>
+                                    <span className="titre"><p className='key'>Puissance</p><p className='value'>{donnee.puissance>0?donnee.puissance+"ch":"Inconnu"}</p></span>
+                                    <span className="titre"><p className='key'>Nbr Cylindre</p><p className='value'>{donnee.nbrCylindre>0?donnee.nbrCylindre:"Inconnu"}</p></span>
+                                    <span className="titre"><p className='key'>Motricite</p><p className='value'>{donnee.moticite>0?donnee.moticite+"roues":"Inconnu"}</p></span>
                                 </div>
-                            </Fade>
-                            <div className="infouser">
-                                <p className='dateenvoi'><strong><i>22/10/2023</i></strong></p>
-                                <p className='descri'>Lorem ipsum, dolor sit amet consectetur adipisicing elit. 
-                                    Ipsa culpa corporis ex repudiandae soluta aperiam architecto! 
-                                    Soluta quas officiis ipsa labore ex consectetur? Quas eveniet, ipsa,
-                                    velit laborum repellat ex accusamus non alias accusantium soluta, 
-                                    doloremque animi maxime. Culpa dignissimos iusto, libero, dolores exercitationem totam quo, 
-                                    maxime quidem quasi iure quas porro accusantium quaerat ipsa. Architecto repellendus,
-                                    rerum velit blanditiis aperiam cumque perspiciatis quis repellat voluptate culpa beatae quam doloremque.
-                                </p>
-                                <p className="author">
-                                    <strong>Yohan Rabe</strong>
-                                </p>
-                            </div>
-                        </div>
-                        <div className="third-container">
-                            <div className="carte ambony">
-                                <span className="titre"><p className='key'>Marque</p><p className='value'>Porsche</p></span>
-                                <span className="titre"><p className='key'>Gamme</p><p className='value'>Cayenne</p></span>
-                                <span className="titre"><p className='key'>Type</p><p className='value'>SUV de luxe</p></span>
-                            </div>
-                            <div className="carte ambany">
-                                <span className="titre"><p className='key'>Place</p><p className='value'>5</p></span>
-                                <span className="titre"><p className='key'>Annee</p><p className='value'>2018</p></span>
-                                <span className="titre"><p className='key'>Kilometrique</p><p className='value'>360km</p></span>
-                                <span className="titre"><p className='key'>Transmission</p><p className='value'>Manuelle</p></span>
-                                <span className="titre"><p className='key'>Energie</p><p className='value'>Essence</p></span>
-                                <span className="titre"><p className='key'>Cylindree</p><p className='value'>2000</p></span>
-                                <span className="titre"><p className='key'>Puissance</p><p className='value'>220ch</p></span>
-                                <span className="titre"><p className='key'>Nbr Cylindre</p><p className='value'>12</p></span>
-                                <span className="titre"><p className='key'>Motricite</p><p className='value'>4 roues</p></span>
-                            </div>
-                            <div className="carte action">
-                                <button className='suppr' type='button'>X</button>
-                                <button className='valider' type='button'>Valider</button>
+                                <div className="carte action">
+                                    <button className='suppr' type='button'>X</button>
+                                    <button className='valider' type='button'>Valider</button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                }
             </div>
         </main>
     )

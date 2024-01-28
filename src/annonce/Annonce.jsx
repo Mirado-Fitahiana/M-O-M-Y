@@ -18,8 +18,8 @@ const Annonce = () => {
         setTimeout(() => {
             setData(get('https://repr-izy-production.up.railway.app/api/v1/Annonces')
             .then(response => {
+                console.log(response); 
                 setData(response.data.data);
-                console.log(response.data.data); 
                 setLoading(false);
               })
               .catch(error => {
@@ -40,30 +40,8 @@ const Annonce = () => {
     //     });
     // };
 
-    const dateBodyTemplate = (rowData) => {
-        return rowData.date;
-    };
-    const countryBodyTemplate = (rowData) => {
-        return rowData.user.prenom;
-    };
-
-    const representativeBodyTemplate = (rowData) => {
-        if(rowData.marque == null){
-            rowData.marque = "non definie"
-        }
-        return rowData.marque;
-    };
-
-    const statusBodyTemplate = (rowData) => {
-        if(rowData.etat == null){
-            rowData.etat = "non definie"
-        }
-        return rowData.etat;
-    };
-
     const detailTemplate = (rowData) => {
         return (
-            // <Link to={`/details/${rowData.id}`}>
             <Link className='detail' to={`/Detail_annonce/${rowData.id}`}>
               {rowData.verified ='Voir detail' }
             </Link>
@@ -73,7 +51,7 @@ const Annonce = () => {
         <main className='main-container'>
             <div className="second-container">
                 <div className="input-card">
-                    <h4 className="annonce-title" style={{}}>Liste des annonces</h4>
+                    <h4 className="annonce-title" >Liste des annonces</h4>
                     <DataTable className="custom-datatable" value={data[0]}
                         size="small"
                         paginator rows={10}
@@ -82,10 +60,9 @@ const Annonce = () => {
                         tableStyle={{ minWidth: '60rem', width: '400px', alignItems: 'center', marginLeft: 'auto', marginRight: 'auto' }}
                         globalFilterFields={['date', 'utilisateur', 'marque', 'etat']}
                         emptyMessage="No customers found.">
-                        <Column className='column' field="date" header="Date" dataType="date" body={dateBodyTemplate} style={{ minWidth: '12rem' }} sortable/>
-                        <Column className='column' field="utilisateur" header="Utilisateur" body={countryBodyTemplate} style={{ minWidth: '12rem' }} filter filterPlaceholder="recherche par utilisateur" />
-                        <Column className='column' field="marque" header="Marque" style={{ minWidth: '14rem' }} body={representativeBodyTemplate} filter filterPlaceholder="recherche par style marque" />
-                        <Column className='column' field="etat" header="Etat" style={{ minWidth: '12rem' }} body={statusBodyTemplate} sortable/>
+                        <Column className='column' field="date" header="Date" dataType="date" body={(rowData)=>rowData.date} style={{ minWidth: '12rem' }} sortable/>
+                        <Column className='column' field="utilisateur" header="Utilisateur" body={(rowData)=>rowData.user.nom+" "+rowData.user.prenom} style={{ minWidth: '12rem' }} filter filterPlaceholder="recherche par utilisateur" />
+                        <Column className='column' field="etat" header="Etat" style={{ minWidth: '12rem' }} body={(rowData)=>rowData.etatVehicule.nom} sortable/>
                         <Column className='column detail-button' field="detail" header="" dataType="boolean" style={{ minWidth: '6rem' }} body={detailTemplate}/>
                     </DataTable>
                 </div>
