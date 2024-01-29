@@ -5,16 +5,21 @@ import 'primeflex/primeflex.css';
 import "primereact/resources/themes/lara-light-indigo/theme.css";
 import "primereact/resources/primereact.min.css";
 import { useState, useRef, useEffect } from 'react';
-import { get, handleChange, post } from '../axios_utils';
+import { get, handleChange, post , update, Delete} from '../axios_utils';
+import { FaRegEdit } from "react-icons/fa";
+import { FaDeleteLeft } from "react-icons/fa6";
+import UpdateModal from '../component/UpdateModal';
 function Energie() {
     const [message, setMessage] = useState("");
     const toast = useRef(null);
     const [formData, setFormData] = useState(new FormData());
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [modalOpen, setModalOpen] = useState(false);
+    const [selectedRowData, setSelectedRowData] = useState({});
     useEffect(() => {
         setTimeout(() => {
-            loading(false);
+            //loading(false);
             setData(get('https://repr-izy-production.up.railway.app/api/v1/Energies')
                 .then(response => {
                     setData(response.data.data);
@@ -23,10 +28,58 @@ function Energie() {
                 })
                 .catch(error => {
                     console.error('Error fetching data:', error);
-                    setLoading(false);
+                    //setLoading(false);
                 }));
         }, 1000);
     }, []);
+
+
+
+    const handleSubmit2 = (e) => {
+        e.preventDefault();
+        // setLoader(true);
+        const response = update(formData, setFormData, 'https://repr-izy-production.up.railway.app/api/v1/Energies/'+selectedRowData.id);
+        if (response.error) {
+            // setLoader(false)
+            setMessage(response.data.error);
+            showError();
+
+        } else {
+            // setLoader(false)
+            console.log(response.data);
+            showSuccess();
+            setModalOpen(false)
+        }
+        const typeResponse = get('https://repr-izy-production.up.railway.app/api/v1/Categories');
+        // setData(typeResponse.data.data);
+    }
+
+    const updateBodyTemplate = (rowData) => {
+        return (
+            <>
+                <button className="p-button p-button-text" onClick={() => handleUpdate(rowData)} style={{ margin: '20px' }}>
+                    <FaRegEdit style={{ fontSize: '1.5rem', color: 'green' }} />
+                </button >
+                <button className="p-button p-button-danger p-button-text" onClick={() => handleDelete(rowData)}>
+                    <FaDeleteLeft style={{ fontSize: '1.5rem' }} />
+                </button>
+            </>
+        );
+    };
+
+    const handleUpdate = (rowData) => {
+        // Implement your update logic here using rowData.id
+        setSelectedRowData(rowData);
+        setModalOpen(true);
+        console.log("Update clicked for id:", rowData.id);
+    };
+    const handleDelete = (rowData) => {
+        console.log("Delete clicked for id:", rowData.id);
+    };
+
+    const closeModal = () => {
+        setModalOpen(false);
+    };
 
     const showSuccess = () => {
         toast.current.show({ severity: 'success', summary: 'Insertion réussie', detail: message, life: 3000 });
@@ -54,6 +107,7 @@ function Energie() {
             showSuccess();
         }
     };
+
     return (
         <main className='main-container'>
             <div className="second-container">
@@ -83,9 +137,11 @@ function Energie() {
                         globalFilterFields={['nom']}
                         emptyMessage="Data en attente">
                         <Column className='column' field="nom" header="Nom" style={{ minWidth: '14rem' }} body={representativeBodyTemplate} filter filterPlaceholder="recherche par style nom" />
+                        <Column style={{ minWidth: '14rem' }} body={updateBodyTemplate} className='updatedelete' />
                     </DataTable>
                 </div>
             </div>
+            <UpdateModal handleInput={handleInput} handleSubmit={handleSubmit2} isOpen={modalOpen} handleClose={closeModal} rowData={selectedRowData} nomColonne="energie" />
         </main>
     )
 }

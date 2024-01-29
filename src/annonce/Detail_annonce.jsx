@@ -25,14 +25,8 @@ function Detail_annonce() {
                 setIsLoading(false);
             }
         };
-
         fetchData();
     }, []);
-    // const images = [
-    //     "fiara.jpg",
-    //     "fiara2.jpg",
-    //     "fiara.jpg",
-    // ];
     return (
         <main className='main-container'>
             <div className="second-container">

@@ -1,24 +1,27 @@
-import React, { useState, useEffect ,useRef} from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { DotLoader } from 'react-spinners';
 import { Toast } from 'primereact/toast';
-import { post, handleChange, get } from '../axios_utils';
+import { post, handleChange, get, Delete, update } from '../axios_utils';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import 'primeflex/primeflex.css';
 import "primereact/resources/themes/lara-light-indigo/theme.css";
 import "primereact/resources/primereact.min.css";
 import Loader from '../loader/Loader';
+import { FaRegEdit } from "react-icons/fa";
+import { FaDeleteLeft } from "react-icons/fa6";
+import UpdateModal from '../component/UpdateModal';
 
 function Etat_vehicule() {
     const [formData, setFormData] = useState(new FormData());
     const [data, setData] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [tableLoading, setTableLoading] = useState(true);
-    const [message,setMessage] = useState("");
-    const [loader,setLoader] = useState(false);
+    const [message, setMessage] = useState("");
+    const [loader, setLoader] = useState(false);
     const toast = useRef(null);
-    localStorage.setItem('token', 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVVElMSVNBVEVVUjAwMDUiLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE3MDYzNDczNjEsImV4cCI6MTcwNjQzMzc2MX0.8p8JZEFQFgPAs244qmBeV0Ro-rFyzuoc8amFMT2ChCk');
-
+    const [modalOpen, setModalOpen] = useState(false);
+    const [selectedRowData, setSelectedRowData] = useState({});
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -37,6 +40,32 @@ function Etat_vehicule() {
         fetchData();
     }, []);
 
+    const updateBodyTemplate = (rowData) => {
+        return (
+            <>
+                <button className="p-button p-button-text" onClick={() => handleUpdate(rowData)} style={{ margin: '20px' }}>
+                    <FaRegEdit style={{ fontSize: '1.5rem', color: 'green' }} />
+                </button >
+                <button className="p-button p-button-danger p-button-text" onClick={() => handleDelete(rowData)}>
+                    <FaDeleteLeft style={{ fontSize: '1.5rem' }} />
+                </button>
+            </>
+        );
+    };
+
+    const handleUpdate = (rowData) => {
+        // Implement your update logic here using rowData.id
+        setSelectedRowData(rowData);
+        setModalOpen(true);
+        console.log("Update clicked for id:", rowData.id);
+    };
+    const handleDelete = (rowData) => {
+        console.log("Delete clicked for id:", rowData.id);
+    };
+
+    const closeModal = () => {
+        setModalOpen(false);
+    };
     const showSuccess = () => {
         toast.current.show({ severity: 'success', summary: 'Insertion réussie', detail: message, life: 3000 });
     };
@@ -48,6 +77,26 @@ function Etat_vehicule() {
     const handleInput = (e) => {
         handleChange(e, formData, setFormData);
     };
+    
+    const handleSubmit2 = (e) => {
+        e.preventDefault();
+        // setLoader(true);
+        const response = update(formData, setFormData, 'https://repr-izy-production.up.railway.app/api/v1/Etats/'+selectedRowData.id);
+        if (response.error) {
+            // setLoader(false)
+            setMessage(response.data.error);
+            showError();
+
+        } else {
+            // setLoader(false)
+            console.log(response.data);
+            showSuccess();
+            setModalOpen(false)
+        }
+        const typeResponse = get('https://repr-izy-production.up.railway.app/api/v1/Categories');
+        // setData(typeResponse.data.data);
+    }
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -58,7 +107,7 @@ function Etat_vehicule() {
             setMessage(response.data.error)
             showError();
             setLoader(false)
-        }else{
+        } else {
             setMessage(response.data.data[0].nom)
             setLoader(false);
             showSuccess();
@@ -77,7 +126,7 @@ function Etat_vehicule() {
                             <input name="etat" onChange={handleInput} type="input" className="form__field" placeholder="Name" required="" />
                             <label htmlFor="name" className="form__label">Nom Etat</label>
                         </div>
-                        {loader && <Loader/>}
+                        {loader && <Loader />}
                         <button type="submit" className="button">
                             <span className="box">
                                 Enregistrer
@@ -87,19 +136,21 @@ function Etat_vehicule() {
                     <Toast ref={toast} />
                 </div>
                 <div className="input-card">
-          <h4 className="annonce-title" style={{}}>Liste des annonces</h4>
-          <DataTable className="custom-datatable" value={data}
-            size="small"
-            paginator rows={10}
-            dataKey="id"
-            loading={isLoading}
-            tableStyle={{ minWidth: '40rem', width: '200px', alignItems: 'center', marginLeft: 'auto', marginRight: 'auto' }}
-            globalFilterFields={['Etat']}
-            emptyMessage="En attente de donnees">
-            <Column className='column' field="nom" header="Etat" style={{ minWidth: '14rem' }} body={data.nom} filter filterPlaceholder="recherche par style nom" />
-          </DataTable>
-        </div>
+                    <h4 className="annonce-title" style={{}}>Liste des annonces</h4>
+                    <DataTable className="custom-datatable" value={data}
+                        size="small"
+                        paginator rows={10}
+                        dataKey="id"
+                        loading={isLoading}
+                        tableStyle={{ minWidth: '40rem', width: '200px', alignItems: 'center', marginLeft: 'auto', marginRight: 'auto' }}
+                        globalFilterFields={['Etat']}
+                        emptyMessage="En attente de donnees">
+                        <Column className='column' field="nom" header="Etat" style={{ minWidth: '14rem' }} body={data.nom} filter filterPlaceholder="recherche par style nom" />
+                        <Column style={{ minWidth: '14rem' }} body={updateBodyTemplate} className='updatedelete' />
+                    </DataTable>
+                </div>
             </div>
+            <UpdateModal handleInput={handleInput} handleSubmit={handleSubmit2} isOpen={modalOpen} handleClose={closeModal} rowData={selectedRowData}  nomColonne="etat"/>
         </main>
     )
 }

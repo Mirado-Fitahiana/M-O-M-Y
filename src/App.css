@@ -368,3 +368,11 @@ body{
     display: none;
   }
 }
+
+.updatedelete{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-width: 14rem;
+  align-content: space-evenly;
+  justify-items: center;
+}
