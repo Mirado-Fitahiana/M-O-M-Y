@@ -188,7 +188,7 @@ function Nouveau_type() {
                     <Toast ref={toast} />
                 </div>
                 <div className="input-card">
-                    <h4 className="annonce-title" style={{}}>Liste des annonces</h4>
+                    <h4 className="annonce-title" style={{}}>Types de voiture</h4>
                     <DataTable className="custom-datatable" value={data}
                         size="small"
                         paginator rows={10}

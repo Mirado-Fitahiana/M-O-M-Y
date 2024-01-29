@@ -39,25 +39,37 @@ function Marque() {
         toast.current.show({ severity: 'success', summary: 'Modification réussie', detail: message, life: 3000 });
     };
 
-    const handleSubmit2 = (e) => {
+    const handleSubmit2 = async (e) => {
         e.preventDefault();
-        // setLoader(true);
-        const response = update(formData, setFormData, 'https://repr-izy-production.up.railway.app/api/v1/Marques/'+selectedRowData.id);
-        if (response.error) {
-            // setLoader(false)
-            setMessage(response.data.error);
-            showError();
-
-        } else {
-            // setLoader(false)
-            console.log(response.data);
-            showSuccessUpdate();
-            setModalOpen(false)
+        setLoader(true);
+    
+        try {
+            console.log('Before update function');
+            const response = await update(formData, setFormData, 'https://repr-izy-production.up.railway.app/api/v1/Marques/' + selectedRowData.id);
+            console.log('After update function');
+    
+            if (response.error) {
+                setLoader(false);
+                setMessage(response.data.error);
+                showError();
+            } else {
+                console.log(response.data);
+                showSuccessUpdate();
+                setModalOpen(false);
+            }
+    
+            console.log('Before fetching data');
+            const typeResponse = await get('https://repr-izy-production.up.railway.app/api/v1/Marques');
+            console.log('After fetching data');
+            setMarques(typeResponse.data.data);
+        } catch (error) {
+            console.error('Error updating data:', error);
+        } finally {
+            console.log('Finally block');
+            setLoader(false);
         }
-        const typeResponse = get('https://repr-izy-production.up.railway.app/api/v1/Marques');
-        // setData(typeResponse.data.data);
-    }
-
+    };
+    
     const updateBodyTemplate = (rowData) => {
         return (
             <>
@@ -72,16 +84,24 @@ function Marque() {
     };
 
     
-    const handleSubmit3 = (e) => {
+    const handleSubmit3 = async (e) => {
         e.preventDefault();
         console.log("selectedRowData.id azeea" + selectedRowData.id)
-        const response = Delete('https://repr-izy-production.up.railway.app/api/v1/Marques/' + selectedRowData.id);
-        if (response.error) {
-            showErrorDelete()
-        } else { 
-        showSuccessDelete(true)
-        setDeleteModalOpen(false)
+        try {
+            const response =  await Delete('https://repr-izy-production.up.railway.app/api/v1/Marques/' + selectedRowData.id);
+            if (response.error) {
+                showErrorDelete()
+            } else { 
+            showSuccessDelete(true)
+            setDeleteModalOpen(false)
+            }
+        } catch (error) {
+            console.error('Error inserting data:', error);
+        }finally{
+           const mqrque = await get('https://repr-izy-production.up.railway.app/api/v1/Marques');
+           setMarques(marqueResponse.data.data[0]);
         }
+       
     }
     
 

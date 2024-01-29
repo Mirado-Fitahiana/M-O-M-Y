@@ -73,11 +73,14 @@ function Categorie() {
             } else {
                 showSuccessUpdate();
                 setModalOpen(false);
+
             }
         } catch (error) {
             console.error('Error updating data:', error);
         } finally {
             setLoader(false);
+            const typeResponse = await get('https://repr-izy-production.up.railway.app/api/v1/Categories');
+            setData(typeResponse.data.data);
         }
     };
     
@@ -93,6 +96,7 @@ function Categorie() {
             console.error('Error deleting data:', error);
         } finally {
             setLoader(false);
+            
         }
     };
     
