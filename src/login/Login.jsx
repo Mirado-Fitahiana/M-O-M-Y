@@ -85,7 +85,7 @@ function Login() {
                 name="username"
                 value={formData.username}
                 className='input'
-                placeholder="admin"
+                placeholder="blabla"
                 onChange={handleChange}
                 required
               />
@@ -96,7 +96,7 @@ function Login() {
                 name="mdp"
                 value={formData.mdp}
                 className='input'
-                placeholder="admin"
+                placeholder="1234"
                 onChange={handleChange}
                 required
               />
