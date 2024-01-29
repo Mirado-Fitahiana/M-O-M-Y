@@ -35,7 +35,7 @@ function App() {
       <Route path='/Energie' element={<><Play Component={<Energie/>}/></>}/>
       <Route path='/Etat_vehicule' element={<><Play Component={<Etat_vehicule/>}/></>}/>
       <Route path='/Annonce' element={<><Play Component={<Annonce/>}/></>}/>
-      <Route path='/Detail_annonce' element={<><Play Component={<Detail_annonce/>}/></>}/>
+      <Route path='/Detail_annonce/:id_annonce' element={<><Play Component={<Detail_annonce/>}/></>}/>
       <Route path='/Client' element={<><Play Component={<Liste_client/>}/></>}/>
       <Route path='/Detail_client' element={<><Play Component={<Detail_Client/>}/></>}/>
       <Route path='/Vente' element={<><Play Component={<Vente/>}/></>}/>

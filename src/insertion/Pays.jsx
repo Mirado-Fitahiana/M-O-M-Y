@@ -1,14 +1,17 @@
 import './form.css';
 import { useState,useRef } from 'react';
+import { post,handleChange } from '../axios_utils';
+import Loader from '../loader/Loader';
 import { Toast } from 'primereact/toast';
-import axios from 'axios';
-import { post,handleChange,get } from '../axios_utils';
+import 'primeflex/primeflex.css';
+import "primereact/resources/primereact.min.css";
 function Pays() {
     const [message,setMessage] = useState("");
     const toast = useRef(null);
     const [file, setFile] = useState(null);
     const [base64URL, setBase64URL] = useState("");
     const [formData,setFormData]=useState(new FormData());
+    const [loader,setLoader] = useState(false);
     const getBase64 = (file) => {
         return new Promise((resolve) => {
           let baseURL = "";
@@ -40,11 +43,9 @@ function Pays() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoader(true);
         console.log(base64URL);
         formData.append("drapeau",base64URL);
-<<<<<<< Updated upstream
-        post(formData,setFormData,'http://localhost:8071/api/v1/Pays');
-=======
         const response = post(formData,setFormData,'http://localhost:8071/api/v1/Pays');
         if (response.error) {
             setLoader(false)
@@ -55,9 +56,15 @@ function Pays() {
             setMessage(response.data.data[0].nom)
             showSuccess()
         }
->>>>>>> Stashed changes
     };
     
+    const showSuccess = () => {
+        toast.current.show({ severity: 'success', summary: 'Insertion réussie', detail: message, life: 3000 });
+    };
+
+    const showError = () => {
+        toast.current.show({ severity: 'error', summary: 'Insertion échouée', detail: message, life: 3000 });
+    };
     
     return (
         <main className='main-container'>
@@ -98,6 +105,7 @@ function Pays() {
                             )}
                         </label>
                     </div>
+                    {loader && <Loader/>}
                     <button className="button" type='submit'>
                         <span className="box">
                             Enregistrer

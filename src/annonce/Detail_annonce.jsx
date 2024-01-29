@@ -1,14 +1,10 @@
-import React from 'react'
+import { useState, useEffect } from 'react';
 import { Slide } from 'react-slideshow-image'
 import { Fade } from 'react-slideshow-image'
 import 'react-slideshow-image/dist/styles.css'
 import './details.css'
 import { Image } from 'primereact/image';
-<<<<<<< Updated upstream
-
-function Detail_annonce() {
-=======
-import { get } from '../axios_utils';
+import { get, put } from '../axios_utils';
 import { useParams } from 'react-router-dom';
 import { DotLoader } from 'react-spinners';
 function Detail_annonce() {
@@ -32,12 +28,9 @@ function Detail_annonce() {
 
         fetchData();
     }, []);
->>>>>>> Stashed changes
-    const images = [
-        "fiara.jpg",
-        "fiara2.jpg",
-        "fiara.jpg",
-    ];
+    const validate=async () =>{
+        put('https://repr-izy-production.up.railway.app/api/v1/Annonces/validate' + donnee.id);
+    }
     return (
         <main className='main-container'>
             <div className="second-container">
@@ -52,17 +45,6 @@ function Detail_annonce() {
                             </div>
                             <div className="price"><h2>{donnee.prix}Ar</h2></div>
                         </div>
-<<<<<<< Updated upstream
-                        <div className="price"><h2>90000000Ar</h2></div>
-                    </div>
-                    <div className="bottom">
-                        <div className="slider">
-                            <Fade>
-                                <div className="each-slide">
-                                    <div>
-                                        <Image className='sary' src={images[0]} alt="Image" preview height='100%' width="100%"></Image>
-                                    </div>
-=======
                         <div className="bottom">
                             <div className="slider">
                                 <Fade>
@@ -75,12 +57,11 @@ function Detail_annonce() {
                                     ))}
                                 </Fade>
                                 <div className="infouser">
-                                    <p className='dateenvoi'><strong><i>{donnee.date?donnee.date:"Inconnu"}</i></strong></p>
+                                <p className='dateenvoi'><strong><i>{donnee.date ? new Date(donnee.date).toUTCString() : "Inconnu"}</i></strong></p>
                                     <p className='descri'>{donnee.description}</p>
                                     <p className="author">
                                         <strong>{donnee.user.prenom+" "+donnee.user.nom}</strong>
                                     </p>
->>>>>>> Stashed changes
                                 </div>
                             </div>
                             <div className="third-container">
@@ -102,7 +83,10 @@ function Detail_annonce() {
                                 </div>
                                 <div className="carte action">
                                     <button className='suppr' type='button'>X</button>
-                                    <button className='valider' type='button'>Valider</button>
+                                    {donnee.etatAnnonce==0?
+                                        <button className='valider' onClick={validate} type='button'>Valider</button> :
+                                        <button className='valider' type='button' disabled>Valide</button>
+                                    } 
                                 </div>
                             </div>
                         </div>
