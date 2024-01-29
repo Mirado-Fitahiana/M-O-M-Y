@@ -1,21 +1,24 @@
 import { useEffect, useState } from 'react'
 import { get } from '../axios_utils';
-import { BsFillArchiveFill, BsFillGrid3X3GapFill, BsPeopleFill, BsFillBellFill } from 'react-icons/bs'
+import { BsPeopleFill, BsFillBellFill, BsCurrencyDollar, BsSignNoParking, BsSignDoNotEnter } from 'react-icons/bs'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LineChart, Line } from 'recharts';
 import Loader from '../loader/Loader';
 
 function Home() {
   const [data_user, setData_user] = useState([]);
+  const [data_app,setData_app] = useState([]);
   const [inputYear, setInputYear] = useState(2024); 
   const [loader,setLoader] = useState(false);
   useEffect(() => {
     const fetchData = async () => {
       setLoader(true)
       try {
-        const [user_count] = await Promise.all([
+        const [user_count,data_temp] = await Promise.all([
           get(`https://repr-izy-production.up.railway.app/api/v1/stats/user?year=${inputYear}`),
+          get('https://repr-izy-production.up.railway.app/api/v1/stats/dashboard'),
         ]);
         setData_user(user_count.data.data);
+        setData_app(data_temp.data.data);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -25,6 +28,7 @@ function Home() {
   }, [inputYear]); 
 
   const data = data_user[0] || [];
+  const appData = data_app[0] || {};
   console.log(data)
 
   return (
@@ -36,31 +40,31 @@ function Home() {
       <div className='main-cards'>
         <div className='card'>
           <div className='card-inner'>
-            <h3>Produits</h3>
-            <BsFillArchiveFill className='card_icon' />
+            <h3>Chiffre</h3>
+            <BsCurrencyDollar className='card_icon' />
           </div>
-          <h1>300</h1>
+          <h1> {appData.chiffre} AR</h1>
         </div>
         <div className='card'>
           <div className='card-inner'>
-            <h3>Categories</h3>
-            <BsFillGrid3X3GapFill className='card_icon' />
+            <h3>Annonces non valides</h3>
+            <BsSignDoNotEnter className='card_icon' />
           </div>
-          <h1>12</h1>
+          <h1> {appData.nonvalide}</h1>
+        </div>
+        <div className='card'>
+          <div className='card-inner'>
+            <h3>Ventes</h3>
+            <BsPeopleFill className='card_icon' />
+          </div>
+          <h1> {appData.vente}</h1>
         </div>
         <div className='card'>
           <div className='card-inner'>
             <h3>Clients</h3>
-            <BsPeopleFill className='card_icon' />
-          </div>
-          <h1>33</h1>
-        </div>
-        <div className='card'>
-          <div className='card-inner'>
-            <h3>Annonces</h3>
             <BsFillBellFill className='card_icon' />
           </div>
-          <h1>42</h1>
+          <h1> {appData.client}</h1>
         </div>
       </div>
       <div className="input-home">
