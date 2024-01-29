@@ -9,7 +9,6 @@ import { useParams } from 'react-router-dom';
 import { DotLoader } from 'react-spinners';
 function Detail_annonce() {
     const [donnee, setData] = useState([]);
-    const [temp, setTemp] = useState([]);
     const { id_annonce } = useParams();
     const [isLoading, setIsLoading] = useState(true);
     useEffect(() => {
