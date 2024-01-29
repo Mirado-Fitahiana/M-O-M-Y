@@ -46,7 +46,7 @@ function App() {
       <Route path='/Annonce' element={<><Play Component={<Annonce/>}/></>}/>
       <Route path='/Detail_annonce/:id_annonce' element={<><Play Component={<Detail_annonce/>}/></>}/>
       <Route path='/Client' element={<><Play Component={<Liste_client/>}/></>}/>
-      <Route path='/Detail_client' element={<><Play Component={<Detail_Client/>}/></>}/>
+      <Route path='/Detail_client/:id_client' element={<><Play Component={<Detail_Client/>}/></>}/>
       <Route path='/Vente' element={<><Play Component={<Vente/>}/></>}/>
       <Route path='/Parametre' element={<><Play Component={<Parametre/>}/></>}/>
     

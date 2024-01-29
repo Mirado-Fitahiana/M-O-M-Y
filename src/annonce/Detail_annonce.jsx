@@ -1,17 +1,21 @@
-import React ,{useState,useEffect}from 'react'
+import { useState, useEffect, useRef } from 'react';
 import { Slide } from 'react-slideshow-image'
 import { Fade } from 'react-slideshow-image'
 import 'react-slideshow-image/dist/styles.css'
 import './details.css'
 import { Image } from 'primereact/image';
-import { get } from '../axios_utils';
+import { get, put } from '../axios_utils';
 import { useParams } from 'react-router-dom';
 import { DotLoader } from 'react-spinners';
+import BeatLoader from 'react-spinners';
+import { Toast } from 'primereact/toast';
 function Detail_annonce() {
     const [donnee, setData] = useState([]);
-    // const [temp, setTemp] = useState([]);
+    const [temp, setTemp] = useState([]);
     const { id_annonce } = useParams();
     const [isLoading, setIsLoading] = useState(true);
+    const [loader,setLoader] = useState(false);
+    const toast = useRef();
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -28,11 +32,10 @@ function Detail_annonce() {
 
         fetchData();
     }, []);
-    // const images = [
-    //     "fiara.jpg",
-    //     "fiara2.jpg",
-    //     "fiara.jpg",
-    // ];
+    const validate=async () =>{
+        setLoader(true);
+        put('https://repr-izy-production.up.railway.app/api/v1/Annonces/validate/' + donnee.id);
+    }
     return (
         <main className='main-container'>
             <div className="second-container">
@@ -59,7 +62,7 @@ function Detail_annonce() {
                                     ))}
                                 </Fade>
                                 <div className="infouser">
-                                    <p className='dateenvoi'><strong><i>{donnee.date?donnee.date:"Inconnu"}</i></strong></p>
+                                <p className='dateenvoi'><strong><i>{donnee.date ? new Date(donnee.date).toUTCString() : "Inconnu"}</i></strong></p>
                                     <p className='descri'>{donnee.description}</p>
                                     <p className="author">
                                         <strong>{donnee.user.prenom+" "+donnee.user.nom}</strong>
@@ -85,7 +88,7 @@ function Detail_annonce() {
                                 </div>
                                 <div className="carte action">
                                     <button className='suppr' type='button'>X</button>
-                                    <button className='valider' type='button'>Valider</button>
+                                    {donnee.etatAnnonce == 0 ? <button className='valider' onClick={validate} type='button'>Valider</button> : <button className='valider' type='button' disabled>Valide</button> } 
                                 </div>
                             </div>
                         </div>

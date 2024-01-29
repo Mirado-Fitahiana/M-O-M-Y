@@ -35,14 +35,20 @@ function Liste_client() {
     return rowData.nom +" "+rowData.prenom;
   }
   const annonce = (rowData) => {
+    if (rowData.anonnce ==null || rowData.anonnce=="") {
+      rowData.annonce = "non definie"
+    }
     return rowData.anonnce;
   }
   const reussi = (rowData) => {
+    if (rowData.reussi == "") {
+      rowData.reussi = "non definie"
+    }
     return rowData.reussi;
   }
   const detail = (rowData) => {
     return (
-        <Link className='detail' to={'/Detail_Client'}>
+        <Link className='detail' to={'/Detail_Client/'+rowData.id}>
           {rowData.verified ='Voir detail' }
         </Link>
       );
