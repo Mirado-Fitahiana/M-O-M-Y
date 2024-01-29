@@ -176,7 +176,7 @@ function Marque() {
                         emptyMessage="Donnees en attentes"
                         removableSort>
                         <Column field="nom" header="Marques" style={{ width: '100px' }} body={marques.nom} filter filterPlaceholder="recherche par marque" />
-                        <Column field="path" header="Image" style={{ width: '100px' }} body={(rowData) =><img src={rowData.path} width="100%" height="100%"/>} />
+                        <Column field="path" header="Image" style={{ width: '100px' }} body={(rowData) =><img src={rowData.path} width="200px" height="200px"/>} />
                     </DataTable>
                 </div>
             </div>
