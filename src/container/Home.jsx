@@ -68,7 +68,6 @@ function Home() {
         <h3>
           <span>
             Choisissez une année <hr />
-          </span>
           <input
             type="number"
             min="2020"
@@ -77,7 +76,8 @@ function Home() {
             placeholder="Année"
             value={inputYear}
             onChange={(e) => setInputYear(parseInt(e.target.value, 10))}
-          />
+           />
+          </span>
           {loader && <Loader/>}
         </h3>
       </div>
