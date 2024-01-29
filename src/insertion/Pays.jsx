@@ -3,11 +3,15 @@ import { useState, useRef, useEffect } from 'react';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import "primereact/resources/themes/lara-light-indigo/theme.css";
-import { post, handleChange , get} from '../axios_utils';
+import { post, handleChange, get, update, Delete } from '../axios_utils';
 import Loader from '../loader/Loader';
 import { Toast } from 'primereact/toast';
 import 'primeflex/primeflex.css';
 import "primereact/resources/primereact.min.css";
+import { FaRegEdit } from "react-icons/fa";
+import { FaRegTrashAlt } from "react-icons/fa";
+import UpdateModal from '../component/UpdateModal';
+import DeleteModal from '../component/DeleteModal';
 function Pays() {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -17,6 +21,9 @@ function Pays() {
     const [base64URL, setBase64URL] = useState("");
     const [formData, setFormData] = useState(new FormData());
     const [loader, setLoader] = useState(false);
+    const [modalOpen, setModalOpen] = useState(false);
+    const [selectedRowData, setSelectedRowData] = useState({});
+    const [deletemodalOpen, setDeleteModalOpen] = useState(false);
     const getBase64 = (file) => {
         return new Promise((resolve) => {
             let baseURL = "";
@@ -30,6 +37,78 @@ function Pays() {
             };
         });
     };
+
+
+    const showSuccessDelete = () => {
+        toast.current.show({ severity: 'success', summary: 'Suppression réussie', detail: message, life: 3000 });
+    };
+    const showSuccessUpdate = () => {
+        toast.current.show({ severity: 'success', summary: 'Modification réussie', detail: message, life: 3000 });
+    };
+
+
+    const handleSubmit3 = (e) => {
+        e.preventDefault();
+        console.log("selectedRowData.id azeea" + selectedRowData.id)
+        const response = Delete('https://repr-izy-production.up.railway.app/api/v1/Pays/' + selectedRowData.id);
+        if (response.error) {
+            showErrorDelete()
+        } else { 
+        showSuccessDelete(true)
+        setDeleteModalOpen(false)
+        }
+    }
+
+    const handleDelete = (rowData) => {
+        setSelectedRowData(rowData);
+        setDeleteModalOpen(true);
+        console.log("Delete clicked for id:", rowData.id);
+      };
+
+    const closeModal = () => {
+        setDeleteModalOpen(false);  
+        setModalOpen(false);
+      };
+
+    const handleSubmit2 = (e) => {
+        e.preventDefault();
+        // setLoader(true);
+        const response = update(formData, setFormData, 'https://repr-izy-production.up.railway.app/api/v1/Pays/'+selectedRowData.id);
+        if (response.error) {
+            // setLoader(false)
+            setMessage(response.data.error);
+            showError();
+
+        } else {
+            // setLoader(false)
+            console.log(response.data);
+            showSuccessUpdate();
+            setModalOpen(false)
+        }
+        const typeResponse = get('https://repr-izy-production.up.railway.app/api/v1/Pays');
+        // setData(typeResponse.data.data);
+    }
+
+    const updateBodyTemplate = (rowData) => {
+        return (
+            <>
+                <button className="p-button p-button-success p-button-text" onClick={() => handleUpdate(rowData)} style={{ margin: '100px' }}>
+                    <span  className='boutonUpdate'> Modifier <FaRegEdit style={{ fontSize: '1.5rem', color: 'green' }} /></span>
+                </button >
+                <button className="p-button p-button-danger p-button-text "  onClick={() => handleDelete(rowData)}>
+                    <span className='boutonDelete'>Supprimer <FaRegTrashAlt style={{ fontSize: '1.5rem' }} /></span>
+                </button>
+            </>
+        );
+    };
+
+    const handleUpdate = (rowData) => {
+        // Implement your update logic here using rowData.id
+        setSelectedRowData(rowData);
+        setModalOpen(true);
+        console.log("Update clicked for id:", rowData.id);
+    };
+
 
     useEffect(() => {
         setTimeout(() => {
@@ -133,7 +212,7 @@ function Pays() {
                                 )}
                             </label>
                         </div>
-                            <br />
+                        <br />
                         {loader && <Loader />}
                         <button className="button" type='submit'>
                             <span className="box">
@@ -154,11 +233,15 @@ function Pays() {
                         globalFilterFields={['nom']}
                         emptyMessage="Donnees en attentes"
                         removableSort>
-                        <Column field="nom" header="Pays" style={{ width: '100px' }} body={(rowData)=>rowData.nom} filter filterPlaceholder="recherche par marque" />
-                        <Column field="path" header="Image" style={{ width: '100px' }} body={(rowData) => <img src={rowData.path} width="200px" height="200px" />} />
+                        <Column field="nom" header="Pays" style={{ width: '200px' }} body={(rowData) => rowData.nom} filter filterPlaceholder="recherche par marque" />
+                        <Column field="path" header="Drapeau" style={{ width: '200px' }} body={(rowData) => <img src={rowData.path} width="200px" height="200px" />} />
+                        <Column style={{ minWidth: '14rem' }} body={updateBodyTemplate} className='updatedelete' />
                     </DataTable>
                 </div>
             </div>
+
+            <UpdateModal handleInput={handleInput} handleSubmit={handleSubmit2} isOpen={modalOpen} handleClose={closeModal} rowData={selectedRowData} nomColonne="nom" />
+            <DeleteModal submitModal={handleSubmit3} isOpen={deletemodalOpen} handleClose={closeModal} rowData={selectedRowData} />
         </main>
     )
 }
