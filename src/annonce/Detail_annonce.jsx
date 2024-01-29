@@ -7,7 +7,7 @@ import { Image } from 'primereact/image';
 import { get, put } from '../axios_utils';
 import { useParams } from 'react-router-dom';
 import { DotLoader } from 'react-spinners';
-import BeatLoader from 'react-spinners';
+// import {BeatLoader} from 'react-spinners';
 import { Toast } from 'primereact/toast';
 function Detail_annonce() {
     const [donnee, setData] = useState([]);
@@ -15,7 +15,16 @@ function Detail_annonce() {
     const { id_annonce } = useParams();
     const [isLoading, setIsLoading] = useState(true);
     const [loader,setLoader] = useState(false);
-    const toast = useRef();
+    const toast = useRef(null);
+    const [message,setMessage] = useState("");
+
+    const showSuccess = () => {
+        toast.current.show({ severity: 'success', summary: 'Update reussi', detail: message, life: 3000 });
+    };
+    
+    const showError = () => {
+        toast.current.show({ severity: 'error', summary: 'update echouee', detail: message, life: 3000 });
+    };
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -34,7 +43,16 @@ function Detail_annonce() {
     }, []);
     const validate=async () =>{
         setLoader(true);
-        put('https://repr-izy-production.up.railway.app/api/v1/Annonces/validate/' + donnee.id);
+        const response = put('https://repr-izy-production.up.railway.app/api/v1/Annonces/validate/' + donnee.id);
+        if (response.error) {
+            setLoader(false)
+            setMessage(response.data.error);
+            showError();
+          
+        }else{
+            setLoader(false)
+            showSuccess();
+        }
     }
     return (
         <main className='main-container'>
@@ -87,13 +105,14 @@ function Detail_annonce() {
                                     <span className="titre"><p className='key'>Motricite</p><p className='value'>{donnee.moticite>0?donnee.moticite+"roues":"Inconnu"}</p></span>
                                 </div>
                                 <div className="carte action">
-                                    <button className='suppr' type='button'>X</button>
+                                    {loader && <DotLoader color="#36d7b7"/>}
                                     {donnee.etatAnnonce == 0 ? <button className='valider' onClick={validate} type='button'>Valider</button> : <button className='valider' type='button' disabled>Valide</button> } 
                                 </div>
                             </div>
                         </div>
                     </div>
                 }
+                <Toast ref={toast} />
             </div>
         </main>
     )

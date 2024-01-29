@@ -35,16 +35,14 @@ function Liste_client() {
     return rowData.nom +" "+rowData.prenom;
   }
   const annonce = (rowData) => {
-    if (rowData.anonnce ==null || rowData.anonnce=="") {
-      rowData.annonce = "non definie"
-    }
-    return rowData.anonnce;
+    
+    return rowData.cin;
   }
   const reussi = (rowData) => {
-    if (rowData.reussi == "") {
-      rowData.reussi = "non definie"
-    }
-    return rowData.reussi;
+    const timestamp = rowData.dateInscription;
+    const date = new Date(timestamp);
+    const formatted = date.toLocaleString(); 
+    return formatted;
   }
   const detail = (rowData) => {
     return (
@@ -68,8 +66,8 @@ function Liste_client() {
                         globalFilterFields={['Utilisateur','anonnce', 'reussi']}
                         emptyMessage="Tsy misy">
                         <Column className='column' field="utilisateur" header="Nom"  body={nom} style={{ minWidth: '12rem' }} filter filterPlaceholder='recherche par nom' />
-                        <Column className='column' field="anonnce" header="Nombre Annonce" body={annonce} style={{ minWidth: '12rem' }} sortable />
-                        <Column className='column' field="reussi" header="Vente Reussi" style={{ minWidth: '14rem' }} body={reussi} sortable />
+                        <Column className='column' field="anonnce" header="CIN" body={annonce} style={{ minWidth: '12rem' }} />
+                        <Column className='column' field="reussi" header="Date inscription" style={{ minWidth: '14rem' }} body={reussi} sortable />
                         <Column className='column detail-button' field="" header="" style={{ minWidth: '12rem' }} body={detail}/>
                     </DataTable>
                 </div>
