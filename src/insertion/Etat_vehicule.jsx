@@ -9,8 +9,9 @@ import "primereact/resources/themes/lara-light-indigo/theme.css";
 import "primereact/resources/primereact.min.css";
 import Loader from '../loader/Loader';
 import { FaRegEdit } from "react-icons/fa";
-import { FaDeleteLeft } from "react-icons/fa6";
+import { FaRegTrashAlt } from "react-icons/fa";
 import UpdateModal from '../component/UpdateModal';
+import DeleteModal from '../component/DeleteModal';
 
 function Etat_vehicule() {
     const [formData, setFormData] = useState(new FormData());
@@ -22,6 +23,51 @@ function Etat_vehicule() {
     const toast = useRef(null);
     const [modalOpen, setModalOpen] = useState(false);
     const [selectedRowData, setSelectedRowData] = useState({});
+    const [deletemodalOpen, setDeleteModalOpen] = useState(false);
+
+
+    
+    const updateBodyTemplate = (rowData) => {
+        return (
+            <>
+                <button className="p-button p-button-success p-button-text" onClick={() => handleUpdate(rowData)} style={{ margin: '10px' }}>
+                    <span  className='boutonUpdate'> Modifier <FaRegEdit style={{ fontSize: '1.5rem', color: 'green' }} /></span>
+                </button >
+                <button className="p-button p-button-danger p-button-text "  onClick={() => handleDelete(rowData)}>
+                    <span className='boutonDelete'>Supprimer <FaRegTrashAlt style={{ fontSize: '1.5rem' }} /></span>
+                </button>
+            </>
+        );
+    };
+
+
+    const showSuccessDelete = () => {
+        toast.current.show({ severity: 'success', summary: 'Suppression réussie', detail: message, life: 3000 });
+    };
+    const showSuccessUpdate = () => {
+        toast.current.show({ severity: 'success', summary: 'Modification réussie', detail: message, life: 3000 });
+    };
+
+    const handleSubmit3 = (e) => {
+        e.preventDefault();
+        console.log("selectedRowData.id azeea" + selectedRowData.id)
+        Delete('https://repr-izy-production.up.railway.app/api/v1/Etats/' + selectedRowData.id);
+        console.log("miditrqqq");
+        showSuccessDelete(true)
+        setDeleteModalOpen(false)
+    }
+    
+    const handleDelete = (rowData) => {
+        setSelectedRowData(rowData);
+        setDeleteModalOpen(true);
+        console.log("Delete clicked for id:", rowData.id);
+      };
+
+    const closeModal = () => {
+        setDeleteModalOpen(false);  
+        setModalOpen(false);
+      };
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -40,31 +86,12 @@ function Etat_vehicule() {
         fetchData();
     }, []);
 
-    const updateBodyTemplate = (rowData) => {
-        return (
-            <>
-                <button className="p-button p-button-text" onClick={() => handleUpdate(rowData)} style={{ margin: '20px' }}>
-                    <FaRegEdit style={{ fontSize: '1.5rem', color: 'green' }} />
-                </button >
-                <button className="p-button p-button-danger p-button-text" onClick={() => handleDelete(rowData)}>
-                    <FaDeleteLeft style={{ fontSize: '1.5rem' }} />
-                </button>
-            </>
-        );
-    };
 
     const handleUpdate = (rowData) => {
         // Implement your update logic here using rowData.id
         setSelectedRowData(rowData);
         setModalOpen(true);
         console.log("Update clicked for id:", rowData.id);
-    };
-    const handleDelete = (rowData) => {
-        console.log("Delete clicked for id:", rowData.id);
-    };
-
-    const closeModal = () => {
-        setModalOpen(false);
     };
     const showSuccess = () => {
         toast.current.show({ severity: 'success', summary: 'Insertion réussie', detail: message, life: 3000 });
@@ -90,7 +117,7 @@ function Etat_vehicule() {
         } else {
             // setLoader(false)
             console.log(response.data);
-            showSuccess();
+            showSuccessUpdate();
             setModalOpen(false)
         }
         const typeResponse = get('https://repr-izy-production.up.railway.app/api/v1/Categories');
@@ -136,21 +163,22 @@ function Etat_vehicule() {
                     <Toast ref={toast} />
                 </div>
                 <div className="input-card">
-                    <h4 className="annonce-title" style={{}}>Liste des annonces</h4>
+                    <h4 className="annonce-title" style={{}}>Liste des états</h4>
                     <DataTable className="custom-datatable" value={data}
                         size="small"
                         paginator rows={10}
                         dataKey="id"
                         loading={isLoading}
-                        tableStyle={{ minWidth: '40rem', width: '200px', alignItems: 'center', marginLeft: 'auto', marginRight: 'auto' }}
+                        tableStyle={{ minWidth: '60rem', width: '200px', alignItems: 'center', marginLeft: 'auto', marginRight: 'auto' }}
                         globalFilterFields={['Etat']}
                         emptyMessage="En attente de donnees">
-                        <Column className='column' field="nom" header="Etat" style={{ minWidth: '14rem' }} body={data.nom} filter filterPlaceholder="recherche par style nom" />
+                        <Column className='column' field="nom" header="Etat" style={{ minWidth: '200px' }} body={data.nom} filter filterPlaceholder="recherche par style nom" />
                         <Column style={{ minWidth: '14rem' }} body={updateBodyTemplate} className='updatedelete' />
                     </DataTable>
                 </div>
             </div>
             <UpdateModal handleInput={handleInput} handleSubmit={handleSubmit2} isOpen={modalOpen} handleClose={closeModal} rowData={selectedRowData}  nomColonne="etat"/>
+            <DeleteModal submitModal={handleSubmit3} isOpen={deletemodalOpen} handleClose={closeModal} rowData={selectedRowData} />
         </main>
     )
 }

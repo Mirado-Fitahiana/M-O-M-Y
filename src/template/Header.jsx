@@ -18,7 +18,7 @@ function Header({setSideBarOpen}) {
             {/* <BsSearch className='icon'/> */}
         </div>
         <div className="header-right">
-          <button className='deconnexion' onClick={handleDeconnexion}>
+          <button className='deconnexion' onClick={handleDeconnexion} style={{width: '10pc', height: '3pc'}}>
           <BsDoorClosed className='icon'/> Deconnexion
           </button>
         </div>

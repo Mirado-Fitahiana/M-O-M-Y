@@ -361,6 +361,55 @@ body{
   }
 }
 
+.boutonDelete{
+  border: 1px solid;
+  border-radius: 12px;
+  width: 139px;
+  height: 40px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly !important;
+  transition: 0.5s;
+}
+.boutonDelete:hover{
+  border: 1px solid;
+  border-radius: 12px;
+  width: 139px;
+  height: 40px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly !important;
+  background-color: rgb(221, 92, 92);
+  color: rgb(202, 168, 168);
+  transition: 0.1s;
+}
+
+.boutonUpdate{
+  border: 1px solid;
+  border-radius: 12px;
+  width: 139px;
+  height: 40px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly !important;
+  transition: 0.5s;
+}
+.boutonUpdate:hover{
+  border: 1px solid;
+  border-radius: 12px;
+  width: 139px;
+  height: 40px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly !important;
+  background-color: green;
+  color: rgb(122, 236, 99);
+  transition: 0.1s;
+}
 /* Extra Small <= 576px */
 
 @media screen and (max-width: 576px) {
@@ -376,3 +425,4 @@ body{
   align-content: space-evenly;
   justify-items: center;
 }
+

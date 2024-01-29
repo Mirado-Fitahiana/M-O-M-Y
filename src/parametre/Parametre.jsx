@@ -20,69 +20,90 @@ function Parametre() {
         toast.current.show({ severity: 'success', summary: 'Insertion réussie', detail: message, life: 3000 });
     };
 
-    const showError = () => {
-        toast.current.show({ severity: 'error', summary: 'Insertion échouée', detail: message, life: 3000 });
+    const showError = (errorMsg) => {
+        toast.current.show({ severity: 'error', summary: 'Erreur', detail: errorMsg, life: 3000 });
     };
 
-    
     useEffect(() => {
-        
         setTimeout(() => {
-            // loading(true)
             setData(get('https://repr-izy-production.up.railway.app/api/v1/Parametres')
-            
-            .then(response => {
-                setLoading(true);
-                setData(response.data.data);
-                console.log(response.data.data); 
-                setLoading(false);
-              })
-              .catch(error => {
-                console.error('Error fetching data:', error);
-                setLoading(false);
-              })
+                .then(response => {
+                    setLoading(true);
+                    setData(response.data.data);
+                    console.log(response.data.data);
+                    setLoading(false);
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                    setLoading(false);
+                })
             );
-        
             setLoading(false);
-            
-        }, 1000); 
-       
+        }, 1000);
     }, []);
-    
 
     const handleInput = (e) => {
         handleChange(e, formData, setFormData);
     };
     const handleSubmit = async (e) => {
-        setLoader(true);
         e.preventDefault();
-
-        const response = await post(formData, setFormData, 'https://repr-izy-production.up.railway.app/api/v1/Parametres')
+    
+        const prixMin = parseFloat(formData.get('min'));
+        const prixMax = parseFloat(formData.get('max'));
+        const pourcentage = parseFloat(formData.get('pourcentage'));
+    
+        if (prixMin > prixMax) {
+            showError('Le prix Minimum ne doit pas être supérieur au prix maximum.');
+            return;
+        }
+    
+        if (prixMin < 0 || prixMax <= 0 || pourcentage < 0) {
+            showError('Les valeurs ne doivent pas être négatives');
+            return;
+        }
+    
+        // Check if the new interval overlaps with any existing interval
+        const intervalOverlap = data.some(row => {
+            const existingMin = parseFloat(row.prixmin);
+            const existingMax = parseFloat(row.prixmax);
+            return (prixMin >= existingMin && prixMin <= existingMax) || (prixMax >= existingMin && prixMax <= existingMax);
+        });
+    
+        if (intervalOverlap) {
+            showError('Les valeurs chevauchent un intervalle existant dans la base de données.');
+            return;
+        }
+    
+        setLoader(true);
+    
+        const response = await post(formData, setFormData, 'https://repr-izy-production.up.railway.app/api/v1/Parametres');
+    
         if (response.data.error) {
             setLoader(false);
-            setMessage(response.data.error)
-            showError()
+            setMessage(response.data.error);
+            showError(response.data.error);
         } else {
             setLoader(false);
-            setMessage(response.data.data[0].nom)
-            showSuccess()
+            setMessage(response.data.data[0].nom);
+            showSuccess();
         }
-        // const typesResponse = await get('https://repr-izy-production.up.railway.app/api/v1/Types');
-
     };
+    
+    
+
     return (
         <main className='main-container'>
             <div className="second-container">
                 <div className="input-card">
-                    <h4>Parametrage de la commission</h4>
+                    <h4>Paramétrage de la commission</h4>
                     <form onSubmit={handleSubmit}>
                         <div className="form__group field">
                             <input onChange={handleInput} name='min' type="input" className="form__field" placeholder="Prix Minimal" required="" />
-                            <label htmlFor="name" className="form__label">Prix Minimal</label>
+                            <label htmlFor="name" className="form__label">Prix Minimal(Ariary)</label>
                         </div>
                         <div className="form__group field">
                             <input onChange={handleInput} name='max' type="input" className="form__field" placeholder="Prix maximal" required="" />
-                            <label htmlFor="name" className="form__label">Prix Maximal</label>
+                            <label htmlFor="name" className="form__label">Prix Maximal(Ariary)</label>
                         </div>
                         <div className="form__group field">
                             <input onChange={handleInput} name='pourcentage' type="input" className="form__field" placeholder="% de la commision" required="" />
@@ -98,7 +119,7 @@ function Parametre() {
                     <Toast ref={toast} />
                 </div>
                 <div className="input-card">
-                    <h4 className="annonce-title" style={{}}>Parametres</h4>
+                    <h4 className="annonce-title" style={{}}>Paramètres</h4>
                     <DataTable className="custom-datatable" value={data[0]}
                         size="small"
                         paginator rows={10}

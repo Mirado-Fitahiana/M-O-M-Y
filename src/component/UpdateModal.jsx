@@ -13,7 +13,7 @@ function UpdateModal({handleSubmit, handleInput, handleClose, isOpen, rowData, n
     return (
         <div className="modal">
             <form onSubmit={handleSubmit}>
-                <div className="modal-content"><button type='submit' className="button" onClick={handleClose} style={{ marginLeft: '155px' }}>
+                <div className="modal-content"><button type='button' className="button" onClick={handleClose} style={{ float: 'left' , color: 'red' }}>
                     <IoCloseCircleOutline />
                 </button>
                     <h2>Modification</h2>
