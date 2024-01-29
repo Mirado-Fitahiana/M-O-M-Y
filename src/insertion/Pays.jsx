@@ -46,7 +46,7 @@ function Pays() {
         setLoader(true);
         console.log(base64URL);
         formData.append("drapeau",base64URL);
-        const response = post(formData,setFormData,'http://localhost:8071/api/v1/Pays');
+        const response = post(formData,setFormData,'https://repr-izy-production.up.railway.app/api/v1/Pays');
         if (response.error) {
             setLoader(false)
             setMessage(response.error)

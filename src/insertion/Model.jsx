@@ -1,9 +1,11 @@
 import './form.css'
 import { get, handleChange, post } from '../axios_utils';
-import React, { useState, useEffect } from 'react';
+import  { useState, useEffect ,useRef} from 'react';
 import { DotLoader } from 'react-spinners';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
+import Loader from '../loader/Loader';
+import { Toast } from 'primereact/toast';
 import 'primeflex/primeflex.css';
 import "primereact/resources/themes/lara-light-indigo/theme.css";
 import "primereact/resources/primereact.min.css";
@@ -14,8 +16,9 @@ function Model() {
     const [marques, setMarque] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [tableLoading, setTableLoading] = useState(true);
-    localStorage.setItem('token', 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVVElMSVNBVEVVUjAwMDUiLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE3MDYzNDczNjEsImV4cCI6MTcwNjQzMzc2MX0.8p8JZEFQFgPAs244qmBeV0Ro-rFyzuoc8amFMT2ChCk');
-
+    const toast = useRef(null);
+    const [message, setMessage] = useState("");
+    const [loader,setLoader] = useState(false);
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -42,11 +45,29 @@ function Model() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoader(true)
         setTableLoading(true);
-        await post(formData, setFormData, 'https://repr-izy-production.up.railway.app/api/v1/Modeles')
+        const response = await post(formData, setFormData, 'https://repr-izy-production.up.railway.app/api/v1/Modeles')
+        if (response.data.error) {
+            setLoader(false)
+            setMessage(response.data.error)
+            showError()
+        }else{
+            setLoader(false)
+            setMessage(response.data.data[0].nom)
+            showSuccess()
+        }
         const typesResponse = await get('https://repr-izy-production.up.railway.app/api/v1/Modeles');
         setData(typesResponse.data.data[0]);
         setTableLoading(false);
+    };
+    
+    const showSuccess = () => {
+        toast.current.show({ severity: 'success', summary: 'Insertion réussie', detail: message, life: 3000 });
+    };
+
+    const showError = () => {
+        toast.current.show({ severity: 'error', summary: 'Insertion échouée', detail: message, life: 3000 });
     };
     return (
         <main className='main-container'>
@@ -64,6 +85,7 @@ function Model() {
                             <div className="form__group field">
                                 <label htmlFor="name" className="form__label">Marque</label>
                                 <select onChange={handleInput} name="idmarque" id="">
+                                    <option value="">Marque</option>
                                     {marques.map((option) => (
                                         <option key={option.id} value={option.id}>
                                             {option.nom}
@@ -71,6 +93,7 @@ function Model() {
                                     ))}
                                 </select>
                             </div>
+                            {loader && <Loader/>}
                             <button type='submit' className="button">
                                 <span className="box">
                                     Enregistrer
@@ -78,9 +101,10 @@ function Model() {
                             </button>
                         </form>
                     }
+                     <Toast ref={toast} />
                 </div>
                 <div className="input-card">
-                    <h4 className="annonce-title" style={{}}>Liste des annonces</h4>
+                    <h4 className="annonce-title" style={{}}>Liste des modeles</h4>
                     <DataTable className="custom-datatable" value={data}
                         size="small"
                         paginator rows={10}
@@ -89,7 +113,7 @@ function Model() {
                         loading={isLoading}
                         tableStyle={{ minWidth: '60rem', width: '200px', alignItems: 'center', marginLeft: 'auto', marginRight: 'auto' }}
                         globalFilterFields={['Modele', 'Marque']}
-                        emptyMessage="Tsisy lty a tsisy.">
+                        emptyMessage="Donnee en attente">
                         <Column className='column' field="nom" header="Modele" style={{ minWidth: '14rem' }} body={data.nom} filter filterPlaceholder="recherche par style nom" />
                         <Column className='column' field="idmarque" header="Marque" style={{ minWidth: '14rem' }} body={(rowData) => rowData.marque.nom} filter filterPlaceholder="recherche par marque" />
                     </DataTable>

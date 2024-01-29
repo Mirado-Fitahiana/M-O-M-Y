@@ -4,7 +4,8 @@ import { post, handleChange, get } from '../axios_utils';
 import { DotLoader } from 'react-spinners';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-import { Image } from 'primereact/image';
+import Loader from '../loader/Loader';
+import { Toast } from 'primereact/toast';
 import 'primeflex/primeflex.css';
 import "primereact/resources/primereact.min.css";
 function Marque() {
@@ -15,7 +16,11 @@ function Marque() {
     const [marques, setMarques] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [tableLoading, setTableLoading] = useState(true);
-    localStorage.setItem('token', 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVVElMSVNBVEVVUjAwMDUiLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE3MDYzNDczNjEsImV4cCI6MTcwNjQzMzc2MX0.8p8JZEFQFgPAs244qmBeV0Ro-rFyzuoc8amFMT2ChCk');
+    const toast = useRef(null);
+    const [message, setMessage] = useState("");
+    const [loader,setLoader] = useState(false);
+
+    // localStorage.setItem('token', 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVVElMSVNBVEVVUjAwMDUiLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE3MDYzNDczNjEsImV4cCI6MTcwNjQzMzc2MX0.8p8JZEFQFgPAs244qmBeV0Ro-rFyzuoc8amFMT2ChCk');
 
     useEffect(() => {
         const fetchData = async () => {
@@ -68,17 +73,33 @@ function Marque() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoader(true)
         formData.append("image", base64URL);
         formData.forEach((value, key) => {
             console.log(`${key}: ${value}`);
         });
         setTableLoading(true);
-        await post(formData, setFormData, 'https://repr-izy-production.up.railway.app/api/v1/Marques')
+        const response = await post(formData, setFormData, 'https://repr-izy-production.up.railway.app/api/v1/Marques')
+        if (response.data.error) {
+            setLoader(false)
+            setMessage(response.data.error)
+            showError()
+        }else{
+            setLoader(false)
+            setMessage(response.data.data[0].nom)
+            showSuccess()
+        }
         const typesResponse = await get('https://repr-izy-production.up.railway.app/api/v1/Marques');
         setMarques(typesResponse.data.data[0]);
         setTableLoading(false);
     };
-    const icon = (<i className="pi pi-search"></i>)
+    const showSuccess = () => {
+        toast.current.show({ severity: 'success', summary: 'Insertion réussie', detail: message, life: 3000 });
+    };
+
+    const showError = () => {
+        toast.current.show({ severity: 'error', summary: 'Insertion échouée', detail: message, life: 3000 });
+    };
     return (
         <main className='main-container'>
             <div className="second-container">
@@ -133,6 +154,7 @@ function Marque() {
 
                             </div>
                             <br />
+                            {loader && <Loader />}
                             <button type='submit' className="button">
                                 <span className="box">
                                     Enregistrer
@@ -140,6 +162,7 @@ function Marque() {
                             </button>
                         </form>
                     }
+                     <Toast ref={toast} />
                 </div>
                 <div className="input-card">
                     <h4 className="annonce-title" style={{}}>Liste des marques</h4>
@@ -150,7 +173,7 @@ function Marque() {
                         loading={isLoading}
                         tableStyle={{ minWidth: '60rem', width: '200px', alignItems: 'center', marginLeft: 'auto', marginRight: 'auto' }}
                         globalFilterFields={['Marques']}
-                        emptyMessage="Tsisy lty a tsisy."
+                        emptyMessage="Donnees en attentes"
                         removableSort>
                         <Column field="nom" header="Marques" style={{ width: '100px' }} body={marques.nom} filter filterPlaceholder="recherche par marque" />
                         <Column field="path" header="Image" style={{ width: '100px' }} body={(rowData) =><img src={rowData.path} width="100%" height="100%"/>} />

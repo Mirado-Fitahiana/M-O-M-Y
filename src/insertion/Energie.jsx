@@ -1,43 +1,92 @@
+import { DataTable } from 'primereact/datatable';
+import { Column } from 'primereact/column';
+import { Toast } from 'primereact/toast';
+import 'primeflex/primeflex.css';
+import "primereact/resources/themes/lara-light-indigo/theme.css";
+import "primereact/resources/primereact.min.css";
+import { useState, useRef, useEffect } from 'react';
 import { get, handleChange, post } from '../axios_utils';
-import React, { useState, useEffect } from 'react';
 function Energie() {
-    const [formData,setFormData]=useState(new FormData());
-    const [data,setData]=useState([]);
+    const [message, setMessage] = useState("");
+    const toast = useRef(null);
+    const [formData, setFormData] = useState(new FormData());
+    const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(true);
     useEffect(() => {
         setTimeout(() => {
-            setData(get('https://repr-izy-production.up.railway.app/api/v1/Energies'));
-        }, 1000); 
+            loading(false);
+            setData(get('https://repr-izy-production.up.railway.app/api/v1/Energies')
+                .then(response => {
+                    setData(response.data.data);
+                    console.log(response.data.data);
+                    setLoading(false);
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                    setLoading(false);
+                }));
+        }, 1000);
     }, []);
 
-    localStorage.setItem('token','eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVVElMSVNBVEVVUjAwMDUiLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE3MDYyNTQ0NDYsImV4cCI6MTcwNjM0MDg0Nn0.sXjb3-erDqg7W98MfRiM8XHR19SEtvc2prTbWGQ4daM');
+    const showSuccess = () => {
+        toast.current.show({ severity: 'success', summary: 'Insertion réussie', detail: message, life: 3000 });
+    };
 
-    const handleInput=(e)=>{
-        handleChange(e,formData,setFormData);
+    const showError = () => {
+        toast.current.show({ severity: 'error', summary: 'Insertion échouée', detail: message, life: 3000 });
+    };
+
+    const handleInput = (e) => {
+        handleChange(e, formData, setFormData);
     }
 
-    const handleSubmit=(e) =>{
+    const representativeBodyTemplate = (rowData) => {
+        return rowData.nom;
+    };
+
+    const handleSubmit = (e) => {
         e.preventDefault();
-        post(formData,setFormData,'https://repr-izy-production.up.railway.app/api/v1/Energies');
-    }
+        const response = post(formData, setFormData, 'https://repr-izy-production.up.railway.app/api/v1/Energies');
+        if (response.error) {
+            setMessage(response.error);
+            showError();
+        } else {
+            showSuccess();
+        }
+    };
     return (
-    <main className='main-container'>
-        <div className="second-container">
-            <div className="input-card">
-            <h1>Insertion Energie</h1>
-                <form onSubmit={handleSubmit} action="">
-                    <div className="form__group field">
-                        <input onChange={handleInput} name='energie' type="input" className="form__field" placeholder="Name" required="" />
-                        <label htmlFor="name" className="form__label">Energie</label>
-                    </div>
-                    <button type='submit' className="button">
-                        <span className="box">
-                            Enregistrer
-                        </span>
-                    </button>
-                </form>
+        <main className='main-container'>
+            <div className="second-container">
+                <div className="input-card">
+                    <h1>Insertion Energie</h1>
+                    <form onSubmit={handleSubmit} action="">
+                        <div className="form__group field">
+                            <input onChange={handleInput} name='energie' type="input" className="form__field" placeholder="Name" required="" />
+                            <label htmlFor="name" className="form__label">Energie</label>
+                        </div>
+                        <button type='submit' className="button">
+                            <span className="box">
+                                Enregistrer
+                            </span>
+                        </button>
+                    </form>
+                    <Toast ref={toast} />
+                </div>
+                <div className="input-card">
+                    <h4 className="annonce-title" style={{}}>Energie</h4>
+                    <DataTable className="custom-datatable" value={data[0]}
+                        size="small"
+                        paginator rows={10}
+                        dataKey="id"
+                        loading={loading}
+                        tableStyle={{ minWidth: '60rem', width: '200px', alignItems: 'center', marginLeft: 'auto', marginRight: 'auto' }}
+                        globalFilterFields={['nom']}
+                        emptyMessage="Data en attente">
+                        <Column className='column' field="nom" header="Nom" style={{ minWidth: '14rem' }} body={representativeBodyTemplate} filter filterPlaceholder="recherche par style nom" />
+                    </DataTable>
+                </div>
             </div>
-        </div>
-    </main>
+        </main>
     )
 }
 
