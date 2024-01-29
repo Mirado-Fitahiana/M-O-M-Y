@@ -49,3 +49,22 @@ export async function get(url) {
             console.error('Erreur lors de l\'envoi des données à railway:', error);
         }
 }
+
+export async function put(url) {
+    const token ='Bearer '+localStorage.getItem('token');
+        try {
+            let config = {
+                method: 'PUT',
+                maxBodyLength: Infinity,
+                url: url,
+                headers: {
+                    'content-type':'multipart/form-data',
+                    'Authorization':token
+                },
+            };
+            const response = await axios.request(config);
+            return response;
+        } catch (error) {
+            console.error('Erreur lors de l\'envoi des données à railway:', error);
+        }
+}
