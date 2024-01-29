@@ -53,7 +53,7 @@ function Categrie_marque() {
 
     const handleInput = (e) => {
         handleChange(e, formData, setFormData);
-        console.log(formData);
+        console.log(formData.values);
     }
 
     return (
@@ -95,12 +95,13 @@ function Categrie_marque() {
                                 </div>
                             </div>
                         </div>
-                        <button className="button">
+                        <button className="button" type='submit'>
                             <span className="box">
                                 Enregistrer
                             </span>
                         </button>
                     </form>
+                    <Toast ref={toast} />
                 </div>
             </div>
         </main>
