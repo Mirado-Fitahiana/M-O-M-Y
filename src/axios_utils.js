@@ -44,7 +44,6 @@ export async function get(url) {
                 },
             };
             const response = await axios.request(config);
-            setFormData(new FormData());
             return response;
         } catch (error) {
             console.error('Erreur lors de l\'envoi des données à railway:', error);

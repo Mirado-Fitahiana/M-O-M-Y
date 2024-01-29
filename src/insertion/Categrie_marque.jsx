@@ -77,7 +77,7 @@ function Categrie_marque() {
                             <div className="checkbox-container">
                                 <div className="checkbox">
                                     {categorie.map((option, index) => (
-                                        <div key={index}>
+                                        <div key={index} style={{display:'flex',flexDirection:'row',justifyContent:'left',width:'60%'}}>
                                             <input
                                                 onChange={handleInput}
                                                 type="checkbox"
@@ -85,6 +85,7 @@ function Categrie_marque() {
                                                 id={`checkbox${index}`}
                                                 name="categorie"
                                                 value={option.id}
+                                                style={{}}
                                             />
                                             <label className="checkbox__label" htmlFor={`checkbox${index}`}>
                                                 <span className="checkbox__custom"></span>

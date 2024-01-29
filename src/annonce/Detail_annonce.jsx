@@ -106,7 +106,7 @@ function Detail_annonce() {
                                 </div>
                                 <div className="carte action">
                                     {loader && <DotLoader color="#36d7b7"/>}
-                                    {donnee.etatAnnonce == 0 ? <button className='valider' onClick={validate} type='button'>Valider</button> : <button className='valider' type='button' disabled>Valide</button> } 
+                                    {donnee.etatAnnonce == 0 ? <button className='valider' onClick={validate} type='button'>Valider</button> : <button className='valider' type='button' disabled>Deja valider</button> } 
                                 </div>
                             </div>
                         </div>

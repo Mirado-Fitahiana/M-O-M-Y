@@ -50,7 +50,7 @@ function Liste_client() {
           {rowData.verified ='Voir detail' }
         </Link>
       );
-}; 
+  }; 
   return (
     <main className='main-container'>
             <div className="second-container">

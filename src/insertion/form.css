@@ -1,10 +1,7 @@
-
-
 /* .client */
-.sary{
+.sary {}
 
-}
-.user{
+.user {
   display: flex;
   justify-content: center;
   flex-direction: row;
@@ -20,7 +17,7 @@
   justify-content: center;
 }
 
-.detail_user{
+.detail_user {
   width: 30%;
   display: flex;
   flex-direction: row;
@@ -38,12 +35,13 @@
 }
 
 /* slider*/
-.slider{
+.slider {
   width: 50%;
   background-repeat: no-repeat;
   background-size: cover;
 }
-.each-slide-effect > div {
+
+.each-slide-effect>div {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -57,12 +55,14 @@
   background: #efefef;
   text-align: center;
 }
+
 /*  */
-.titre-descri{
+.titre-descri {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 }
+
 .third-container {
   width: 30%;
   display: flex;
@@ -70,10 +70,12 @@
   justify-content: space-between;
   /* align-items: baseline; */
 }
+
 .left {
   display: flex;
   flex-direction: column;
 }
+
 .second-container {
   display: flex;
   align-content: flex-end;
@@ -250,6 +252,7 @@
     max-width: none;
     /* Supprimer la largeur maximale */
   }
+
   .third-container {
     width: 50%;
     display: flex;
@@ -258,12 +261,13 @@
     /* align-items: baseline; */
   }
 
-  .slider{
+  .slider {
     width: 80%;
     background-repeat: no-repeat;
     background-size: cover;
   }
-  .each-slide-effect > div {
+
+  .each-slide-effect>div {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -279,21 +283,32 @@
     width: 85%;
     background-color: #d4ded9;
     height: auto;
-}
-.sary{
-  margin-top: 20px;
-}
-.detail_user{
-  width: 100%;
+  }
+
+  .sary {
+    margin-top: 20px;
+  }
+
+  .detail_user {
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-}
-.text{
-  display: flex;
+  }
+
+  .text {
+    display: flex;
     flex-direction: column;
     margin: 25px;
-}
+  }
+
+  .checkbox {
+    display: flex !important;
+    flex-direction: column ;
+    max-height: 200px;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
 }
 
 /* select */
@@ -373,10 +388,19 @@
 
 
 /* check box */
-
-.checkbox-input {
-  display: flex;
+.checkbox {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  width: 170%;
+  max-height: 200px;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
+
+/* .checkbox-input {
+  display: flex;
+} */
 
 .radio-button-container {
   display: flex;
