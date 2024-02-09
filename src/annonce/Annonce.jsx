@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import "primereact/resources/primereact.min.css";
 import './annonce.css';
 import { get } from '../axios_utils';
+import MyUrl from '../MyUrl';
 const Annonce = () => {
     
     const [loading, setLoading] = useState(true);
@@ -16,7 +17,7 @@ const Annonce = () => {
         // Simulating an asynchronous data fetch
         setLoading(true);
         setTimeout(() => {
-            setData(get('https://repr-izy-production.up.railway.app/api/v1/Annonces')
+            setData(get(MyUrl+'Annonces')
             .then(response => {
                 // console.log(response); 
                 setData(response.data.data);

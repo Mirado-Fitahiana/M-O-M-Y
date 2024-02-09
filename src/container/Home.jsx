@@ -3,6 +3,7 @@ import { get } from '../axios_utils';
 import { BsPeopleFill, BsFillBellFill, BsCurrencyDollar, BsSignNoParking, BsSignDoNotEnter } from 'react-icons/bs'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LineChart, Line } from 'recharts';
 import Loader from '../loader/Loader';
+import MyUrl from '../MyUrl';
 
 function Home() {
   const [data_user, setData_user] = useState([]);
@@ -14,8 +15,8 @@ function Home() {
       setLoader(true)
       try {
         const [user_count,data_temp] = await Promise.all([
-          get(`https://repr-izy-production.up.railway.app/api/v1/stats/user?year=${inputYear}`),
-          get('https://repr-izy-production.up.railway.app/api/v1/stats/dashboard'),
+          get(`${MyUrl}stats/user?year=${inputYear}`),
+          get(MyUrl+'stats/dashboard'),
         ]);
         setData_user(user_count.data.data);
         setData_app(data_temp.data.data);

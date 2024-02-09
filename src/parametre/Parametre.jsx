@@ -7,6 +7,7 @@ import Loader from '../loader/Loader';
 import { Toast } from 'primereact/toast';
 import 'primeflex/primeflex.css';
 import "primereact/resources/primereact.min.css";
+import MyUrl from '../MyUrl';
 
 function Parametre() {
     const [data, setData] = useState([]);
@@ -26,7 +27,7 @@ function Parametre() {
 
     useEffect(() => {
         setTimeout(() => {
-            setData(get('https://repr-izy-production.up.railway.app/api/v1/Parametres')
+            setData(get(MyUrl+'Parametres')
                 .then(response => {
                     setLoading(true);
                     setData(response.data.data);
@@ -76,7 +77,7 @@ function Parametre() {
     
         setLoader(true);
     
-        const response = await post(formData, setFormData, 'https://repr-izy-production.up.railway.app/api/v1/Parametres');
+        const response = await post(formData, setFormData, MyUrl+'Parametres');
     
         if (response.data.error) {
             setLoader(false);

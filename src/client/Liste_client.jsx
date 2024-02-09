@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom';
 import "primereact/resources/primereact.min.css";
 import './annonce.css'
 import { get } from '../axios_utils';
+import MyUrl from '../MyUrl';
 
 function Liste_client() {
   const [data,setData]=useState([]);
@@ -17,7 +18,7 @@ function Liste_client() {
       // Simulating an asynchronous data fetch
       setLoading(true);
       setTimeout(() => {
-          setData(get('https://repr-izy-production.up.railway.app/api/v1/Clients')
+          setData(get(MyUrl+'Clients')
           .then(response => {
               setData(response.data.data);
               console.log(response.data.data); 

@@ -9,6 +9,7 @@ import { Toast } from 'primereact/toast';
 import 'primeflex/primeflex.css';
 import "primereact/resources/themes/lara-light-indigo/theme.css";
 import "primereact/resources/primereact.min.css";
+import MyUrl from '../MyUrl';
 
 function Model() {
     const [formData, setFormData] = useState(new FormData());
@@ -23,8 +24,8 @@ function Model() {
         const fetchData = async () => {
             try {
                 const [modelesResponse, marquesResponse] = await Promise.all([
-                    get('https://repr-izy-production.up.railway.app/api/v1/Modeles'),
-                    get('https://repr-izy-production.up.railway.app/api/v1/Marques')
+                    get(MyUrl+'Modeles'),
+                    get(MyUrl+'Marques')
                 ]);
                 setData(modelesResponse.data.data[0]);
                 setMarque(marquesResponse.data.data[0]);
@@ -47,7 +48,7 @@ function Model() {
         e.preventDefault();
         setLoader(true)
         setTableLoading(true);
-        const response = await post(formData, setFormData, 'https://repr-izy-production.up.railway.app/api/v1/Modeles')
+        const response = await post(formData, setFormData, MyUrl+'Modeles')
         if (response.data.error) {
             setLoader(false)
             setMessage(response.data.error)
@@ -57,7 +58,7 @@ function Model() {
             setMessage(response.data.data[0].nom)
             showSuccess()
         }
-        const typesResponse = await get('https://repr-izy-production.up.railway.app/api/v1/Modeles');
+        const typesResponse = await get(MyUrl+'Modeles');
         setData(typesResponse.data.data[0]);
         setTableLoading(false);
     };

@@ -12,6 +12,7 @@ import { FaRegEdit } from "react-icons/fa";
 import { FaRegTrashAlt } from "react-icons/fa";
 import UpdateModal from '../component/UpdateModal';
 import DeleteModal from '../component/DeleteModal';
+import MyUrl from '../MyUrl';
 
 function Nouveau_type() {
     const [formData, setFormData] = useState(new FormData());
@@ -30,8 +31,8 @@ function Nouveau_type() {
         const fetchData = async () => {
             try {
                 const [typesResponse, categoriesResponse] = await Promise.all([
-                    get('https://repr-izy-production.up.railway.app/api/v1/Types'),
-                    get('https://repr-izy-production.up.railway.app/api/v1/Categories'),
+                    get(MyUrl+'Types'),
+                    get(MyUrl+'Categories'),
                 ]);
 
                 setData(typesResponse.data.data[0]);
@@ -60,7 +61,7 @@ function Nouveau_type() {
     const handleSubmit3 = (e) => {
         e.preventDefault();
         console.log("selectedRowData.id azeea" + selectedRowData.id)
-        const response = Delete('https://repr-izy-production.up.railway.app/api/v1/Types/' + selectedRowData.id);
+        const response = Delete(MyUrl+'Types/' + selectedRowData.id);
         if (response.error) {
             showErrorDelete()
         } else {
@@ -83,7 +84,7 @@ function Nouveau_type() {
     const handleSubmit2 = (e) => {
         e.preventDefault();
         // setLoader(true);
-        const response = update(formData, setFormData, 'https://repr-izy-production.up.railway.app/api/v1/Types/' + selectedRowData.id);
+        const response = update(formData, setFormData, MyUrl+'Types/' + selectedRowData.id);
         if (response.error) {
             // setLoader(false)
             setMessage(response.data.error);
@@ -95,7 +96,7 @@ function Nouveau_type() {
             showSuccessUpdate();
             setModalOpen(false)
         }
-        const typeResponse = get('https://repr-izy-production.up.railway.app/api/v1/Types');
+        const typeResponse = get(MyUrl+'Types');
         // setData(typeResponse.data.data);
     }
 
@@ -136,7 +137,7 @@ function Nouveau_type() {
         setLoader(true);
         e.preventDefault();
         setTableLoading(true);
-        const response = await post(formData, setFormData, 'https://repr-izy-production.up.railway.app/api/v1/Types')
+        const response = await post(formData, setFormData, MyUrl+'Types')
         if (response.data.error) {
             setLoader(false);
             setMessage(response.data.error)
@@ -146,7 +147,7 @@ function Nouveau_type() {
             setMessage(response.data.data[0].nom)
             showSuccess()
         }
-        const typesResponse = await get('https://repr-izy-production.up.railway.app/api/v1/Types');
+        const typesResponse = await get(MyUrl+'Types');
         setData(typesResponse.data.data[0]);
         setTableLoading(false);
     };

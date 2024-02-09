@@ -3,6 +3,7 @@ import axios from 'axios';
 import './login.css';
 import Loader from '../loader/Loader';
 import { useNavigate } from 'react-router-dom';
+import MyUrl from '../MyUrl';
 
 function Login() {
   const navigate = useNavigate();
@@ -26,7 +27,7 @@ function Login() {
     e.preventDefault();
     setLoading(true);
     setError(false);
-    const apiUrl = 'https://repr-izy-production.up.railway.app/api/v1/auth/login';
+    const apiUrl = MyUrl+'/auth/login';
 
     try {
       // const data = axios.toFormData(formData);
@@ -42,6 +43,7 @@ function Login() {
         },
         data: data
       };
+
       const response = await axios.request(config);
 
       if (response.data.error) {
@@ -103,7 +105,7 @@ function Login() {
             </div>
             {loading && <Loader />}
 
-            {error && <p style={{ color: 'red' }}>{error}</p>}
+            {error &&  <p style={{ color: 'red' }}>{error}</p>}
             <button className="submit button" type='submit'>Se connecter</button>
           </form>
         </div>

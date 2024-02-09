@@ -10,6 +10,7 @@ import { FaRegEdit } from "react-icons/fa";
 import { FaRegTrashAlt } from "react-icons/fa";
 import UpdateModal from '../component/UpdateModal';
 import DeleteModal from '../component/DeleteModal';
+import MyUrl from '../MyUrl';
 
 function Energie() {
     const [message, setMessage] = useState("");
@@ -23,7 +24,7 @@ function Energie() {
     useEffect(() => {
         setTimeout(() => {
             //loading(false);
-            setData(get('https://repr-izy-production.up.railway.app/api/v1/Energies')
+            setData(get(MyUrl+'Energies')
                 .then(response => {
                     setData(response.data.data);
                     console.log(response.data.data);
@@ -47,7 +48,7 @@ function Energie() {
     const handleSubmit2 = (e) => {
         e.preventDefault();
         // setLoader(true);
-        const response = update(formData, setFormData, 'https://repr-izy-production.up.railway.app/api/v1/Energies/' + selectedRowData.id);
+        const response = update(formData, setFormData, MyUrl+'Energies/' + selectedRowData.id);
         if (response.error) {
             // setLoader(false)
             setMessage(response.data.error);
@@ -59,7 +60,7 @@ function Energie() {
             showSuccessUpdate();
             setModalOpen(false)
         }
-        const typeResponse = get('https://repr-izy-production.up.railway.app/api/v1/Energies');
+        const typeResponse = get(MyUrl+'Energies');
         // setData(typeResponse.data.data);
     }
 
@@ -82,7 +83,7 @@ function Energie() {
     const handleSubmit3 = (e) => {
         e.preventDefault();
         console.log("selectedRowData.id azeea" + selectedRowData.id)
-        Delete('https://repr-izy-production.up.railway.app/api/v1/Energies/' + selectedRowData.id);
+        Delete(MyUrl+'Energies/' + selectedRowData.id);
         console.log("miditrqqq");
         showSuccessDelete(true)
         setDeleteModalOpen(false)
@@ -122,7 +123,7 @@ function Energie() {
     };
     const handleSubmit = (e) => {
         e.preventDefault();
-        const response = post(formData, setFormData, 'https://repr-izy-production.up.railway.app/api/v1/Energies');
+        const response = post(formData, setFormData, MyUrl+'Energies');
         if (response.error) {
             setMessage(response.error);
             showError();

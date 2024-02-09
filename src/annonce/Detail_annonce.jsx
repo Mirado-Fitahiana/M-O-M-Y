@@ -9,6 +9,7 @@ import { useParams } from 'react-router-dom';
 import { DotLoader } from 'react-spinners';
 // import {BeatLoader} from 'react-spinners';
 import { Toast } from 'primereact/toast';
+import MyUrl from '../MyUrl';
 function Detail_annonce() {
     const [donnee, setData] = useState([]);
     const [temp, setTemp] = useState([]);
@@ -29,7 +30,7 @@ function Detail_annonce() {
         const fetchData = async () => {
             try {
                 const [detail] = await Promise.all([
-                    get('https://repr-izy-production.up.railway.app/api/v1/Annonces/' + id_annonce),
+                    get(MyUrl+'Annonces/' + id_annonce),
                 ]);
                 setData(detail.data.data[0]);
                 setIsLoading(false);
@@ -43,7 +44,7 @@ function Detail_annonce() {
     }, []);
     const validate=async () =>{
         setLoader(true);
-        const response = put('https://repr-izy-production.up.railway.app/api/v1/Annonces/validate/' + donnee.id);
+        const response = put(MyUrl+'Annonces/validate/' + donnee.id);
         if (response.error) {
             setLoader(false)
             setMessage(response.data.error);

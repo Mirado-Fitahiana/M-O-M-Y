@@ -13,6 +13,7 @@ import { FaRegEdit } from "react-icons/fa";
 import { FaRegTrashAlt } from "react-icons/fa";
 import UpdateModal from '../component/UpdateModal';
 import DeleteModal from '../component/DeleteModal';
+import MyUrl from '../MyUrl';
 function Categorie() {
 
     const [data, setData] = useState([]);
@@ -43,7 +44,7 @@ function Categorie() {
         setLoader(true);
     
         try {
-            const response = await post(formData, setFormData, 'https://repr-izy-production.up.railway.app/api/v1/Categories');
+            const response = await post(formData, setFormData, MyUrl+'Categories');
     
             if (response.error) {
                 setMessage(response.data.error);
@@ -55,7 +56,7 @@ function Categorie() {
             console.error('Error inserting data:', error);
         } finally {
             setLoader(false);
-            const typeResponse = await get('https://repr-izy-production.up.railway.app/api/v1/Categories');
+            const typeResponse = await get(MyUrl+'Categories');
             setData(typeResponse.data.data);
         }
     };
@@ -65,7 +66,7 @@ function Categorie() {
         setLoader(true);
     
         try {
-            const response = await update(formData, setFormData, `https://repr-izy-production.up.railway.app/api/v1/Categories/${selectedRowData.id}`);
+            const response = await update(formData, setFormData, MyUrl+`Categories/${selectedRowData.id}`);
     
             if (response.error) {
                 setMessage(response.data.error);
@@ -79,7 +80,7 @@ function Categorie() {
             console.error('Error updating data:', error);
         } finally {
             setLoader(false);
-            const typeResponse = await get('https://repr-izy-production.up.railway.app/api/v1/Categories');
+            const typeResponse = await get(MyUrl+'Categories');
             setData(typeResponse.data.data);
         }
     };
@@ -89,7 +90,7 @@ function Categorie() {
         setLoader(true);
     
         try {
-            await Delete(`https://repr-izy-production.up.railway.app/api/v1/Categories/${selectedRowData.id}`);
+            await Delete(MyUrl+`Categories/${selectedRowData.id}`);
             showSuccessDelete();
             setDeleteModalOpen(false);
         } catch (error) {
@@ -104,7 +105,7 @@ function Categorie() {
         const fetchData = async () => {
             try {
                 setLoading(true);
-                const response = await get('https://repr-izy-production.up.railway.app/api/v1/Categories');
+                const response = await get(MyUrl+'Categories');
     
                 if (response.data.error) {
                     console.error('Error fetching data:', response.data.error);

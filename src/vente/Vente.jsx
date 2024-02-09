@@ -6,6 +6,7 @@ import "primereact/resources/themes/lara-light-indigo/theme.css";
 import { get } from '../axios_utils';
 import "primereact/resources/primereact.min.css";
 import '../annonce/annonce.css';
+import MyUrl from '../MyUrl';
 
 function Vente() {
     const [loading, setLoading] = useState(true);
@@ -15,7 +16,7 @@ function Vente() {
         const fetchData = async () => {
             try {
                 setLoading(true);
-                const response = await get('https://repr-izy-production.up.railway.app/api/v1/Ventes');
+                const response = await get(MyUrl+'Ventes');
                 setData(response.data.data[0]);
                 console.log(response.data.data);
             } catch (error) {
@@ -29,8 +30,8 @@ function Vente() {
     }, []);
 
     const vente = (rowData) => rowData.id;
-    const vendeur = (rowData) => rowData.vendeur;
-    const acheteur = (rowData) => rowData.acheteur;
+    const vendeur = (rowData) => rowData.vendeurUser.nom+" "+rowData.vendeurUser.prenom;
+    const acheteur = (rowData) => rowData.acheteurUser.nom+" "+rowData.acheteurUser.prenom;
 
     return (
         <main className='main-container'>

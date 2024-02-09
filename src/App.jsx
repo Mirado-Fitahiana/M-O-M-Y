@@ -24,7 +24,7 @@ function App() {
   useEffect(() =>{
     const token = localStorage.getItem('token');
     if (!token) {
-      navigate("/");
+      navigate("/"); 
     }else{
       navigate("/Acceuil")
     }
@@ -49,7 +49,6 @@ function App() {
       <Route path='/Detail_client/:id_client' element={<><Play Component={<Detail_Client/>}/></>}/>
       <Route path='/Vente' element={<><Play Component={<Vente/>}/></>}/>
       <Route path='/Parametre' element={<><Play Component={<Parametre/>}/></>}/>
-    
     </Routes>
     </>
   )

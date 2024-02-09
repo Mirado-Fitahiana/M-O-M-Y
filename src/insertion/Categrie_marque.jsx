@@ -4,6 +4,7 @@ import Loader from '../loader/Loader';
 import { Toast } from 'primereact/toast';
 import { DotLoader } from 'react-spinners';
 import './form.css'
+import MyUrl from '../MyUrl';
 function Categrie_marque() {
     const [categorie, setCategorie] = useState([]);
     const [marque, setMarques] = useState([]);
@@ -16,8 +17,8 @@ function Categrie_marque() {
         const fetchData = async () => {
             try {
                 const [marqueResponse, categorieResponse] = await Promise.all([
-                    get('https://repr-izy-production.up.railway.app/api/v1/Marques'),
-                    get('https://repr-izy-production.up.railway.app/api/v1/Categories'),
+                    get(MyUrl+'Marques'),
+                    get(MyUrl+'Categories'),
                 ]);
                 setLoader(false)
                 setMarques(marqueResponse.data.data[0]);
@@ -34,7 +35,7 @@ function Categrie_marque() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const response = post(formData, setFormData, 'https://repr-izy-production.up.railway.app/api/v1/Marques/addCategorie');
+        const response = post(formData, setFormData, MyUrl+'Marques/addCategorie');
         if (response.error) {
             setMessage(response.error);
             showError();

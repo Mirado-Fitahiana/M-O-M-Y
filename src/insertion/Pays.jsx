@@ -12,6 +12,7 @@ import { FaRegEdit } from "react-icons/fa";
 import { FaRegTrashAlt } from "react-icons/fa";
 import UpdateModal from '../component/UpdateModal';
 import DeleteModal from '../component/DeleteModal';
+import MyUrl from '../MyUrl';
 function Pays() {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -50,7 +51,7 @@ function Pays() {
     const handleSubmit3 = (e) => {
         e.preventDefault();
         console.log("selectedRowData.id azeea" + selectedRowData.id)
-        const response = Delete('https://repr-izy-production.up.railway.app/api/v1/Pays/' + selectedRowData.id);
+        const response = Delete(MyUrl+'Pays/' + selectedRowData.id);
         if (response.error) {
             showErrorDelete()
         } else { 
@@ -73,7 +74,7 @@ function Pays() {
     const handleSubmit2 = (e) => {
         e.preventDefault();
         // setLoader(true);
-        const response = update(formData, setFormData, 'https://repr-izy-production.up.railway.app/api/v1/Pays/'+selectedRowData.id);
+        const response = update(formData, setFormData, MyUrl+'Pays/'+selectedRowData.id);
         if (response.error) {
             // setLoader(false)
             setMessage(response.data.error);
@@ -85,7 +86,7 @@ function Pays() {
             showSuccessUpdate();
             setModalOpen(false)
         }
-        const typeResponse = get('https://repr-izy-production.up.railway.app/api/v1/Pays');
+        const typeResponse = get(MyUrl+'Pays');
         // setData(typeResponse.data.data);
     }
 
@@ -113,7 +114,7 @@ function Pays() {
     useEffect(() => {
         setTimeout(() => {
             // loading(true)
-            setData(get('https://repr-izy-production.up.railway.app/api/v1/Pays')
+            setData(get(MyUrl+'Pays')
 
                 .then(response => {
                     setLoading(true);
@@ -154,7 +155,7 @@ function Pays() {
         setLoader(true);
         console.log(base64URL);
         formData.append("drapeau", base64URL);
-        const response = post(formData, setFormData, 'https://repr-izy-production.up.railway.app/api/v1/Pays');
+        const response = post(formData, setFormData, MyUrl+'Pays');
         if (response.error) {
             setLoader(false)
             setMessage(response.error)

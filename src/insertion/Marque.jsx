@@ -12,6 +12,7 @@ import { FaRegEdit } from "react-icons/fa";
 import { FaRegTrashAlt } from "react-icons/fa";
 import UpdateModal from '../component/UpdateModal';
 import DeleteModal from '../component/DeleteModal';
+import MyUrl from '../MyUrl';
 
 function Marque() {
     const [file, setFile] = useState(null);
@@ -45,7 +46,7 @@ function Marque() {
     
         try {
             console.log('Before update function');
-            const response = await update(formData, setFormData, 'https://repr-izy-production.up.railway.app/api/v1/Marques/' + selectedRowData.id);
+            const response = await update(formData, setFormData, MyUrl+'Marques/' + selectedRowData.id);
             console.log('After update function');
     
             if (response.error) {
@@ -59,7 +60,7 @@ function Marque() {
             }
     
             console.log('Before fetching data');
-            const typeResponse = await get('https://repr-izy-production.up.railway.app/api/v1/Marques');
+            const typeResponse = await get(MyUrl+'Marques');
             console.log('After fetching data');
             setMarques(typeResponse.data.data);
         } catch (error) {
@@ -88,7 +89,7 @@ function Marque() {
         e.preventDefault();
         console.log("selectedRowData.id azeea" + selectedRowData.id)
         try {
-            const response =  await Delete('https://repr-izy-production.up.railway.app/api/v1/Marques/' + selectedRowData.id);
+            const response =  await Delete(MyUrl+'Marques/' + selectedRowData.id);
             if (response.error) {
                 showErrorDelete()
             } else { 
@@ -98,7 +99,7 @@ function Marque() {
         } catch (error) {
             console.error('Error inserting data:', error);
         }finally{
-           const mqrque = await get('https://repr-izy-production.up.railway.app/api/v1/Marques');
+           const mqrque = await get(MyUrl+'Marques');
            setMarques(marqueResponse.data.data[0]);
         }
        
@@ -129,8 +130,8 @@ function Marque() {
         const fetchData = async () => {
             try {
                 const [marqueResponse, paysResponse] = await Promise.all([
-                    get('https://repr-izy-production.up.railway.app/api/v1/Marques'),
-                    get('https://repr-izy-production.up.railway.app/api/v1/Pays'),
+                    get(MyUrl+'Marques'),
+                    get(MyUrl+'Pays'),
                 ]);
 
                 setMarques(marqueResponse.data.data[0]);
@@ -182,7 +183,7 @@ function Marque() {
             console.log(`${key}: ${value}`);
         });
         setTableLoading(true);
-        const response = await post(formData, setFormData, 'https://repr-izy-production.up.railway.app/api/v1/Marques')
+        const response = await post(formData, setFormData, MyUrl+'Marques')
         if (response.data.error) {
             setLoader(false)
             setMessage(response.data.error)
@@ -192,7 +193,7 @@ function Marque() {
             setMessage(response.data.data[0].nom)
             showSuccess()
         }
-        const typesResponse = await get('https://repr-izy-production.up.railway.app/api/v1/Marques');
+        const typesResponse = await get(MyUrl+'Marques');
         setMarques(typesResponse.data.data[0]);
         setTableLoading(false);
     };

@@ -12,6 +12,7 @@ import "primereact/resources/primereact.min.css";
 import './annonce.css';
 import './user.css';
 import { DotLoader } from 'react-spinners';
+import MyUrl from '../MyUrl';
 
 function Detail_Client() {
     const [customers, setCustomers] = useState([]);
@@ -23,8 +24,8 @@ function Detail_Client() {
         const fetchData = async () => {
             try {
                 const [detail,annonce] = await Promise.all([
-                    get('https://repr-izy-production.up.railway.app/api/v1/Clients/' + id_client),
-                    get('https://repr-izy-production.up.railway.app/api/v1/Annonces/client/' + id_client),
+                    get(MyUrl+'Clients/' + id_client),
+                    get(MyUrl+'Annonces/client/' + id_client),
                 ]);
                 setDataClient(detail.data.data[0]);
                 setAnnonceClient(annonce.data.data[0])

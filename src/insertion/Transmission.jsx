@@ -12,6 +12,7 @@ import { FaRegEdit } from "react-icons/fa";
 import { FaRegTrashAlt } from "react-icons/fa";
 import UpdateModal from '../component/UpdateModal';
 import DeleteModal from '../component/DeleteModal';
+import MyUrl from '../MyUrl';
 function Transmission() {
     const [message, setMessage] = useState("");
     const toast = useRef(null);
@@ -25,7 +26,7 @@ function Transmission() {
 
     useEffect(() => {
         setTimeout(() => {
-            setData(get('https://repr-izy-production.up.railway.app/api/v1/Transmissions')
+            setData(get(MyUrl+'Transmissions')
                 .then(response => {
                     setData(response.data.data);
                     console.log(response.data.data);
@@ -52,7 +53,7 @@ function Transmission() {
     const handleSubmit2 = (e) => {
         e.preventDefault();
         // setLoader(true);
-        const response = update(formData, setFormData, 'https://repr-izy-production.up.railway.app/api/v1/Transmissions/' + selectedRowData.id);
+        const response = update(formData, setFormData, MyUrl+'Transmissions/' + selectedRowData.id);
         if (response.error) {
             // setLoader(false)
             setMessage(response.data.error);
@@ -64,7 +65,7 @@ function Transmission() {
             showSuccessUpdate();
             setModalOpen(false)
         }
-        const typeResponse = get('https://repr-izy-production.up.railway.app/api/v1/Categories');
+        const typeResponse = get(MyUrl+'Categories');
         // setData(typeResponse.data.data);
     }
 
@@ -86,7 +87,7 @@ function Transmission() {
     const handleSubmit3 = (e) => {
         e.preventDefault();
         console.log("selectedRowData.id azeea" + selectedRowData.id)
-        Delete('https://repr-izy-production.up.railway.app/api/v1/Transmissions/' + selectedRowData.id);
+        Delete(MyUrl+'Transmissions/' + selectedRowData.id);
         console.log("miditrqqq");
         showSuccessDelete(true)
         setDeleteModalOpen(false)
@@ -130,7 +131,7 @@ function Transmission() {
     const handleSubmit = (e) => {
         e.preventDefault();
         setLoader(true)
-        const response = post(formData, setFormData, 'https://repr-izy-production.up.railway.app/api/v1/Transmissions');
+        const response = post(formData, setFormData, MyUrl+'Transmissions');
         if (response.error) {
             setLoader(false)
             setMessage(response.data.error);
@@ -140,7 +141,7 @@ function Transmission() {
             showSuccess();
         }
         setFormData('');
-        const maj = get('https://repr-izy-production.up.railway.app/api/v1/Transmissions');
+        const maj = get(MyUrl+'Transmissions');
         setData(maj.data.data);
     };
 

@@ -12,6 +12,7 @@ import { FaRegEdit } from "react-icons/fa";
 import { FaRegTrashAlt } from "react-icons/fa";
 import UpdateModal from '../component/UpdateModal';
 import DeleteModal from '../component/DeleteModal';
+import MyUrl from '../MyUrl';
 
 function Etat_vehicule() {
     const [formData, setFormData] = useState(new FormData());
@@ -51,7 +52,7 @@ function Etat_vehicule() {
     const handleSubmit3 = (e) => {
         e.preventDefault();
         console.log("selectedRowData.id azeea" + selectedRowData.id)
-        Delete('https://repr-izy-production.up.railway.app/api/v1/Etats/' + selectedRowData.id);
+        Delete(MyUrl+'Etats/' + selectedRowData.id);
         console.log("miditrqqq");
         showSuccessDelete(true)
         setDeleteModalOpen(false)
@@ -72,7 +73,7 @@ function Etat_vehicule() {
         const fetchData = async () => {
             try {
                 const [typesResponse] = await Promise.all([
-                    get('https://repr-izy-production.up.railway.app/api/v1/Etats'),
+                    get(MyUrl+'Etats'),
                 ]);
                 setData(typesResponse.data.data[0]);
                 setIsLoading(false);
@@ -108,7 +109,7 @@ function Etat_vehicule() {
     const handleSubmit2 = (e) => {
         e.preventDefault();
         // setLoader(true);
-        const response = update(formData, setFormData, 'https://repr-izy-production.up.railway.app/api/v1/Etats/'+selectedRowData.id);
+        const response = update(formData, setFormData, MyUrl+'Etats/'+selectedRowData.id);
         if (response.error) {
             // setLoader(false)
             setMessage(response.data.error);
@@ -120,7 +121,7 @@ function Etat_vehicule() {
             showSuccessUpdate();
             setModalOpen(false)
         }
-        const typeResponse = get('https://repr-izy-production.up.railway.app/api/v1/Categories');
+        const typeResponse = get(MyUrl+'Categories');
         // setData(typeResponse.data.data);
     }
 
@@ -129,7 +130,7 @@ function Etat_vehicule() {
         e.preventDefault();
         setLoader(true)
         setTableLoading(true);
-        const response = await post(formData, setFormData, 'https://repr-izy-production.up.railway.app/api/v1/Etats');
+        const response = await post(formData, setFormData, MyUrl+'Etats');
         if (response.data.error) {
             setMessage(response.data.error)
             showError();
@@ -139,7 +140,7 @@ function Etat_vehicule() {
             setLoader(false);
             showSuccess();
         }
-        const typesResponse = await get('https://repr-izy-production.up.railway.app/api/v1/Etats');
+        const typesResponse = await get(MyUrl+'Etats');
         setData(typesResponse.data.data[0]);
         setTableLoading(false);
     };
