@@ -27,7 +27,7 @@ function Login() {
     e.preventDefault();
     setLoading(true);
     setError(false);
-    const apiUrl = MyUrl+'/auth/login';
+    const apiUrl = MyUrl+'auth/login';
 
     try {
       // const data = axios.toFormData(formData);
