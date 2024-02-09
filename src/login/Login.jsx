@@ -87,7 +87,7 @@ function Login() {
                 name="username"
                 value={formData.username}
                 className='input'
-                placeholder="blabla"
+                placeholder="admin"
                 onChange={handleChange}
                 required
               />
